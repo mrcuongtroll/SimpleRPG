@@ -36,5 +36,3 @@ build/
 
 ### Mac OS ###
 .DS_Store
-/src/main/java/com/example/simplerpg/
-/src/main/resources/com/example/simplerpg/
