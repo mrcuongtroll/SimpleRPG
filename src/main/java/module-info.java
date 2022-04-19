@@ -13,4 +13,7 @@ module com.example.simplerpg {
 
     opens com.example.simplerpg to javafx.fxml;
     exports com.example.simplerpg;
+
+    exports main;
+    opens main to javafx.graphics;
 }
