@@ -1,6 +1,8 @@
 package main;
 
+import entity.Armor;
 import entity.Player;
+import entity.Weapon;
 import handler.KeyHandler;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -11,14 +13,16 @@ import javafx.stage.Stage;
 import loop.GameLoopManager;
 import world.World;
 
+import java.io.File;
 import java.io.IOException;
 
 public class SimpleRPG extends Application {
 
     public Canvas canvas = new Canvas(1366, 768);
-    public World testWorld = new World(this, "E:\\Programming stuff\\Intellij\\Intro 2 SE project\\SimpleRPG\\assets\\test\\old map.png");
+
+    public World testWorld = new World(this, (new File("./assets/test/old map.png")).getAbsolutePath());
     public Player testPlayer = new Player(this, 1280/2-16, 720/2-40,
-            "E:\\Programming stuff\\Intellij\\Intro 2 SE project\\SimpleRPG\\assets\\test\\Sprite");
+            (new File("./assets/test/player")).getAbsolutePath(), 1, new Weapon(), new Armor());
     public GameLoopManager gameLoopManager = new GameLoopManager(testWorld, testPlayer);
 
     public KeyHandler keyHandler = new KeyHandler(this);

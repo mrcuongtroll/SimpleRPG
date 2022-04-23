@@ -6,6 +6,12 @@ import javafx.scene.image.Image;
 import main.SimpleRPG;
 
 public abstract class Character {
+
+    public static final String DEFAULT_IMAGE_PATH = "/default/";
+    public static final String DOWN_IMAGE_PATH = "/move_down/";
+    public static final String UP_IMAGE_PATH = "/move_up/";
+    public static final String LEFT_IMAGE_PATH = "/move_left/";
+    public static final String RIGHT_IMAGE_PATH = "/move_right/";
     private SimpleRPG master;
     private int x;
     private int y;
@@ -20,7 +26,7 @@ public abstract class Character {
         this.y = y;
         this.imagePath = imagePath;
         this.currentFrame = 1;
-        this.image = new Image(imagePath + "-0001.png");
+        this.image = new Image(imagePath + DEFAULT_IMAGE_PATH + "1.png");
         this.gc = this.master.canvas.getGraphicsContext2D();
     }
 
@@ -28,9 +34,13 @@ public abstract class Character {
         this.gc.drawImage(this.image, this.x, this.y);
     }
 
-    public void changeFrame() {
-        this.currentFrame += 1;
-        this.currentFrame %= 6;
-        this.image = new Image(this.imagePath + "-000" + Integer.toString(currentFrame) + ".png");
+    public void changeFrame(String direction) {
+        if (direction.equals(DEFAULT_IMAGE_PATH)) {
+            this.currentFrame = 1;
+        } else {
+            this.currentFrame += 1;
+            this.currentFrame %= 9;
+        }
+        this.image = new Image(this.imagePath + direction + currentFrame + ".png");
     }
 }
