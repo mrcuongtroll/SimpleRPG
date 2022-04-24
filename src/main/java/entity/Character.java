@@ -42,7 +42,7 @@ public abstract class Character {
         this.imagePath = imagePath;
         this.currentFrame = 1;
         this.image = new Image(imagePath + DEFAULT_IMAGE_PATH + "1.png");
-        this.gc = this.master.canvas.getGraphicsContext2D();
+        this.gc = this.master.canvasMiddle.getGraphicsContext2D();
         this.level = level;
         this.healthPoint = healthPoint;
         this.manaPoint = manaPoint;

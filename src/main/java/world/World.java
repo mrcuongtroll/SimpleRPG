@@ -1,5 +1,6 @@
 package world;
 
+import entity.Enemy;
 import entity.NPC;
 import entity.Player;
 import javafx.scene.canvas.Canvas;
@@ -21,7 +22,7 @@ public class World {
     private int y;
     private GraphicsContext gc;
     private Image bg;
-    public NPC testNPC;
+    public Enemy testNPC;
     public int getX(){
         return this.x;
     }
@@ -31,19 +32,21 @@ public class World {
 
     public World(SimpleRPG master, String bgImagePath) {
         this.master = master;
-        this.gc = this.master.canvas.getGraphicsContext2D();
+        this.gc = this.master.canvasBackground.getGraphicsContext2D();
         this.bg = new Image(bgImagePath);
-        this.testNPC = new NPC(master, 1280/5-16, 720/2-40,
+        this.testNPC = new Enemy(master, 1280/5-16, 720/2-40,
                 (new File("./assets/test/enemy")).getAbsolutePath(),
                 1, 100, 100, 10, 10);
     }
 
     public void render() {
         this.gc.setFill(Color.BLACK);
-        this.gc.fillRect(0, 0, this.master.canvas.getWidth(), this.master.canvas.getHeight());
+        this.gc.fillRect(0, 0, this.master.canvasBackground.getWidth(), this.master.canvasBackground.getHeight());
         this.gc.drawImage(this.bg, this.x, this.y);
-        this.testNPC.render();
         this.testNPC.chasePlayer();
+    }
+    public void renderNPC() {
+        this.testNPC.render();
     }
 
     public void move(String direction) {
