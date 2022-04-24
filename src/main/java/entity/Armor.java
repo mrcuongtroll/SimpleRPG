@@ -1,13 +1,13 @@
 package entity;
 
 public class Armor {
-    private int attack;
-    private int defense;
+    private int attackPoint;
+    private int defensePoint;
     private String imageIconPath;
 
-    public Armor(int attack, int defense, String imageIconPath) {
-        this.attack = attack;
-        this.defense = defense;
+    public Armor(int attackPoint, int defensePoint, String imageIconPath) {
+        this.attackPoint = attackPoint;
+        this.defensePoint = defensePoint;
         this.imageIconPath = imageIconPath;
     }
 }

@@ -34,6 +34,12 @@ public abstract class Character {
     public void setY(double y){
         this.y = y;
     }
+    public int getHealthPoint(){
+        return this.healthPoint;
+    }
+    public int getManaPoint(){
+        return this.manaPoint;
+    }
 
     public Character(SimpleRPG master, int x, int y, String imagePath, int width, int height, int level, int healthPoint, int manaPoint) {
         this.master = master;
