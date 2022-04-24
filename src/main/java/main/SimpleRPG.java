@@ -18,15 +18,15 @@ import java.io.IOException;
 
 public class SimpleRPG extends Application {
 
-    public Canvas canvas = new Canvas(1366, 768);
-
+    public Canvas canvasBackground = new Canvas(1280, 720);
+    public Canvas canvasMiddle = new Canvas(1280, 720);
     public World testWorld = new World(this, (new File("./assets/test/old map.png")).getAbsolutePath());
-    public Player testPlayer = new Player(this, 1280/2-16, 720/2-40,
-            (new File("./assets/test/player")).getAbsolutePath(), 1, new Weapon(), new Armor());
-    public GameLoopManager gameLoopManager = new GameLoopManager(testWorld, testPlayer);
-
+    public Player testPlayer = new Player(this, Player.X, Player.Y,
+            (new File("./assets/test/player")).getAbsolutePath(), 1, 100, 100,
+            new Weapon(10, 0, "example_armor.png"),
+            new Armor(0, 20, "example_armor.png"));
+    public GameLoopManager gameLoopManager = new GameLoopManager(this, testWorld, testPlayer);
     public KeyHandler keyHandler = new KeyHandler(this);
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -38,7 +38,8 @@ public class SimpleRPG extends Application {
         Scene theScene = new Scene(root);
         theScene.setOnKeyPressed(this.keyHandler);
         primaryStage.setScene(theScene);
-        root.getChildren().add(this.canvas);
+        root.getChildren().add(this.canvasBackground);
+        root.getChildren().add(this.canvasMiddle);
         gameLoopManager.start();
         primaryStage.show();
     }
