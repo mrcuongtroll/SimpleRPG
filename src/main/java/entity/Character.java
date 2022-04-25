@@ -15,6 +15,8 @@ public abstract class Character {
     private SimpleRPG master;
     private double x;
     private double y;
+    private double dx;
+    private double dy;
     private int level;
     private int manaPoint;
     private int healthPoint;
@@ -34,6 +36,8 @@ public abstract class Character {
     public void setY(double y){
         this.y = y;
     }
+    public void setDx(double dx) {this.dx = dx;}
+    public void setDy(double dy) {this.dy = dy;}
     public int getHealthPoint(){
         return this.healthPoint;
     }
@@ -45,6 +49,8 @@ public abstract class Character {
         this.master = master;
         this.x = x;
         this.y = y;
+        this.dx = 0;
+        this.dy = 0;
         this.imagePath = imagePath;
         this.currentFrame = 1;
         this.image = new Image(imagePath + DEFAULT_IMAGE_PATH + "1.png");
@@ -55,6 +61,8 @@ public abstract class Character {
     }
 
     public void render() {
+        this.x += this.dx;
+        this.y += this.dy;
         this.gc.drawImage(this.image, this.x, this.y);
     }
 

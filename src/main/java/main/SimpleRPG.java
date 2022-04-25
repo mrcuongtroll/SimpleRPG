@@ -38,6 +38,7 @@ public class SimpleRPG extends Application {
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Simple RPG");
         theScene.setOnKeyPressed(this.keyHandler);
+        theScene.setOnKeyReleased(this.keyHandler);
         primaryStage.setScene(theScene);
         root.getChildren().add(this.canvasBackground);
         root.getChildren().add(this.canvasMiddle);
