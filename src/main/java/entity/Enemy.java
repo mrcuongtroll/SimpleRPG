@@ -35,7 +35,7 @@ public class Enemy extends NPC{
         if (this.distanceFromPlayer < START_COMBAT_DISTANCE && isChasing) {
             triggerScene();
         }
-        this.render();
+//        this.render();
     }
     public void move(){
         if (this.getX() < Player.X && this.getY() < Player.Y) {

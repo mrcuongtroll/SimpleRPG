@@ -47,7 +47,7 @@ public class World {
         this.gc.setFill(Color.BLACK);
         this.gc.fillRect(0, 0, this.master.canvasBackground.getWidth(), this.master.canvasBackground.getHeight());
         this.gc.drawImage(this.bg, this.x, this.y);
-        renderNPC();
+//        renderNPC();
     }
     public void renderNPC() {
         this.testNPC.chasePlayer();
