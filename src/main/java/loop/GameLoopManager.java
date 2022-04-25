@@ -11,7 +11,6 @@ public class GameLoopManager extends AnimationTimer {
     private World currentWorld;
     private Player player;
     private long lastUpdateTime = 0;
-
     private SimpleRPG master;
 
     public GameLoopManager(SimpleRPG master, World initWorld, Player player) {
@@ -23,12 +22,10 @@ public class GameLoopManager extends AnimationTimer {
     @Override
     public void handle(long currentTime) {
         this.currentWorld.render();
-        if (currentTime - lastUpdateTime > 50_000_000) {
-            this.lastUpdateTime = currentTime;
-            this.master.canvasMiddle.getGraphicsContext2D().clearRect(0, 0,
-                    master.canvasMiddle.getWidth(), master.canvasMiddle.getHeight());
-            this.currentWorld.renderNPC();
-            this.player.render();
-        }
+        this.lastUpdateTime = currentTime;
+        this.master.canvasMiddle.getGraphicsContext2D().clearRect(0, 0,
+                master.canvasMiddle.getWidth(), master.canvasMiddle.getHeight());
+        this.currentWorld.renderNPC();
+        this.player.render();
     }
 }
