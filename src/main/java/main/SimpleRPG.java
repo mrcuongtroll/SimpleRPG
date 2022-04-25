@@ -21,7 +21,7 @@ public class SimpleRPG extends Application {
     public Canvas canvasBackground = new Canvas(1280, 720);
     public Canvas canvasMiddle = new Canvas(1280, 720);
     public World testWorld = new World(this, (new File("./assets/test/old map.png")).getAbsolutePath());
-    public Player testPlayer = new Player(this, Player.X, Player.Y,
+    public Player testPlayer = new Player(this, Player.X, Player.Y, "Player",
             (new File("./assets/test/player")).getAbsolutePath(), 1, 80, 100,
             new Weapon(10, 0, "example_armor.png"),
             new Armor(0, 20, "example_armor.png"));

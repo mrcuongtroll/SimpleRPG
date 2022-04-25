@@ -11,8 +11,8 @@ public class Enemy extends NPC{
     private int defense;
     private double distanceFromPlayer;
     private boolean isChasing = false;
-    public Enemy(SimpleRPG master, int x, int y, String imagePath, int level, int healthPoint, int manaPoint, int attack, int defense) {
-        super(master, x, y, imagePath, level, healthPoint, manaPoint);
+    public Enemy(SimpleRPG master, int x, int y, String name, String imagePath, int level, int healthPoint, int manaPoint, int attack, int defense) {
+        super(master, x, y, name, imagePath, level, healthPoint, manaPoint);
         this.attack = attack;
         this.defense = defense;
     }
@@ -41,28 +41,28 @@ public class Enemy extends NPC{
         if (this.getX() < Player.X && this.getY() < Player.Y) {
             this.setX(this.getX() + MOVEMENT_SPEED);
             this.setY(this.getY() + MOVEMENT_SPEED);
-            this.changeFrame(Character.DOWN_IMAGE_PATH);
+            this.changeFrame(Character.RIGHT_IMAGE_PATH);
         } else if (this.getX() < Player.X && this.getY() > Player.Y) {
             this.setX(this.getX() + MOVEMENT_SPEED);
             this.setY(this.getY() - MOVEMENT_SPEED);
-            this.changeFrame(Character.DOWN_IMAGE_PATH);
+            this.changeFrame(Character.RIGHT_IMAGE_PATH);
         } else if (this.getX() > Player.X && this.getY() > Player.Y) {
             this.setX(this.getX() - MOVEMENT_SPEED);
             this.setY(this.getY() - MOVEMENT_SPEED);
-            this.changeFrame(Character.DOWN_IMAGE_PATH);
+            this.changeFrame(Character.LEFT_IMAGE_PATH);
         } else if (this.getX() > Player.X && this.getY() < Player.Y) {
             this.setX(this.getX() - MOVEMENT_SPEED);
             this.setY(this.getY() + MOVEMENT_SPEED);
-            this.changeFrame(Character.DOWN_IMAGE_PATH);
+            this.changeFrame(Character.LEFT_IMAGE_PATH);
         } else if (this.getX() < Player.X && this.getY() == Player.Y) {
             this.setX(this.getX() + MOVEMENT_SPEED);
-            this.changeFrame(Character.DOWN_IMAGE_PATH);
+            this.changeFrame(Character.RIGHT_IMAGE_PATH);
         } else if (this.getX() == Player.X && this.getY() > Player.Y) {
             this.setY(this.getY() - MOVEMENT_SPEED);
-            this.changeFrame(Character.DOWN_IMAGE_PATH);
+            this.changeFrame(Character.UP_IMAGE_PATH);
         } else if (this.getX() > Player.X && this.getY() == Player.Y) {
             this.setX(this.getX() - MOVEMENT_SPEED);
-            this.changeFrame(Character.DOWN_IMAGE_PATH);
+            this.changeFrame(Character.LEFT_IMAGE_PATH);
         } else if (this.getX() == Player.X && this.getY() < Player.Y) {
             this.setY(this.getY() + MOVEMENT_SPEED);
             this.changeFrame(Character.DOWN_IMAGE_PATH);

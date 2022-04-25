@@ -34,7 +34,7 @@ public class World {
         this.master = master;
         this.gc = this.master.canvasBackground.getGraphicsContext2D();
         this.bg = new Image(bgImagePath);
-        this.testNPC = new Enemy(master, 1280/5-16, 720/2-40,
+        this.testNPC = new Enemy(master, 1280/5-16, 720/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
                 1, 100, 100, 10, 10);
     }
@@ -43,9 +43,10 @@ public class World {
         this.gc.setFill(Color.BLACK);
         this.gc.fillRect(0, 0, this.master.canvasBackground.getWidth(), this.master.canvasBackground.getHeight());
         this.gc.drawImage(this.bg, this.x, this.y);
-        this.testNPC.chasePlayer();
+        renderNPC();
     }
     public void renderNPC() {
+        this.testNPC.chasePlayer();
         this.testNPC.render();
     }
 
