@@ -16,6 +16,8 @@ public abstract class Character {
     private String name;
     private double x;
     private double y;
+    private double dx;
+    private double dy;
     private int level;
     private int manaPoint;
     private int healthPoint;
@@ -50,6 +52,8 @@ public abstract class Character {
     public void setY(double y){
         this.y = y;
     }
+    public void setDx(double dx) {this.dx = dx;}
+    public void setDy(double dy) {this.dy = dy;}
     public int getHealthPoint(){
         return this.healthPoint;
     }
@@ -82,6 +86,8 @@ public abstract class Character {
         this.master = master;
         this.x = x;
         this.y = y;
+        this.dx = 0;
+        this.dy = 0;
         this.lastX = x;
         this.lastY = y;
         this.name = name;
@@ -96,6 +102,8 @@ public abstract class Character {
     }
 
     public void render() {
+        this.x += this.dx;
+        this.y += this.dy;
         this.gc.drawImage(this.image, this.x, this.y);
     }
 

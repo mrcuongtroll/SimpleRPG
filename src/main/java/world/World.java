@@ -17,6 +17,8 @@ public class World {
     public static final String LEFT = "LEFT";
     public static final String RIGHT = "RIGHT";
 
+    private int dy = 0;
+    private int dx = 0;
     private SimpleRPG master;
     private int x;
     private int y;
@@ -40,6 +42,8 @@ public class World {
     }
 
     public void render() {
+        this.y += this.dy;
+        this.x += this.dx;
         this.gc.setFill(Color.BLACK);
         this.gc.fillRect(0, 0, this.master.canvasBackground.getWidth(), this.master.canvasBackground.getHeight());
         this.gc.drawImage(this.bg, this.x, this.y);
@@ -53,23 +57,31 @@ public class World {
     public void move(String direction) {
         switch (direction) {
             case World.DOWN -> {
-                this.y -= Player.MOVEMENT_SPEED;
-                this.testNPC.setY(this.testNPC.getY() - Player.MOVEMENT_SPEED);
+                this.dy = -Player.MOVEMENT_SPEED;
+                this.testNPC.setDy(-Player.MOVEMENT_SPEED);
             }
             case World.UP -> {
-                this.y += Player.MOVEMENT_SPEED;
-                this.testNPC.setY(this.testNPC.getY() + Player.MOVEMENT_SPEED);
+                this.dy = Player.MOVEMENT_SPEED;
+                this.testNPC.setDy(Player.MOVEMENT_SPEED);
             }
             case World.LEFT -> {
-                this.x += Player.MOVEMENT_SPEED;
-                this.testNPC.setX(this.testNPC.getX() + Player.MOVEMENT_SPEED);
+                this.dx = Player.MOVEMENT_SPEED;
+                this.testNPC.setDx(Player.MOVEMENT_SPEED);
             }
             case World.RIGHT -> {
-                this.x -= Player.MOVEMENT_SPEED;
-                this.testNPC.setX(this.testNPC.getX() - Player.MOVEMENT_SPEED);
+                this.dx = -Player.MOVEMENT_SPEED;
+                this.testNPC.setDx(-Player.MOVEMENT_SPEED);
             }
             default -> {
             }
         }
+    }
+
+    public void setDy(int dy) {
+        this.dy = dy;
+    }
+
+    public void setDx(int dx) {
+        this.dx = dx;
     }
 }
