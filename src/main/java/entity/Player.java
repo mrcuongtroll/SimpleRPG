@@ -20,9 +20,24 @@ public class Player extends Character {
     }
 
     @Override
+    public void render() {
+        if (this.getDx() > 0) {
+            this.changeFrame(Character.RIGHT_IMAGE_PATH);
+        } else if (this.getDx() < 0) {
+            this.changeFrame(Character.LEFT_IMAGE_PATH);
+        }
+        if (this.getDy() > 0) {
+            this.changeFrame(Character.DOWN_IMAGE_PATH);
+        } else if (this.getDy() < 0) {
+            this.changeFrame(Character.UP_IMAGE_PATH);
+        }
+        this.getGraphicContext().drawImage(this.getImage(), this.getX(), this.getY());
+    }
+
+    @Override
     public void changeFrame(String direction) {
         this.lastMove += MOVEMENT_SPEED;
-        if (this.lastMove > 3 * MOVEMENT_SPEED) {
+        if (this.lastMove > 6 * MOVEMENT_SPEED) {
             this.lastMove = 0;
             if (direction.equals(DEFAULT_IMAGE_PATH)) {
                 this.setCurrentFrame(1);

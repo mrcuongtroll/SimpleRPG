@@ -11,7 +11,7 @@ public abstract class Character {
     public static final String UP_IMAGE_PATH = "/move_up/";
     public static final String LEFT_IMAGE_PATH = "/move_left/";
     public static final String RIGHT_IMAGE_PATH = "/move_right/";
-    public static final int NUM_IMAGE_FRAME = 3;
+    public static final int NUM_IMAGE_FRAME = 4;
     private SimpleRPG master;
     private String name;
     private double x;
@@ -24,27 +24,45 @@ public abstract class Character {
     private String imagePath;
     private int currentFrame;
     private String lastDirection;
-    private double lastX;
-    private double lastY;
+    private double lastRelativeX;
+    private double lastRelativeY;
     private Image image;
     private GraphicsContext gc;
+    public GraphicsContext getGraphicContext() {
+        return this.gc;
+    }
+    public Image getImage() {
+        return this.image;
+    }
     public double getX(){
         return this.x;
     }
     public double getY(){
         return this.y;
     }
+    public double getDx() {
+        return this.dx;
+    }
+    public double getDy() {
+        return this.dy;
+    }
+    public double getRelativeX() {
+        return this.x - this.master.getWorld().getX();
+    }
+    public double getRelativeY() {
+        return this.y - this.master.getWorld().getY();
+    }
     public double getLastX() {
-        return this.lastX;
+        return this.lastRelativeX;
     }
     public double getLastY() {
-        return this.lastY;
+        return this.lastRelativeY;
     }
     public void setLastX(double x) {
-        this.lastX = x;
+        this.lastRelativeX = x;
     }
     public void setLastY(double y) {
-        this.lastY = y;
+        this.lastRelativeY = y;
     }
     public void setX(double x){
         this.x = x;
@@ -52,8 +70,12 @@ public abstract class Character {
     public void setY(double y){
         this.y = y;
     }
-    public void setDx(double dx) {this.dx = dx;}
-    public void setDy(double dy) {this.dy = dy;}
+    public void setDx(double dx) {
+        this.dx = dx;
+    }
+    public void setDy(double dy) {
+        this.dy = dy;
+    }
     public int getHealthPoint(){
         return this.healthPoint;
     }
@@ -88,8 +110,8 @@ public abstract class Character {
         this.y = y;
         this.dx = 0;
         this.dy = 0;
-        this.lastX = x;
-        this.lastY = y;
+        this.lastRelativeX = x;
+        this.lastRelativeY = y;
         this.name = name;
         this.imagePath = imagePath;
         this.currentFrame = 1;
@@ -108,9 +130,9 @@ public abstract class Character {
     }
 
     public void changeFrame(String direction) {
-        if (Math.abs(this.getX() - this.lastX) > 5 || Math.abs(this.getY() - this.lastY) > 5) {
-            this.lastX = this.getX();
-            this.lastY = this.getY();
+        if (Math.abs(this.getRelativeX() - this.lastRelativeX) > 5 || Math.abs(this.getRelativeY() - this.lastRelativeY) > 5) {
+            this.lastRelativeX = this.getRelativeX();
+            this.lastRelativeY = this.getRelativeY();
             if (direction.equals(DEFAULT_IMAGE_PATH)) {
                 this.currentFrame = 1;
             } else if (direction.equals(this.lastDirection)){
