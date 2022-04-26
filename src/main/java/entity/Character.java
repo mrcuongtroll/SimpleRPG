@@ -148,5 +148,8 @@ public abstract class Character {
         }
     }
 
-    
+    public void defaultFrame(String direction) {
+        this.currentFrame = NUM_IMAGE_FRAME;
+        this.image = new Image(this.imagePath + direction + currentFrame + ".png");
+    }
 }
