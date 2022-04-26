@@ -147,4 +147,6 @@ public abstract class Character {
             this.image = new Image(this.imagePath + direction + currentFrame + ".png");
         }
     }
+
+    
 }

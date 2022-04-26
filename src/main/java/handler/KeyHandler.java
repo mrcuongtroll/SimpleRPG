@@ -42,21 +42,25 @@ public class KeyHandler implements EventHandler<KeyEvent> {
                 this.gameInstance.testWorld.setDy(0);
                 this.gameInstance.testWorld.testNPC.setDy(0);
                 this.gameInstance.testPlayer.setDy(0);
+                this.gameInstance.testPlayer.setCurrentFrame(Character.NUM_IMAGE_FRAME);
                 this.gameInstance.testPlayer.changeFrame(Character.DOWN_IMAGE_PATH);
             } else if (code.equals(KeyCode.UP)) {
                 this.gameInstance.testWorld.setDy(0);
                 this.gameInstance.testWorld.testNPC.setDy(0);
                 this.gameInstance.testPlayer.setDy(0);
+                this.gameInstance.testPlayer.setCurrentFrame(Character.NUM_IMAGE_FRAME);
                 this.gameInstance.testPlayer.changeFrame(Character.UP_IMAGE_PATH);
             } else if (code.equals(KeyCode.LEFT)) {
                 this.gameInstance.testWorld.setDx(0);
                 this.gameInstance.testWorld.testNPC.setDx(0);
                 this.gameInstance.testPlayer.setDx(0);
+                this.gameInstance.testPlayer.setCurrentFrame(Character.NUM_IMAGE_FRAME);
                 this.gameInstance.testPlayer.changeFrame(Character.LEFT_IMAGE_PATH);
             } else if (code.equals(KeyCode.RIGHT)) {
                 this.gameInstance.testWorld.setDx(0);
                 this.gameInstance.testWorld.testNPC.setDx(0);
                 this.gameInstance.testPlayer.setDx(0);
+                this.gameInstance.testPlayer.setCurrentFrame(Character.NUM_IMAGE_FRAME);
                 this.gameInstance.testPlayer.changeFrame(Character.RIGHT_IMAGE_PATH);
             }
         }
