@@ -24,16 +24,16 @@ public class KeyHandler implements EventHandler<KeyEvent> {
             KeyCode code = event.getCode();
             if (code.equals(KeyCode.DOWN)) {
                 this.gameInstance.testWorld.move(World.DOWN);
-                this.gameInstance.testPlayer.changeFrame(Character.DOWN_IMAGE_PATH);
+                this.gameInstance.testPlayer.setDy(Player.MOVEMENT_SPEED);
             } else if (code.equals(KeyCode.UP)) {
                 this.gameInstance.testWorld.move(World.UP);
-                this.gameInstance.testPlayer.changeFrame(Character.UP_IMAGE_PATH);
+                this.gameInstance.testPlayer.setDy(-Player.MOVEMENT_SPEED);
             } else if (code.equals(KeyCode.LEFT)) {
                 this.gameInstance.testWorld.move(World.LEFT);
-                this.gameInstance.testPlayer.changeFrame(Character.LEFT_IMAGE_PATH);
+                this.gameInstance.testPlayer.setDx(-Player.MOVEMENT_SPEED);
             } else if (code.equals(KeyCode.RIGHT)) {
                 this.gameInstance.testWorld.move(World.RIGHT);
-                this.gameInstance.testPlayer.changeFrame(Character.RIGHT_IMAGE_PATH);
+                this.gameInstance.testPlayer.setDx(Player.MOVEMENT_SPEED);
             }
         } else if (event.getEventType().equals(KeyEvent.KEY_RELEASED)) {
             // Handle things that happen when keys on the keyboard are released
@@ -41,18 +41,22 @@ public class KeyHandler implements EventHandler<KeyEvent> {
             if (code.equals(KeyCode.DOWN)) {
                 this.gameInstance.testWorld.setDy(0);
                 this.gameInstance.testWorld.testNPC.setDy(0);
+                this.gameInstance.testPlayer.setDy(0);
                 this.gameInstance.testPlayer.changeFrame(Character.DOWN_IMAGE_PATH);
             } else if (code.equals(KeyCode.UP)) {
                 this.gameInstance.testWorld.setDy(0);
                 this.gameInstance.testWorld.testNPC.setDy(0);
+                this.gameInstance.testPlayer.setDy(0);
                 this.gameInstance.testPlayer.changeFrame(Character.UP_IMAGE_PATH);
             } else if (code.equals(KeyCode.LEFT)) {
                 this.gameInstance.testWorld.setDx(0);
                 this.gameInstance.testWorld.testNPC.setDx(0);
+                this.gameInstance.testPlayer.setDx(0);
                 this.gameInstance.testPlayer.changeFrame(Character.LEFT_IMAGE_PATH);
             } else if (code.equals(KeyCode.RIGHT)) {
                 this.gameInstance.testWorld.setDx(0);
                 this.gameInstance.testWorld.testNPC.setDx(0);
+                this.gameInstance.testPlayer.setDx(0);
                 this.gameInstance.testPlayer.changeFrame(Character.RIGHT_IMAGE_PATH);
             }
         }

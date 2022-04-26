@@ -20,7 +20,7 @@ public class SimpleRPG extends Application {
 
     public Canvas canvasBackground = new Canvas(1280, 720);
     public Canvas canvasMiddle = new Canvas(1280, 720);
-    public World testWorld = new World(this, (new File("./assets/test/old map.png")).getAbsolutePath());
+    public World testWorld = new World(this, (new File("./assets/test/old map.png")).getAbsolutePath());;
     public Player testPlayer = new Player(this, Player.X, Player.Y, "Player",
             (new File("./assets/test/player")).getAbsolutePath(), 1, 80, 100,
             new Weapon(10, 0, "example_armor.png"),
@@ -30,6 +30,10 @@ public class SimpleRPG extends Application {
     public Group root = new Group();
     public Scene theScene = new Scene(root);
     public HUD mainHUD = new HUD(this, testPlayer);
+
+    public World getWorld() {
+        return this.testWorld;
+    }
     public static void main(String[] args) {
         launch(args);
     }
