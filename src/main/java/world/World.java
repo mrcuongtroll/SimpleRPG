@@ -33,21 +33,22 @@ public class World {
         return this.y;
     }
 
+    public boolean boolPlayerSprinting(){
+        return this.isPlayerSprinting;
+    }
     public void setPlayerSprinting() {
         this.isPlayerSprinting = true;
-        this.testNPC.setPlayerSprinting();
     }
 
     public void unSetPlayerSprinting() {
         this.isPlayerSprinting = false;
-        this.testNPC.unSetPlayerSprinting();
     }
 
     public World(SimpleRPG master, String bgImagePath) {
         this.master = master;
         this.gc = this.master.canvasBackground.getGraphicsContext2D();
         this.bg = new Image(bgImagePath);
-        this.testNPC = new Enemy(master, 1280/5-16, 720/2-40, "Enemy",
+        this.testNPC = new Enemy(this, master, 1280/5-16, 720/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
                 1, 100, 100, 10, 10);
     }
