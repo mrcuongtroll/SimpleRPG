@@ -17,6 +17,7 @@ public class World {
     public static final String LEFT = "LEFT";
     public static final String RIGHT = "RIGHT";
 
+    private boolean isPlayerSprinting = false;
     private int dy = 0;
     private int dx = 0;
     private SimpleRPG master;
@@ -32,6 +33,16 @@ public class World {
         return this.y;
     }
 
+    public void setPlayerSprinting() {
+        this.isPlayerSprinting = true;
+        this.testNPC.setPlayerSprinting();
+    }
+
+    public void unSetPlayerSprinting() {
+        this.isPlayerSprinting = false;
+        this.testNPC.unSetPlayerSprinting();
+    }
+
     public World(SimpleRPG master, String bgImagePath) {
         this.master = master;
         this.gc = this.master.canvasBackground.getGraphicsContext2D();
@@ -42,8 +53,13 @@ public class World {
     }
 
     public void render() {
-        this.y += this.dy;
-        this.x += this.dx;
+        if (this.isPlayerSprinting) {
+            this.y += this.dy * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED;
+            this.x += this.dx * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED;
+        } else {
+            this.y += this.dy;
+            this.x += this.dx;
+        }
         this.gc.setFill(Color.BLACK);
         this.gc.fillRect(0, 0, this.master.canvasBackground.getWidth(), this.master.canvasBackground.getHeight());
         this.gc.drawImage(this.bg, this.x, this.y);

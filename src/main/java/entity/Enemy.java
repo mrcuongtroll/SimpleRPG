@@ -11,11 +11,35 @@ public class Enemy extends NPC{
     private int defense;
     private double distanceFromPlayer;
     private boolean isChasing = false;
+
+    private boolean isPlayerSprinting = false;
+
+    public void setPlayerSprinting() {
+        this.isPlayerSprinting = true;
+    }
+
+    public void unSetPlayerSprinting() {
+        this.isPlayerSprinting = false;
+    }
     public Enemy(SimpleRPG master, int x, int y, String name, String imagePath, int level, int healthPoint, int manaPoint, int attack, int defense) {
         super(master, x, y, name, imagePath, level, healthPoint, manaPoint);
         this.attack = attack;
         this.defense = defense;
     }
+
+    @Override
+    public void render() {
+        if (this.isPlayerSprinting) {
+            this.setX(this.getX() + this.getDx() * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED);
+            this.setY(this.getY() + this.getDy() * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED);
+            this.getGraphicContext().drawImage(this.getImage(), this.getX(), this.getY());
+        } else {
+            this.setX(this.getX() + this.getDx());
+            this.setY(this.getY() + this.getDy());
+            this.getGraphicContext().drawImage(this.getImage(), this.getX(), this.getY());
+        }
+    }
+
     public void chasePlayer() {
         this.distanceFromPlayer = Math.abs(this.getX() - Player.X) + Math.abs(this.getY() - Player.Y);
         // start chasing

@@ -6,6 +6,7 @@ import main.SimpleRPG;
 public class Player extends Character {
 
     public static final int MOVEMENT_SPEED = 3;
+    public static final int SPRINT_SPEED = 6;
     public static final int X = 1280/2-16;
     public static final int Y = 720/2-40;
     private Weapon weapon;
@@ -21,15 +22,24 @@ public class Player extends Character {
 
     @Override
     public void render() {
-        if (this.getDx() > 0) {
-            this.changeFrame(Character.RIGHT_IMAGE_PATH);
-        } else if (this.getDx() < 0) {
-            this.changeFrame(Character.LEFT_IMAGE_PATH);
-        }
-        if (this.getDy() > 0) {
-            this.changeFrame(Character.DOWN_IMAGE_PATH);
-        } else if (this.getDy() < 0) {
-            this.changeFrame(Character.UP_IMAGE_PATH);
+        if (this.getDy() == 0) {
+            if (this.getDx() > 0) {
+                this.changeFrame(Character.RIGHT_IMAGE_PATH);
+            } else if (this.getDx() < 0) {
+                this.changeFrame(Character.LEFT_IMAGE_PATH);
+            }
+        } else if (this.getDx() == 0) {
+            if (this.getDy() > 0) {
+                this.changeFrame(Character.DOWN_IMAGE_PATH);
+            } else if (this.getDy() < 0) {
+                this.changeFrame(Character.UP_IMAGE_PATH);
+            }
+        } else if (this.getDx() != 0 && this.getDy() != 0) {
+            if (this.getDx() > 0) {
+                this.changeFrame(Character.RIGHT_IMAGE_PATH);
+            } else if (this.getDx() < 0) {
+                this.changeFrame(Character.LEFT_IMAGE_PATH);
+            }
         }
         this.getGraphicContext().drawImage(this.getImage(), this.getX(), this.getY());
     }
