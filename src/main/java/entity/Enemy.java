@@ -1,6 +1,7 @@
 package entity;
 
 import main.SimpleRPG;
+import world.World;
 
 public class Enemy extends NPC{
     public static final double MOVEMENT_SPEED = 0.5;
@@ -11,25 +12,15 @@ public class Enemy extends NPC{
     private int defense;
     private double distanceFromPlayer;
     private boolean isChasing = false;
-
-    private boolean isPlayerSprinting = false;
-
-    public void setPlayerSprinting() {
-        this.isPlayerSprinting = true;
-    }
-
-    public void unSetPlayerSprinting() {
-        this.isPlayerSprinting = false;
-    }
-    public Enemy(SimpleRPG master, int x, int y, String name, String imagePath, int level, int healthPoint, int manaPoint, int attack, int defense) {
-        super(master, x, y, name, imagePath, level, healthPoint, manaPoint);
+    public Enemy(World worldMaster, SimpleRPG master, int x, int y, String name, String imagePath, int level, int healthPoint, int manaPoint, int attack, int defense) {
+        super(worldMaster, master, x, y, name, imagePath, level, healthPoint, manaPoint);
         this.attack = attack;
         this.defense = defense;
     }
 
     @Override
     public void render() {
-        if (this.isPlayerSprinting) {
+        if (this.getWorldMaster().boolPlayerSprinting()) {
             this.setX(this.getX() + this.getDx() * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED);
             this.setY(this.getY() + this.getDy() * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED);
             this.getGraphicContext().drawImage(this.getImage(), this.getX(), this.getY());
