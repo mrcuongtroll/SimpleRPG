@@ -4,20 +4,21 @@ import javafx.scene.image.Image;
 import main.SimpleRPG;
 
 public class Player extends Character {
-
     public static final int MOVEMENT_SPEED = 2;
-    public static final int SPRINT_SPEED = 4;
+    public static final int SPRINT_SPEED = 6;
     public static final int X = 1280/2-16;
     public static final int Y = 720/2-40;
+
+    public static final int MAX_STAMINA = 200;
     private Weapon weapon;
     private Armor armor;
     private int lastMove;
-    private double stamina;
+    private int stamina;
     private boolean isSprinting;
-    public double getStamina() {
+    public int getStamina() {
         return this.stamina;
     }
-    public void setStamina(double stamina) {
+    public void setStamina(int stamina) {
         this.stamina = stamina;
     }
     public void sprint() {
@@ -39,7 +40,7 @@ public class Player extends Character {
         this.weapon = weapon;
         this.armor = armor;
         this.lastMove = 0;
-        this.stamina = 100;
+        this.stamina = MAX_STAMINA;
     }
 
     @Override
@@ -64,9 +65,9 @@ public class Player extends Character {
             }
         }
         if (this.isSprinting && this.isSprintable()) {
-            this.setStamina(this.getStamina() - 0.5);
-        } else if (this.getStamina() < 100) {
-            this.setStamina(this.getStamina() + 0.25);
+            this.setStamina(this.getStamina() - 2);
+        } else if (this.getStamina() < MAX_STAMINA) {
+            this.setStamina(this.getStamina() + 1);
         }
         this.getGraphicContext().drawImage(this.getImage(), this.getX(), this.getY());
     }
