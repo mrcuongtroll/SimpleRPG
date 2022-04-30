@@ -38,8 +38,8 @@ public class KeyHandler implements EventHandler<KeyEvent> {
             } else if (code.equals(KeyCode.RIGHT)) {
                 this.gameInstance.testWorld.move(World.RIGHT);
                 this.gameInstance.testPlayer.setDx(Player.MOVEMENT_SPEED);
-            } else if (code.equals(KeyCode.SHIFT)) {
-                System.out.println(this.gameInstance.testPlayer.getStamina());
+            }
+            if (code.equals(KeyCode.SHIFT)) {
                 this.gameInstance.testPlayer.sprint();
             }
         } else if (event.getEventType().equals(KeyEvent.KEY_RELEASED)) {
@@ -66,7 +66,8 @@ public class KeyHandler implements EventHandler<KeyEvent> {
                 this.gameInstance.testWorld.testNPC.setDx(0);
                 this.gameInstance.testPlayer.setDx(0);
                 this.gameInstance.testPlayer.defaultFrame(Character.RIGHT_IMAGE_PATH);
-            } else if (code.equals(KeyCode.SHIFT)) {
+            }
+            if (code.equals(KeyCode.SHIFT)) {
                 this.gameInstance.testPlayer.unSprint();
             }
         }
