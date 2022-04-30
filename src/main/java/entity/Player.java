@@ -5,19 +5,41 @@ import main.SimpleRPG;
 
 public class Player extends Character {
 
-    public static final int MOVEMENT_SPEED = 3;
-    public static final int SPRINT_SPEED = 6;
+    public static final int MOVEMENT_SPEED = 2;
+    public static final int SPRINT_SPEED = 4;
     public static final int X = 1280/2-16;
     public static final int Y = 720/2-40;
     private Weapon weapon;
     private Armor armor;
     private int lastMove;
+    private double stamina;
+    private boolean isSprinting;
+    public double getStamina() {
+        return this.stamina;
+    }
+    public void setStamina(double stamina) {
+        this.stamina = stamina;
+    }
+    public void sprint() {
+        this.isSprinting = true;
+    }
+    public void unSprint() {
+        this.isSprinting = false;
+    }
+    public boolean isSprintable() {
+        return (this.getStamina() > 0);
+    }
+
+    public boolean isSprinting() {
+        return this.isSprinting;
+    }
 
     public Player(SimpleRPG master, int x, int y, String name, String imagePath, int level, int healthPoint, int manaPoint, Weapon weapon, Armor armor) {
         super(master, x, y, name, imagePath, 32, 80, level, healthPoint, manaPoint);
         this.weapon = weapon;
         this.armor = armor;
         this.lastMove = 0;
+        this.stamina = 100;
     }
 
     @Override
@@ -40,6 +62,11 @@ public class Player extends Character {
             } else if (this.getDx() < 0) {
                 this.changeFrame(Character.LEFT_IMAGE_PATH);
             }
+        }
+        if (this.isSprinting && this.isSprintable()) {
+            this.setStamina(this.getStamina() - 0.5);
+        } else if (this.getStamina() < 100) {
+            this.setStamina(this.getStamina() + 0.25);
         }
         this.getGraphicContext().drawImage(this.getImage(), this.getX(), this.getY());
     }
