@@ -25,19 +25,17 @@ public class SimpleRPG extends Application {
             (new File("./assets/test/player")).getAbsolutePath(), 1, 80, 100,
             new Weapon(10, 0, "example_armor.png"),
             new Armor(0, 20, "example_armor.png"));
-    public GameLoopManager gameLoopManager = new GameLoopManager(this, testWorld, testPlayer);
     public KeyHandler keyHandler = new KeyHandler(this);
     public Group root = new Group();
     public Scene theScene = new Scene(root);
     public HUD mainHUD = new HUD(this, testPlayer);
-
+    public GameLoopManager gameLoopManager = new GameLoopManager(this, mainHUD, testWorld, testPlayer);
     public World getWorld() {
         return this.testWorld;
     }
     public static void main(String[] args) {
         launch(args);
     }
-
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Simple RPG");
@@ -46,7 +44,7 @@ public class SimpleRPG extends Application {
         primaryStage.setScene(theScene);
         root.getChildren().add(this.canvasBackground);
         root.getChildren().add(this.canvasMiddle);
-        mainHUD.render();
+        mainHUD.start();
         gameLoopManager.start();
         primaryStage.show();
     }

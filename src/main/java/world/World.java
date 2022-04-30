@@ -16,8 +16,6 @@ public class World {
     public static final String UP = "UP";
     public static final String LEFT = "LEFT";
     public static final String RIGHT = "RIGHT";
-
-    private boolean isPlayerSprinting = false;
     private int dy = 0;
     private int dx = 0;
     private SimpleRPG master;
@@ -32,16 +30,8 @@ public class World {
     public int getY(){
         return this.y;
     }
-
-    public boolean boolPlayerSprinting(){
-        return this.isPlayerSprinting;
-    }
-    public void setPlayerSprinting() {
-        this.isPlayerSprinting = true;
-    }
-
-    public void unSetPlayerSprinting() {
-        this.isPlayerSprinting = false;
+    public SimpleRPG getMaster() {
+        return this.master;
     }
 
     public World(SimpleRPG master, String bgImagePath) {
@@ -54,7 +44,7 @@ public class World {
     }
 
     public void render() {
-        if (this.isPlayerSprinting) {
+        if (this.master.testPlayer.isSprintable() && this.master.testPlayer.isSprinting()) {
             this.y += this.dy * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED;
             this.x += this.dx * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED;
         } else {
