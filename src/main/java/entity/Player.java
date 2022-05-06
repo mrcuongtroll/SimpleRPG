@@ -8,7 +8,6 @@ public class Player extends Character {
     public static final int SPRINT_SPEED = 6;
     public static final int X = 1280/2-16;
     public static final int Y = 720/2-40;
-
     public static final int MAX_STAMINA = 200;
     private Weapon weapon;
     private Armor armor;
@@ -30,9 +29,20 @@ public class Player extends Character {
     public boolean isSprintable() {
         return (this.getStamina() > 0);
     }
-
     public boolean isSprinting() {
         return this.isSprinting;
+    }
+    public void sprintRender() {
+        if (this.isSprinting && this.isSprintable()) {
+            this.setStamina(this.getStamina() - 2);
+        } else if (this.getStamina() < MAX_STAMINA) {
+            if (this.getStamina() <= 2 && !this.isSprinting()) {
+                this.setStamina(this.getStamina() + 1);
+            } else if (this.getStamina() > 2) {
+                this.setStamina(this.getStamina() + 1);
+            }
+
+        }
     }
 
     public Player(SimpleRPG master, int x, int y, String name, String imagePath, int level, int healthPoint, int manaPoint, Weapon weapon, Armor armor) {
@@ -64,11 +74,7 @@ public class Player extends Character {
                 this.changeFrame(Character.LEFT_IMAGE_PATH);
             }
         }
-        if (this.isSprinting && this.isSprintable()) {
-            this.setStamina(this.getStamina() - 2);
-        } else if (this.getStamina() < MAX_STAMINA) {
-            this.setStamina(this.getStamina() + 1);
-        }
+        sprintRender();
         this.getGraphicContext().drawImage(this.getImage(), this.getX(), this.getY());
     }
 
