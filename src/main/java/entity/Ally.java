@@ -9,6 +9,11 @@ public class Ally extends NPC{
     }
 
     @Override
+    public void render() {
+
+    }
+
+    @Override
     public void triggerScene() {
         //trigger dialog
     }
