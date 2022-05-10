@@ -13,6 +13,6 @@ public abstract class NPC extends Character {
         super(master, x, y, name, imagePath, 32, 80, level, healthPoint, manaPoint);
         this.worldMaster = worldMaster;
     }
-
+    public abstract void render();
     public abstract void triggerScene(); //trigger combat or dialog
 }
