@@ -17,7 +17,6 @@ public class Enemy extends NPC{
         this.attack = attack;
         this.defense = defense;
     }
-
     @Override
     public void render() {
         if (this.getWorldMaster().getMaster().testPlayer.isSprintable() && this.getWorldMaster().getMaster().testPlayer.isSprinting()) {

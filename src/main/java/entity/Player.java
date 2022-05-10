@@ -41,7 +41,6 @@ public class Player extends Character {
             } else if (this.getStamina() > 2) {
                 this.setStamina(this.getStamina() + 1);
             }
-
         }
     }
 
