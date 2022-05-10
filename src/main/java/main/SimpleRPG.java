@@ -18,8 +18,11 @@ import java.io.IOException;
 
 public class SimpleRPG extends Application {
 
-    public Canvas canvasBackground = new Canvas(1280, 720);
-    public Canvas canvasMiddle = new Canvas(1280, 720);
+    public static final int SCREEN_WIDTH = 1280;
+    public static final int SCREEN_HEIGHT = 720;
+
+    public Canvas canvasBackground = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+    public Canvas canvasMiddle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
     public World testWorld = new World(this, (new File("./assets/test/map.png")).getAbsolutePath());;
     public Player testPlayer = new Player(this, Player.X, Player.Y, "Player",
             (new File("./assets/test/player")).getAbsolutePath(), 1, 80, 100,

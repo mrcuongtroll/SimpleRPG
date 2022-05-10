@@ -37,8 +37,8 @@ public class World {
     public World(SimpleRPG master, String bgImagePath) {
         this.master = master;
         this.gc = this.master.canvasBackground.getGraphicsContext2D();
-        this.bg = new Image(bgImagePath);
-        this.testNPC = new Enemy(this, master, 1280/5-16, 720/2-40, "Enemy",
+        this.bg = new Image(bgImagePath, 1800, 1800, false, false);
+        this.testNPC = new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
                 1, 100, 100, 10, 10);
     }
