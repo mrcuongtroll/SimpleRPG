@@ -23,19 +23,25 @@ public class SimpleRPG extends Application {
 
     public Canvas canvasBackground = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
     public Canvas canvasMiddle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
-    public World testWorld = new World(this, (new File("./assets/test/map.png")).getAbsolutePath(),
-            1800, 1800);
-    public Player testPlayer = new Player(this, Player.X, Player.Y, "Player",
+    public World world = new World(this, (new File("./assets/test/old map.png")).getAbsolutePath(),
+            (new File("./assets/test/old map_mask.png")).getAbsolutePath());
+    public Player player = new Player(this, Player.X, Player.Y, "Player",
             (new File("./assets/test/player")).getAbsolutePath(), 1, 80, 100,
             new Weapon(10, 0, "example_armor.png"),
             new Armor(0, 20, "example_armor.png"));
     public KeyHandler keyHandler = new KeyHandler(this);
     public Group root = new Group();
     public Scene theScene = new Scene(root);
-    public HUD mainHUD = new HUD(this, testPlayer);
-    public GameLoopManager gameLoopManager = new GameLoopManager(this, mainHUD, testWorld, testPlayer);
+    public HUD mainHUD = new HUD(this, player);
+    public GameLoopManager gameLoopManager = new GameLoopManager(this);
     public World getWorld() {
-        return this.testWorld;
+        return this.world;
+    }
+    public Player getPlayer() {
+        return this.player;
+    }
+    public HUD getMainHUD() {
+        return this.mainHUD;
     }
     public static void main(String[] args) {
         launch(args);
