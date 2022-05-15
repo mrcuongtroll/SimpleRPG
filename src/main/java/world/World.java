@@ -22,8 +22,6 @@ public class World {
     private SimpleRPG master;
     private int x = 0;
     private int y = 0;
-    private int bgImageWidth;
-    private int bgImageHeight;
     private GraphicsContext gc;
     private Image bg;
     public ArrayList<NPC> npcList = new ArrayList<>();
@@ -39,22 +37,14 @@ public class World {
     public void setY(int y) {
         this.y = y;
     }
-    public int getBgImageWidth() {
-        return this.bgImageWidth;
-    }
-    public int getBgImageHeight() {
-        return this.bgImageHeight;
-    }
     public SimpleRPG getMaster() {
         return this.master;
     }
 
-    public World(SimpleRPG master, String bgImagePath, int bgImageWidth, int bgImageHeight) {
+    public World(SimpleRPG master, String bgImagePath) {
         this.master = master;
         this.gc = this.master.canvasBackground.getGraphicsContext2D();
-        this.bgImageWidth = bgImageWidth;
-        this.bgImageHeight = bgImageHeight;
-        this.bg = new Image(bgImagePath, bgImageWidth, bgImageHeight, false, false);
+        this.bg = new Image(bgImagePath);
         this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
                 1, 100, 100, 10, 10));
