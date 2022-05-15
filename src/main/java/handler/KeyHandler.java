@@ -27,48 +27,56 @@ public class KeyHandler implements EventHandler<KeyEvent> {
             // Handle things that happen when keys on the keyboard are pressed
             KeyCode code = event.getCode();
             if (code.equals(KeyCode.DOWN)) {
-                this.gameInstance.testWorld.move(World.DOWN);
-                this.gameInstance.testPlayer.setDy(Player.MOVEMENT_SPEED);
+//                this.gameInstance.getWorld().move(World.DOWN);
+//                this.gameInstance.getPlayer().setDy(Player.MOVEMENT_SPEED);
+                this.gameInstance.getPlayer().move(Character.DOWN);
             } else if (code.equals(KeyCode.UP)) {
-                this.gameInstance.testWorld.move(World.UP);
-                this.gameInstance.testPlayer.setDy(-Player.MOVEMENT_SPEED);
+//                this.gameInstance.getWorld().move(World.UP);
+//                this.gameInstance.getPlayer().setDy(-Player.MOVEMENT_SPEED);
+                this.gameInstance.getPlayer().move(Character.UP);
             } else if (code.equals(KeyCode.LEFT)) {
-                this.gameInstance.testWorld.move(World.LEFT);
-                this.gameInstance.testPlayer.setDx(-Player.MOVEMENT_SPEED);
+//                this.gameInstance.getWorld().move(World.LEFT);
+//                this.gameInstance.getPlayer().setDx(-Player.MOVEMENT_SPEED);
+                this.gameInstance.getPlayer().move(Character.LEFT);
             } else if (code.equals(KeyCode.RIGHT)) {
-                this.gameInstance.testWorld.move(World.RIGHT);
-                this.gameInstance.testPlayer.setDx(Player.MOVEMENT_SPEED);
+//                this.gameInstance.getWorld().move(World.RIGHT);
+//                this.gameInstance.getPlayer().setDx(Player.MOVEMENT_SPEED);
+                this.gameInstance.getPlayer().move(Character.RIGHT);
             }
             if (code.equals(KeyCode.SHIFT)) {
-                this.gameInstance.testPlayer.sprint();
+                this.gameInstance.getPlayer().sprint();
             }
         } else if (event.getEventType().equals(KeyEvent.KEY_RELEASED)) {
             // Handle things that happen when keys on the keyboard are released
             KeyCode code = event.getCode();
             if (code.equals(KeyCode.DOWN)) {
-                this.gameInstance.testWorld.setDy(0);
-                this.gameInstance.testWorld.setDyNPC(0);
-                this.gameInstance.testPlayer.setDy(0);
-                this.gameInstance.testPlayer.defaultFrame(Character.DOWN_IMAGE_PATH);
+//                this.gameInstance.getWorld().setDy(0);
+//                this.gameInstance.getWorld().setDyNPC(0);
+//                this.gameInstance.getPlayer().setDy(0);
+//                this.gameInstance.getPlayer().defaultFrame(Character.DOWN_IMAGE_PATH);
+                this.gameInstance.getPlayer().stopMoving(Character.DOWN);
             } else if (code.equals(KeyCode.UP)) {
-                this.gameInstance.testWorld.setDy(0);
-                this.gameInstance.testWorld.setDyNPC(0);
-                this.gameInstance.testPlayer.setDy(0);
-                this.gameInstance.testPlayer.setCurrentFrame(Character.NUM_IMAGE_FRAME);
-                this.gameInstance.testPlayer.defaultFrame(Character.UP_IMAGE_PATH);
+//                this.gameInstance.getWorld().setDy(0);
+//                this.gameInstance.getWorld().setDyNPC(0);
+//                this.gameInstance.getPlayer().setDy(0);
+//                this.gameInstance.getPlayer().setCurrentFrame(Character.NUM_IMAGE_FRAME);
+//                this.gameInstance.getPlayer().defaultFrame(Character.UP_IMAGE_PATH);
+                this.gameInstance.getPlayer().stopMoving(Character.UP);
             } else if (code.equals(KeyCode.LEFT)) {
-                this.gameInstance.testWorld.setDx(0);
-                this.gameInstance.testWorld.setDxNPC(0);
-                this.gameInstance.testPlayer.setDx(0);
-                this.gameInstance.testPlayer.defaultFrame(Character.LEFT_IMAGE_PATH);
+//                this.gameInstance.getWorld().setDx(0);
+//                this.gameInstance.getWorld().setDxNPC(0);
+//                this.gameInstance.getPlayer().setDx(0);
+//                this.gameInstance.getPlayer().defaultFrame(Character.LEFT_IMAGE_PATH);
+                this.gameInstance.getPlayer().stopMoving(Character.LEFT);
             } else if (code.equals(KeyCode.RIGHT)) {
-                this.gameInstance.testWorld.setDx(0);
-                this.gameInstance.testWorld.setDxNPC(0);
-                this.gameInstance.testPlayer.setDx(0);
-                this.gameInstance.testPlayer.defaultFrame(Character.RIGHT_IMAGE_PATH);
+//                this.gameInstance.getWorld().setDx(0);
+//                this.gameInstance.getWorld().setDxNPC(0);
+//                this.gameInstance.getPlayer().setDx(0);
+//                this.gameInstance.getPlayer().defaultFrame(Character.RIGHT_IMAGE_PATH);
+                this.gameInstance.getPlayer().stopMoving(Character.RIGHT);
             }
             if (code.equals(KeyCode.SHIFT)) {
-                this.gameInstance.testPlayer.unSprint();
+                this.gameInstance.getPlayer().unSprint();
             }
         }
     }

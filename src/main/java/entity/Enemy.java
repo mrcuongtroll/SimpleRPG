@@ -19,7 +19,7 @@ public class Enemy extends NPC{
     }
     @Override
     public void render() {
-        if (this.getWorldMaster().getMaster().testPlayer.isSprintable() && this.getWorldMaster().getMaster().testPlayer.isSprinting()) {
+        if (this.getWorldMaster().getMaster().getPlayer().isSprintable() && this.getWorldMaster().getMaster().getPlayer().isSprinting()) {
             this.setX(this.getX() + this.getDx() * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED);
             this.setY(this.getY() + this.getDy() * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED);
             this.getGraphicContext().drawImage(this.getImage(), this.getX(), this.getY());

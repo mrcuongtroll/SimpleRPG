@@ -9,7 +9,10 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import main.SimpleRPG;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class World {
@@ -17,31 +20,53 @@ public class World {
     public static final String UP = "UP";
     public static final String LEFT = "LEFT";
     public static final String RIGHT = "RIGHT";
-    private int dy = 0;
-    private int dx = 0;
+    private double dy = 0;
+    private double dx = 0;
     private SimpleRPG master;
-    private int x = 0;
-    private int y = 0;
+    private double x = 0;
+    private double y = 0;
     private GraphicsContext gc;
     private Image bg;
+    private BufferedImage mask;
+    private int[][] maskArray;
+    private ArrayList<Tile> tileList = new ArrayList<Tile>();
     public ArrayList<NPC> npcList = new ArrayList<>();
-    public int getX(){
+    public double getX(){
         return this.x;
     }
-    public int getY(){
+    public double getY(){
         return this.y;
     }
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
+    }
+    public void setDy(double dy) {
+        this.dy = dy;
+    }
+    public void setDx(double dx) {
+        this.dx = dx;
+    }
+    public void setDyNPC(double dy) {
+        for (NPC npc : this.npcList) {
+            npc.setDy(dy);
+        }
+    }
+    public void setDxNPC(int dx) {
+        for (NPC npc : this.npcList) {
+            npc.setDx(dx);
+        }
     }
     public SimpleRPG getMaster() {
         return this.master;
     }
+    public ArrayList<Tile> getTileList() {
+        return this.tileList;
+    }
 
-    public World(SimpleRPG master, String bgImagePath) {
+    public World(SimpleRPG master, String bgImagePath, String maskPath) {
         this.master = master;
         this.gc = this.master.canvasBackground.getGraphicsContext2D();
         this.bg = new Image(bgImagePath);
@@ -54,10 +79,52 @@ public class World {
         this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/9-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
                 1, 100, 100, 10, 10));
+
+        // Load collision mask
+        try {
+            this.mask = ImageIO.read(new File(maskPath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Convert mask from image to 2D array of 0's and 1's
+        this.maskArray = new int[(int) this.bg.getWidth()][(int) this.bg.getHeight()];
+        for (int i = 0; i < (int) this.bg.getWidth(); i++) {
+            for (int j = 0; j < (int) this.bg.getHeight(); j++)
+                if (mask.getRGB(i, j) == -16777216) {
+                    this.maskArray[i][j] = 0;
+                } else if (mask.getRGB(i, j) == -1) {
+                    this.maskArray[i][j] = 1;
+                }
+        }
+        // Convert 2D array of 0's and 1's to List of tiles
+        // For each column
+        for (int i = 0; i < this.bg.getWidth(); i += Tile.TILE_SIZE) {
+            // For each row
+            for (int j = 0; j < this.bg.getHeight(); j += Tile.TILE_SIZE) {
+                // Solid if the number of 1's is greater than the number of 0's and vice versa
+                int solidCount = 0;
+                for (int k = i; k < i + Tile.TILE_SIZE; k++) {
+                    for (int l = j; l < j + Tile.TILE_SIZE; l++) {
+                        try {
+                            if (this.maskArray[k][l] == 1) {
+                                solidCount += 1;
+                            }
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                if (solidCount >= Tile.TILE_SIZE*Tile.TILE_SIZE/2) {
+                    this.tileList.add(new Tile(i, j, true));
+                } else {
+                    this.tileList.add(new Tile(i, j, false));
+                }
+            }
+        }
     }
 
     public void render() {
-        if (this.master.testPlayer.isSprintable() && this.master.testPlayer.isSprinting()) {
+        if (this.master.getPlayer().isSprintable() && this.master.getPlayer().isSprinting()) {
             this.setY(this.getY() + this.dy * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED);
             this.setX(this.getX() + this.dx * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED);
         } else {
@@ -114,25 +181,5 @@ public class World {
             default -> {}
         }
         moveNPC(direction);
-    }
-
-    public void setDy(int dy) {
-        this.dy = dy;
-    }
-
-    public void setDx(int dx) {
-        this.dx = dx;
-    }
-
-    public void setDyNPC(int dy) {
-        for (NPC npc : this.npcList) {
-            npc.setDy(dy);
-        }
-    }
-
-    public void setDxNPC(int dx) {
-        for (NPC npc : this.npcList) {
-            npc.setDx(dx);
-        }
     }
 }

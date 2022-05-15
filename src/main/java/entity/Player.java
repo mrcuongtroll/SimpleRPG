@@ -2,6 +2,7 @@ package entity;
 
 import javafx.scene.image.Image;
 import main.SimpleRPG;
+import world.World;
 
 public class Player extends Character {
     public static final int MOVEMENT_SPEED = 2;
@@ -22,9 +23,11 @@ public class Player extends Character {
     }
     public void sprint() {
         this.isSprinting = true;
+        this.setMovementSpeed(Player.SPRINT_SPEED);
     }
     public void unSprint() {
         this.isSprinting = false;
+        this.setMovementSpeed(Player.MOVEMENT_SPEED);
     }
     public boolean isSprintable() {
         return (this.getStamina() > 0);
@@ -50,10 +53,12 @@ public class Player extends Character {
         this.armor = armor;
         this.lastMove = 0;
         this.stamina = MAX_STAMINA;
+        this.setMovementSpeed(Player.MOVEMENT_SPEED);
     }
 
     @Override
     public void render() {
+        super.render();
         if (this.getDy() == 0) {
             if (this.getDx() > 0) {
                 this.changeFrame(Character.RIGHT_IMAGE_PATH);
@@ -74,7 +79,7 @@ public class Player extends Character {
             }
         }
         sprintRender();
-        this.getGraphicContext().drawImage(this.getImage(), this.getX(), this.getY());
+//        this.getGraphicContext().drawImage(this.getImage(), this.getX(), this.getY());
     }
 
     @Override
@@ -95,5 +100,18 @@ public class Player extends Character {
             }
             this.setImage(new Image(this.getImagePath() + direction + this.getCurrentFrame() + ".png"));
         }
+    }
+
+    @Override
+    public void move(String direction) {
+        super.move(direction);
+        this.getMaster().getWorld().setDx(-this.getDx());
+        this.getMaster().getWorld().setDy(-this.getDy());
+    }
+    @Override
+    public void stopMoving(String direction) {
+        super.stopMoving(direction);
+        this.getMaster().getWorld().setDx(-this.getDx());
+        this.getMaster().getWorld().setDy(-this.getDy());
     }
 }
