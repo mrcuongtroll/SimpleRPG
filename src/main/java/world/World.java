@@ -3,7 +3,6 @@ package world;
 import entity.Enemy;
 import entity.NPC;
 import entity.Player;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -36,6 +35,12 @@ public class World {
     }
     public double getY(){
         return this.y;
+    }
+    public double getDx() {
+        return this.dx;
+    }
+    public double getDy() {
+        return this.dy;
     }
     public void setX(double x) {
         this.x = x;
@@ -101,7 +106,7 @@ public class World {
         for (int i = 0; i < this.bg.getWidth(); i += Tile.TILE_SIZE) {
             // For each row
             for (int j = 0; j < this.bg.getHeight(); j += Tile.TILE_SIZE) {
-                // Solid if the number of 1's is greater than the number of 0's and vice versa
+                // Solid if the number of 0's is greater than the number of 1's and vice versa
                 int solidCount = 0;
                 for (int k = i; k < i + Tile.TILE_SIZE; k++) {
                     for (int l = j; l < j + Tile.TILE_SIZE; l++) {
@@ -109,31 +114,38 @@ public class World {
                             if (this.maskArray[k][l] == 1) {
                                 solidCount += 1;
                             }
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            e.printStackTrace();
-                        }
+                        } catch (ArrayIndexOutOfBoundsException e) {}
                     }
                 }
                 if (solidCount >= Tile.TILE_SIZE*Tile.TILE_SIZE/2) {
-                    this.tileList.add(new Tile(i, j, true));
-                } else {
                     this.tileList.add(new Tile(i, j, false));
+                } else {
+                    this.tileList.add(new Tile(i, j, true));
                 }
             }
         }
     }
 
     public void render() {
-        if (this.master.getPlayer().isSprintable() && this.master.getPlayer().isSprinting()) {
-            this.setY(this.getY() + this.dy * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED);
-            this.setX(this.getX() + this.dx * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED);
-        } else {
-            this.setY(this.getY() + this.dy);
-            this.setX(this.getX() + this.dx);
-        }
+        this.tick();
         this.gc.setFill(Color.BLACK);
         this.gc.fillRect(0, 0, this.master.canvasBackground.getWidth(), this.master.canvasBackground.getHeight());
         this.gc.drawImage(this.bg, this.x, this.y);
+    }
+    protected void tick() {
+        boolean canMove = true;
+        Player player = this.getMaster().getPlayer();
+        for (Tile tile: this.tileList) {
+            if (tile.isSolid()) {
+                if (tile.getRect().intersects(player.getX()-dx, player.getY()-dy, player.getRect().getWidth(), player.getRect().getHeight())) {
+                    canMove = false;
+                }
+            }
+        }
+        if (canMove) {
+            this.x += this.dx;
+            this.y += this.dy;
+        }
         for (NPC npc : this.npcList) {
             if (npc instanceof Enemy) {
                 ((Enemy) npc).chasePlayer();

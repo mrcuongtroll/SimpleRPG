@@ -33,12 +33,15 @@ public class SimpleRPG extends Application {
     public Group root = new Group();
     public Scene theScene = new Scene(root);
     public HUD mainHUD = new HUD(this, player);
-    public GameLoopManager gameLoopManager = new GameLoopManager(this, mainHUD, world, player);
+    public GameLoopManager gameLoopManager = new GameLoopManager(this);
     public World getWorld() {
         return this.world;
     }
     public Player getPlayer() {
         return this.player;
+    }
+    public HUD getMainHUD() {
+        return this.mainHUD;
     }
     public static void main(String[] args) {
         launch(args);

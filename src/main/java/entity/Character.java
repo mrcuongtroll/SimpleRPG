@@ -1,6 +1,5 @@
 package entity;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import java.awt.Rectangle;
@@ -147,6 +146,10 @@ public abstract class Character {
     }
 
     public void render() {
+        this.tick();
+        this.gc.drawImage(this.image, this.x, this.y);
+    }
+    protected void tick() {
         boolean canMove = true;
         World world = this.master.getWorld();
         for (Tile tile: world.getTileList()) {
@@ -160,7 +163,6 @@ public abstract class Character {
             this.x += this.dx;
             this.y += this.dy;
         }
-        this.gc.drawImage(this.image, this.x, this.y);
     }
 
     public void changeFrame(String direction) {
@@ -199,7 +201,7 @@ public abstract class Character {
                 this.dx = -this.movementSpeed;
             }
             case Character.RIGHT -> {
-                this.dx = +this.movementSpeed;
+                this.dx = this.movementSpeed;
             }
             default -> {}
         }

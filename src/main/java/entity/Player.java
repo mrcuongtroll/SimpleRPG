@@ -2,7 +2,6 @@ package entity;
 
 import javafx.scene.image.Image;
 import main.SimpleRPG;
-import world.World;
 
 public class Player extends Character {
     public static final int MOVEMENT_SPEED = 2;
@@ -23,10 +22,18 @@ public class Player extends Character {
     }
     public void sprint() {
         this.isSprinting = true;
+        this.setDx(this.getDx() / this.getMovementSpeed() * Player.SPRINT_SPEED);
+        this.setDy(this.getDy() / this.getMovementSpeed() * Player.SPRINT_SPEED);
+        this.getMaster().getWorld().setDy(-this.getDy());
+        this.getMaster().getWorld().setDx(-this.getDx());
         this.setMovementSpeed(Player.SPRINT_SPEED);
     }
     public void unSprint() {
         this.isSprinting = false;
+        this.setDx(this.getDx() * Player.MOVEMENT_SPEED / this.getMovementSpeed());
+        this.setDy(this.getDy() * Player.MOVEMENT_SPEED / this.getMovementSpeed());
+        this.getMaster().getWorld().setDy(-this.getDy());
+        this.getMaster().getWorld().setDx(-this.getDx());
         this.setMovementSpeed(Player.MOVEMENT_SPEED);
     }
     public boolean isSprintable() {
@@ -45,6 +52,9 @@ public class Player extends Character {
                 this.setStamina(this.getStamina() + 1);
             }
         }
+        if (this.getStamina() <= 0 && this.isSprinting()) {
+            this.unSprint();
+        }
     }
 
     public Player(SimpleRPG master, int x, int y, String name, String imagePath, int level, int healthPoint, int manaPoint, Weapon weapon, Armor armor) {
@@ -58,7 +68,17 @@ public class Player extends Character {
 
     @Override
     public void render() {
-        super.render();
+        this.tick();
+        sprintRender();
+        // Now check if the map scrolls or not
+        // Map doesn't scroll:
+        this.getGraphicContext().drawImage(this.getImage(), Player.X, Player.Y);
+        // Map scrolls:
+
+    }
+    @Override
+    protected void tick() {
+        super.tick();
         if (this.getDy() == 0) {
             if (this.getDx() > 0) {
                 this.changeFrame(Character.RIGHT_IMAGE_PATH);
@@ -78,8 +98,6 @@ public class Player extends Character {
                 this.changeFrame(Character.LEFT_IMAGE_PATH);
             }
         }
-        sprintRender();
-//        this.getGraphicContext().drawImage(this.getImage(), this.getX(), this.getY());
     }
 
     @Override
