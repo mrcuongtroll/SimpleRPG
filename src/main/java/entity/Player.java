@@ -2,6 +2,7 @@ package entity;
 
 import javafx.scene.image.Image;
 import main.SimpleRPG;
+import world.World;
 
 public class Player extends Character {
     public static final int MOVEMENT_SPEED = 2;
@@ -70,11 +71,23 @@ public class Player extends Character {
     public void render() {
         this.tick();
         sprintRender();
+        int xPos = Player.X;
+        int yPos = Player.Y;
         // Now check if the map scrolls or not
-        // Map doesn't scroll:
-        this.getGraphicContext().drawImage(this.getImage(), Player.X, Player.Y);
-        // Map scrolls:
-
+        World world = this.getMaster().getWorld();
+        // Check x-axis:
+        if (this.getRelativeX() <= SimpleRPG.SCREEN_WIDTH) {
+            xPos = (int) this.getRelativeX();
+        } else if (this.getRelativeX() >= world.getBg().getWidth() - SimpleRPG.SCREEN_WIDTH) {
+            xPos = (int) this.getRelativeX() - (int) (world.getBg().getWidth() - SimpleRPG.SCREEN_WIDTH);
+        }
+        // Check y-axis:
+        if (this.getRelativeY() <= SimpleRPG.SCREEN_HEIGHT) {
+            yPos = (int) this.getRelativeY();
+        } else if (this.getRelativeY() >= world.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT) {
+            yPos = (int) this.getRelativeY() - (int) (world.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT);
+        }
+        this.getGraphicContext().drawImage(this.getImage(), xPos, yPos);
     }
     @Override
     protected void tick() {

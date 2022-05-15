@@ -162,6 +162,7 @@ public abstract class Character {
         if (canMove) {
             this.x += this.dx;
             this.y += this.dy;
+            this.rect.setBounds((int)this.x, (int)this.y, (int)this.rect.getWidth(), (int)this.rect.getHeight());
         }
     }
 

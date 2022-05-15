@@ -30,6 +30,9 @@ public class World {
     private int[][] maskArray;
     private ArrayList<Tile> tileList = new ArrayList<Tile>();
     public ArrayList<NPC> npcList = new ArrayList<>();
+    public Image getBg() {
+        return this.bg;
+    }
     public double getX(){
         return this.x;
     }
@@ -143,8 +146,16 @@ public class World {
             }
         }
         if (canMove) {
-            this.x += this.dx;
-            this.y += this.dy;
+            // Check when not to scroll the map
+            // Idea: The map will not scroll if the player is near the side of the map
+            // Check the x-axis:
+            if (player.getRelativeX() >= SimpleRPG.SCREEN_WIDTH || player.getRelativeX() <= this.bg.getWidth() - SimpleRPG.SCREEN_WIDTH) {
+                this.x += this.dx;
+            }
+            // Check the y-axis
+            if (player.getRelativeY() >= SimpleRPG.SCREEN_HEIGHT || player.getRelativeY() <= this.bg.getHeight() - SimpleRPG.SCREEN_HEIGHT) {
+                this.y += this.dy;
+            }
         }
         for (NPC npc : this.npcList) {
             if (npc instanceof Enemy) {
