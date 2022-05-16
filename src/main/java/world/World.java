@@ -136,24 +136,30 @@ public class World {
         this.gc.drawImage(this.bg, this.x, this.y);
     }
     protected void tick() {
-        boolean canMove = true;
+        boolean canMoveH = true;
+        boolean canMoveV = true;
         Player player = this.getMaster().getPlayer();
         for (Tile tile: this.tileList) {
             if (tile.isSolid()) {
-                if (tile.getRect().intersects(player.getX()-dx, player.getY()-dy, player.getRect().getWidth(), player.getRect().getHeight())) {
-                    canMove = false;
+                if (tile.getRect().intersects(player.getX()-dx, player.getY(), player.getRect().getWidth(), player.getRect().getHeight())) {
+                    canMoveH = false;
+                }
+                if (tile.getRect().intersects(player.getX(), player.getY()-dy, player.getRect().getWidth(), player.getRect().getHeight())) {
+                    canMoveV = false;
                 }
             }
         }
-        if (canMove) {
-            // Check when not to scroll the map
-            // Idea: The map will not scroll if the player is near the side of the map
-            // Check the x-axis:
-            if (player.getRelativeX() >= SimpleRPG.SCREEN_WIDTH || player.getRelativeX() <= this.bg.getWidth() - SimpleRPG.SCREEN_WIDTH) {
+        // Check when not to scroll the map
+        // Idea: The map will not scroll if the player is near the side of the map
+        // Check the x-axis:
+        if (player.getRelativeX() >= SimpleRPG.SCREEN_WIDTH || player.getRelativeX() <= this.bg.getWidth() - SimpleRPG.SCREEN_WIDTH) {
+            if (canMoveH) {
                 this.x += this.dx;
             }
-            // Check the y-axis
-            if (player.getRelativeY() >= SimpleRPG.SCREEN_HEIGHT || player.getRelativeY() <= this.bg.getHeight() - SimpleRPG.SCREEN_HEIGHT) {
+        }
+        // Check the y-axis
+        if (player.getRelativeY() >= SimpleRPG.SCREEN_HEIGHT || player.getRelativeY() <= this.bg.getHeight() - SimpleRPG.SCREEN_HEIGHT) {
+            if (canMoveV) {
                 this.y += this.dy;
             }
         }

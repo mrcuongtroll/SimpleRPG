@@ -150,20 +150,26 @@ public abstract class Character {
         this.gc.drawImage(this.image, this.x, this.y);
     }
     protected void tick() {
-        boolean canMove = true;
+        boolean canMoveH = true;
+        boolean canMoveV = true;
         World world = this.master.getWorld();
         for (Tile tile: world.getTileList()) {
             if (tile.isSolid()) {
-                if (tile.getRect().intersects(this.x+dx, this.y+dy, this.rect.getWidth(), this.rect.getHeight())) {
-                    canMove = false;
+                if (tile.getRect().intersects(this.x+dx, this.y, this.rect.getWidth(), this.rect.getHeight())) {
+                    canMoveH = false;
+                }
+                if (tile.getRect().intersects(this.x, this.y+dy, this.rect.getWidth(), this.rect.getHeight())) {
+                    canMoveV = false;
                 }
             }
         }
-        if (canMove) {
+        if (canMoveH) {
             this.x += this.dx;
-            this.y += this.dy;
-            this.rect.setBounds((int)this.x, (int)this.y, (int)this.rect.getWidth(), (int)this.rect.getHeight());
         }
+        if (canMoveV) {
+            this.y += this.dy;
+        }
+        this.rect.setBounds((int)this.x, (int)this.y, (int)this.rect.getWidth(), (int)this.rect.getHeight());
     }
 
     public void changeFrame(String direction) {
