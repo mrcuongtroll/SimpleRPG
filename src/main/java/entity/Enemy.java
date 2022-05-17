@@ -2,7 +2,10 @@ package entity;
 
 import main.SimpleRPG;
 import views.GameView;
+import world.BattleMap;
 import world.World;
+
+import java.io.File;
 
 public class Enemy extends NPC{
     public static final double MOVEMENT_SPEED = 0.5;
@@ -18,10 +21,9 @@ public class Enemy extends NPC{
         this.attack = attack;
         this.defense = defense;
     }
-
     @Override
     public void render() {
-        if (this.getWorldMaster().boolPlayerSprinting()) {
+        if (this.getWorldMaster().getMaster().getPlayer().isSprintable() && this.getWorldMaster().getMaster().getPlayer().isSprinting()) {
             this.setX(this.getX() + this.getDx() * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED);
             this.setY(this.getY() + this.getDy() * Player.SPRINT_SPEED / Player.MOVEMENT_SPEED);
             this.getGraphicContext().drawImage(this.getImage(), this.getX(), this.getY());
@@ -88,5 +90,6 @@ public class Enemy extends NPC{
     @Override
     public void triggerScene() {
         //trigger combat
+        System.out.println("Encountered");
     }
 }

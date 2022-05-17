@@ -1,6 +1,7 @@
 package main;
 
 import entity.Armor;
+import entity.Enemy;
 import entity.Player;
 import entity.Weapon;
 import handler.KeyHandler;
@@ -12,6 +13,8 @@ import javafx.stage.Stage;
 import loop.GameLoopManager;
 import views.GameView;
 import views.StartScreenView;
+import world.BattleMap;
+import world.Map;
 import world.World;
 
 import java.io.File;
@@ -26,174 +29,66 @@ public class SimpleRPG extends Application {
     public GameView gameView;
     public StartScreenView startScreenView;
 
+    public static final int SCREEN_WIDTH = 1280;
+    public static final int SCREEN_HEIGHT = 720;
+    public Canvas canvasBackground = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+    public Canvas canvasMiddle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    //Current opening subscene
-//    private GameSubScene currentShowingScene;
-//    private final static int MENU_BUTTON_START_X = 150;
-//    private final static int MENU_BUTTON_START_Y = 225;
+    public Canvas canvasBattle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    //Starting buttons and popup windows
-//    List<GameButton> menuButtons;
-//    private GameSubScene openCredit;
-//    private GameSubScene openSetting;
-
-    //Game variables
-    public Canvas canvasBackground = new Canvas(1280, 720);
-    public Canvas canvasMiddle = new Canvas(1280, 720);
-    public World testWorld = new World(this, (new File("./assets/test/old map.png")).getAbsolutePath());
-    public Player testPlayer = new Player(this, Player.X, Player.Y, "Player",
+    public Map world = new World(this, (new File("./assets/test/old map.png")).getAbsolutePath(),
+            (new File("./assets/test/old map_mask.png")).getAbsolutePath());
+//    public Map world = BattleMap(this, (new File("./assets/test/battle_map.png")).getAbsolutePath());
+    public Player player = new Player(this, Player.X, Player.Y, "Player",
             (new File("./assets/test/player")).getAbsolutePath(), 1, 80, 100,
             new Weapon(10, 0, "example_armor.png"),
             new Armor(0, 20, "example_armor.png"));
-    public GameLoopManager gameLoopManager = new GameLoopManager(this, testWorld, testPlayer);
     public KeyHandler keyHandler = new KeyHandler(this);
 
     public AnchorPane mainPane = new AnchorPane();
     public Scene theScene = new Scene(mainPane, WIDTH, HEIGHT);
-    public HUD mainHUD = new HUD(this, testPlayer);
 
-    public World getWorld() {
-        return this.testWorld;
-    }
     
-//    public static void main(String[] args) {
-//        launch(args);
-//    }
-
-//    private void createBackground() {
-//        Image backgroundImage = new Image("D:/Programming stuff/Intellij/Intro 2 SE project/SimpleRPG/assets/test/old map.png", 1280, 720, false, false);
-//        BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
-//        mainPane.setBackground(new Background(background));
-//    }
-
-//    private void CreateButtons() {
-//        createStartButton();
-//        createSettingButton();
-//        createCreditButton();
-//        createExitButton();
-//    }
-
-//    //Create setting button (Start screen)
-//    private void createStartButton() {
-//        GameButton newButton = new GameButton("Duma lets go!");
-//        AddMenuButtons(newButton);
-//        newButton.setOnAction(event -> startGame());
-//    }
-//
-//    //Create exit button (Start screen)
-//    private void createExitButton() {
-//        GameButton newButton = new GameButton("I quit, this game sucks");
-//        AddMenuButtons(newButton);
-//        newButton.setOnAction(event -> mainStage.close());
-//    }
-//
-//    //Create setting button (Start screen)
-//    private void createSettingButton() {
-//        GameButton newButton = new GameButton("Settings");
-//        AddMenuButtons(newButton);
-//        newButton.setOnAction(event -> showSubScene(openSetting));
-//    }
-//
-//    //As if somebody want to know who make this game
-//    private void createCreditButton() {
-//        GameButton newButton = new GameButton("Credits");
-//        AddMenuButtons(newButton);
-//        newButton.setOnAction(event -> showSubScene(openCredit));
-//    }
-//
-//    //Create pause button (During game)
-//    private void createPauseButton() {
-//        GameButton newButton = new GameButton("Pause");
-//        newButton.setLayoutX(1100);
-//        newButton.setLayoutY(20);
-//        newButton.setOnAction(event -> showSubScene(openSetting));
-//        mainPane.getChildren().add(newButton);
-//    }
-//
-//    //Return to start screen
-//    private void createHomeButton(AnchorPane pane) {
-//        Button newButton = new GameButton("Go home");
-//        newButton.setLayoutX(100);
-//        newButton.setLayoutY(100);
-//        newButton.setOnAction(event -> openHomeScreen());
-//        pane.getChildren().add(newButton);
-//    }
-
-//    private void openHomeScreen() {
-//        mainPane.getChildren().clear();
-//        menuButtons.clear();
-//        createLogo();
-//        CreateButtons();
-//        createSubScenes();
-//        createBackground();
-//    }
-
-//    //Create columns of button and create a bit of space between them
-//    private void AddMenuButtons(GameButton button) {
-//        button.setLayoutX(MENU_BUTTON_START_X);
-//        button.setLayoutY(MENU_BUTTON_START_Y + menuButtons.size() * 100);
-//        menuButtons.add(button);
-//        mainPane.getChildren().add(button);
-//    }
-//
-//    //Show the big ass panel when you press a button (And make sure that it disappear when pressed again)
-//    private void showSubScene(GameSubScene subScene) {
-//
-//        //Cần ai đó làm đơn giản lại cái ìf else này
-//        if (currentShowingScene == null) {
-//            subScene.moveSubScene();
-//            currentShowingScene = subScene;
-//        } else {
-//            if(currentShowingScene == subScene){
-//                subScene.moveSubScene();
-//            } else {
-//                if(!currentShowingScene.isHidden){
-//                    currentShowingScene.moveSubScene();
-//                }
-//                subScene.moveSubScene();
-//                currentShowingScene = subScene;
-//            }
-//        }
-//    }
-//
-//    //Add the panel to our game Anchor Pane
-//    private void createSubScenes() {
-//        openCredit = new GameSubScene();
-//        mainPane.getChildren().add(openCredit);
-//        openSetting = new GameSubScene();
-//        createHomeButton(openSetting.getPane());
-//
-//        mainPane.getChildren().add(openSetting);
-//    }
-
-//    private void createLogo() {
-//        ImageView logo = new ImageView("D:/Programming stuff/Intellij/Intro 2 SE project/SimpleRPG/src/main/resources/title.png");
-//        logo.setFitHeight(400);
-//        logo.setFitWidth(650);
-//        logo.setLayoutX(380);
-//        logo.setLayoutY(200);
-//        logo.setOnMouseEntered(event -> logo.setEffect(new DropShadow()));
-//        logo.setOnMouseExited(event -> logo.setEffect(null));
-//        mainPane.getChildren().add(logo);
-//
-//    }
-
-//    public void startGame(){
-//
-//        if (currentShowingScene != null && !currentShowingScene.isHidden){
-//            currentShowingScene.moveSubScene();
-//        }
-//        mainPane.getChildren().add(canvasBackground);
-//        mainPane.getChildren().add(canvasMiddle);
-////        createPauseButton();
-//        startScreen.openSetting.toFront();
-//        mainHUD.render();
-//        theScene.setOnKeyPressed(keyHandler);
-//        theScene.setOnKeyReleased(keyHandler);
-//        gameLoopManager.start();
-//
-//    }
-
+//     public Group root = new Group();
+//     public Scene theScene = new Scene(root);
+    public HUD mainHUD = new HUD(this, player);
+    public GameLoopManager gameLoopManager = new GameLoopManager(this);
+    public Map getWorld() {
+        return this.world;
+    }
+    public void setWorld(Map world) {
+        this.world = world;
+    }
+    public Player getPlayer() {
+        return this.player;
+    }
+    public HUD getMainHUD() {
+        return this.mainHUD;
+    }
+    public void hideHUD() {
+        this.mainHUD.hideHUD();
+    }
+    public static void main(String[] args) {
+        launch(args);
+    }
+//     @Override
+//     public void start(Stage primaryStage) throws IOException {
+//         primaryStage.setTitle("Simple RPG");
+//         theScene.setOnKeyPressed(this.keyHandler);
+//         theScene.setOnKeyReleased(this.keyHandler);
+//         primaryStage.setScene(theScene);
+//         root.getChildren().add(this.canvasBackground);
+//         root.getChildren().add(this.canvasMiddle);
+//         root.getChildren().add(this.canvasBattle);
+//         root.getChildren().add(mainHUD.getHUD());
+// //        this.setWorld(world);
+//         this.setWorld(new BattleMap(this, (new File("./assets/test/battle_map.png")).getAbsolutePath(),
+//                 new Enemy((World) world, this, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
+//                         (new File("./assets/test/enemy")).getAbsolutePath(),
+//                         1, 100, 100, 10, 10)));
+//         gameLoopManager.start();
+//         primaryStage.show();
+//     }
     @Override
     public void start(Stage primaryStage) throws IOException{
         //Start screen elements
