@@ -6,12 +6,13 @@ import entity.Player;
 import entity.Weapon;
 import handler.KeyHandler;
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import loop.GameLoopManager;
+import views.GameView;
+import views.StartScreenView;
 import world.BattleMap;
 import world.Map;
 import world.World;
@@ -20,6 +21,13 @@ import java.io.File;
 import java.io.IOException;
 
 public class SimpleRPG extends Application {
+
+    //Variables for starting screen
+    private static final int HEIGHT = 720;
+    private static final int WIDTH = 1280;
+    public Stage mainStage;
+    public GameView gameView;
+    public StartScreenView startScreenView;
 
     public static final int SCREEN_WIDTH = 1280;
     public static final int SCREEN_HEIGHT = 720;
@@ -36,8 +44,13 @@ public class SimpleRPG extends Application {
             new Weapon(10, 0, "example_armor.png"),
             new Armor(0, 20, "example_armor.png"));
     public KeyHandler keyHandler = new KeyHandler(this);
-    public Group root = new Group();
-    public Scene theScene = new Scene(root);
+
+    public AnchorPane mainPane = new AnchorPane();
+    public Scene theScene = new Scene(mainPane, WIDTH, HEIGHT);
+
+    
+//     public Group root = new Group();
+//     public Scene theScene = new Scene(root);
     public HUD mainHUD = new HUD(this, player);
     public GameLoopManager gameLoopManager = new GameLoopManager(this);
     public Map getWorld() {
@@ -58,22 +71,37 @@ public class SimpleRPG extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+//     @Override
+//     public void start(Stage primaryStage) throws IOException {
+//         primaryStage.setTitle("Simple RPG");
+//         theScene.setOnKeyPressed(this.keyHandler);
+//         theScene.setOnKeyReleased(this.keyHandler);
+//         primaryStage.setScene(theScene);
+//         root.getChildren().add(this.canvasBackground);
+//         root.getChildren().add(this.canvasMiddle);
+//         root.getChildren().add(this.canvasBattle);
+//         root.getChildren().add(mainHUD.getHUD());
+// //        this.setWorld(world);
+//         this.setWorld(new BattleMap(this, (new File("./assets/test/battle_map.png")).getAbsolutePath(),
+//                 new Enemy((World) world, this, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
+//                         (new File("./assets/test/enemy")).getAbsolutePath(),
+//                         1, 100, 100, 10, 10)));
+//         gameLoopManager.start();
+//         primaryStage.show();
+//     }
     @Override
-    public void start(Stage primaryStage) throws IOException {
-        primaryStage.setTitle("Simple RPG");
-        theScene.setOnKeyPressed(this.keyHandler);
-        theScene.setOnKeyReleased(this.keyHandler);
-        primaryStage.setScene(theScene);
-        root.getChildren().add(this.canvasBackground);
-        root.getChildren().add(this.canvasMiddle);
-        root.getChildren().add(this.canvasBattle);
-        root.getChildren().add(mainHUD.getHUD());
-//        this.setWorld(world);
-        this.setWorld(new BattleMap(this, (new File("./assets/test/battle_map.png")).getAbsolutePath(),
-                new Enemy((World) world, this, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
-                        (new File("./assets/test/enemy")).getAbsolutePath(),
-                        1, 100, 100, 10, 10)));
-        gameLoopManager.start();
-        primaryStage.show();
+    public void start(Stage primaryStage) throws IOException{
+        //Start screen elements
+//        menuButtons = new ArrayList<>();
+        mainStage = primaryStage;
+        mainStage.setTitle("Simple RPG");
+        mainStage.setScene(theScene);
+        startScreenView = new StartScreenView(this);
+
+//        createLogo();
+//        CreateButtons();
+//        createSubScenes();
+//        createBackground();
+        mainStage.show();
     }
 }

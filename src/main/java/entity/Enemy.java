@@ -1,6 +1,7 @@
 package entity;
 
 import main.SimpleRPG;
+import views.GameView;
 import world.BattleMap;
 import world.World;
 

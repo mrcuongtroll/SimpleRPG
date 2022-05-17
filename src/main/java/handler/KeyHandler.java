@@ -2,14 +2,10 @@ package handler;
 
 import entity.Character;
 import entity.Player;
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import main.SimpleRPG;
 import world.BattleMap;
@@ -19,8 +15,8 @@ public class KeyHandler implements EventHandler<KeyEvent> {
 
     public SimpleRPG gameInstance;
 
-    public KeyHandler(SimpleRPG gameInstance) {
-        this.gameInstance = gameInstance;
+    public KeyHandler(SimpleRPG simpleRPG) {
+        this.gameInstance = simpleRPG;
     }
     @Override
     public void handle(KeyEvent event) {
