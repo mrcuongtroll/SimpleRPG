@@ -25,16 +25,16 @@ public class Player extends Character {
         this.isSprinting = true;
         this.setDx(this.getDx() / this.getMovementSpeed() * Player.SPRINT_SPEED);
         this.setDy(this.getDy() / this.getMovementSpeed() * Player.SPRINT_SPEED);
-        this.getMaster().getWorld().setDy(-this.getDy());
-        this.getMaster().getWorld().setDx(-this.getDx());
+        ((World) this.getMaster().getWorld()).setDy(-this.getDy());
+        ((World) this.getMaster().getWorld()).setDx(-this.getDx());
         this.setMovementSpeed(Player.SPRINT_SPEED);
     }
     public void unSprint() {
         this.isSprinting = false;
         this.setDx(this.getDx() * Player.MOVEMENT_SPEED / this.getMovementSpeed());
         this.setDy(this.getDy() * Player.MOVEMENT_SPEED / this.getMovementSpeed());
-        this.getMaster().getWorld().setDy(-this.getDy());
-        this.getMaster().getWorld().setDx(-this.getDx());
+        ((World) this.getMaster().getWorld()).setDy(-this.getDy());
+        ((World) this.getMaster().getWorld()).setDx(-this.getDx());
         this.setMovementSpeed(Player.MOVEMENT_SPEED);
     }
     public boolean isSprintable() {
@@ -74,7 +74,7 @@ public class Player extends Character {
         int xPos = Player.X;
         int yPos = Player.Y;
         // Now check if the map scrolls or not
-        World world = this.getMaster().getWorld();
+        World world = ((World) this.getMaster().getWorld());
         // Check x-axis:
         if (this.getRelativeX() <= SimpleRPG.SCREEN_WIDTH) {
             xPos = (int) this.getRelativeX();
@@ -136,13 +136,13 @@ public class Player extends Character {
     @Override
     public void move(String direction) {
         super.move(direction);
-        this.getMaster().getWorld().setDx(-this.getDx());
-        this.getMaster().getWorld().setDy(-this.getDy());
+        ((World) this.getMaster().getWorld()).setDx(-this.getDx());
+        ((World) this.getMaster().getWorld()).setDy(-this.getDy());
     }
     @Override
     public void stopMoving(String direction) {
         super.stopMoving(direction);
-        this.getMaster().getWorld().setDx(-this.getDx());
-        this.getMaster().getWorld().setDy(-this.getDy());
+        ((World) this.getMaster().getWorld()).setDx(-this.getDx());
+        ((World) this.getMaster().getWorld()).setDy(-this.getDy());
     }
 }

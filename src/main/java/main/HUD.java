@@ -1,6 +1,7 @@
 package main;
 
 import entity.Player;
+import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -17,6 +18,7 @@ public class HUD {
     private Text healthPoint;
     private Text manaPoint;
     private Rectangle container;
+    private Group groupContainer;
     private SimpleRPG master;
 
     private Player player;
@@ -35,23 +37,24 @@ public class HUD {
         this.manaPoint = new Text(100, 125, "");
 
         this.container = new Rectangle(25, 37.5, 350, 150);
+        this.groupContainer = new Group();
 
         this.player = player;
     }
 
     public void start() {
-        this.master.root.getChildren().add(this.container);
+        this.groupContainer.getChildren().add(this.container);
 
-        this.master.root.getChildren().add(this.healthBarContainer);
-        this.master.root.getChildren().add(this.manaBarContainer);
-        this.master.root.getChildren().add(this.staminaBarContainer);
+        this.groupContainer.getChildren().add(this.healthBarContainer);
+        this.groupContainer.getChildren().add(this.manaBarContainer);
+        this.groupContainer.getChildren().add(this.staminaBarContainer);
 
-        this.master.root.getChildren().add(this.healthBar);
-        this.master.root.getChildren().add(this.manaBar);
-        this.master.root.getChildren().add(this.staminaBar);
+        this.groupContainer.getChildren().add(this.healthBar);
+        this.groupContainer.getChildren().add(this.manaBar);
+        this.groupContainer.getChildren().add(this.staminaBar);
 
-        this.master.root.getChildren().add(this.healthPoint);
-        this.master.root.getChildren().add(this.manaPoint);
+        this.groupContainer.getChildren().add(this.healthPoint);
+        this.groupContainer.getChildren().add(this.manaPoint);
 
         this.healthBarContainer.setFill(Color.DIMGRAY);
         this.manaBarContainer.setFill(Color.DIMGRAY);
@@ -77,5 +80,14 @@ public class HUD {
         this.healthBar.setFill(Color.CRIMSON);
         this.manaBar.setFill(Color.CORNFLOWERBLUE);
         this.staminaBar.setFill(Color.LIGHTGREEN);
+    }
+
+    public Group getHUD() {
+        this.start();
+        return this.groupContainer;
+    }
+
+    public void hideHUD() {
+        this.groupContainer.setVisible(false);
     }
 }

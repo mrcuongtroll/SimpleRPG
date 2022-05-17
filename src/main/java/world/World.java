@@ -3,8 +3,6 @@ package world;
 import entity.Enemy;
 import entity.NPC;
 import entity.Player;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import main.SimpleRPG;
 
@@ -14,25 +12,20 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class World {
+public class World extends Map {
     public static final String DOWN = "DOWN";
     public static final String UP = "UP";
     public static final String LEFT = "LEFT";
     public static final String RIGHT = "RIGHT";
     private double dy = 0;
     private double dx = 0;
-    private SimpleRPG master;
     private double x = 0;
     private double y = 0;
-    private GraphicsContext gc;
-    private Image bg;
     private BufferedImage mask;
     private int[][] maskArray;
     private ArrayList<Tile> tileList = new ArrayList<Tile>();
     public ArrayList<NPC> npcList = new ArrayList<>();
-    public Image getBg() {
-        return this.bg;
-    }
+
     public double getX(){
         return this.x;
     }
@@ -67,17 +60,12 @@ public class World {
             npc.setDx(dx);
         }
     }
-    public SimpleRPG getMaster() {
-        return this.master;
-    }
     public ArrayList<Tile> getTileList() {
         return this.tileList;
     }
 
     public World(SimpleRPG master, String bgImagePath, String maskPath) {
-        this.master = master;
-        this.gc = this.master.canvasBackground.getGraphicsContext2D();
-        this.bg = new Image(bgImagePath);
+        super(master, bgImagePath);
         this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
                 1, 100, 100, 10, 10));
@@ -95,9 +83,9 @@ public class World {
             e.printStackTrace();
         }
         // Convert mask from image to 2D array of 0's and 1's
-        this.maskArray = new int[(int) this.bg.getWidth()][(int) this.bg.getHeight()];
-        for (int i = 0; i < (int) this.bg.getWidth(); i++) {
-            for (int j = 0; j < (int) this.bg.getHeight(); j++)
+        this.maskArray = new int[(int) this.getBg().getWidth()][(int) this.getBg().getHeight()];
+        for (int i = 0; i < (int) this.getBg().getWidth(); i++) {
+            for (int j = 0; j < (int) this.getBg().getHeight(); j++)
                 if (mask.getRGB(i, j) == -16777216) {
                     this.maskArray[i][j] = 0;
                 } else if (mask.getRGB(i, j) == -1) {
@@ -106,9 +94,9 @@ public class World {
         }
         // Convert 2D array of 0's and 1's to List of tiles
         // For each column
-        for (int i = 0; i < this.bg.getWidth(); i += Tile.TILE_SIZE) {
+        for (int i = 0; i < this.getBg().getWidth(); i += Tile.TILE_SIZE) {
             // For each row
-            for (int j = 0; j < this.bg.getHeight(); j += Tile.TILE_SIZE) {
+            for (int j = 0; j < this.getBg().getHeight(); j += Tile.TILE_SIZE) {
                 // Solid if the number of 0's is greater than the number of 1's and vice versa
                 int solidCount = 0;
                 for (int k = i; k < i + Tile.TILE_SIZE; k++) {
@@ -129,12 +117,14 @@ public class World {
         }
     }
 
+    @Override
     public void render() {
         this.tick();
-        this.gc.setFill(Color.BLACK);
-        this.gc.fillRect(0, 0, this.master.canvasBackground.getWidth(), this.master.canvasBackground.getHeight());
-        this.gc.drawImage(this.bg, this.x, this.y);
+        this.getGraphicsContext().setFill(Color.BLACK);
+        this.getGraphicsContext().fillRect(0, 0, this.getMaster().canvasBackground.getWidth(), this.getMaster().canvasBackground.getHeight());
+        this.getGraphicsContext().drawImage(this.getBg(), this.x, this.y);
     }
+    @Override
     protected void tick() {
         boolean canMoveH = true;
         boolean canMoveV = true;
@@ -152,13 +142,13 @@ public class World {
         // Check when not to scroll the map
         // Idea: The map will not scroll if the player is near the side of the map
         // Check the x-axis:
-        if (player.getRelativeX() >= SimpleRPG.SCREEN_WIDTH || player.getRelativeX() <= this.bg.getWidth() - SimpleRPG.SCREEN_WIDTH) {
+        if (player.getRelativeX() >= SimpleRPG.SCREEN_WIDTH || player.getRelativeX() <= this.getBg().getWidth() - SimpleRPG.SCREEN_WIDTH) {
             if (canMoveH) {
                 this.x += this.dx;
             }
         }
         // Check the y-axis
-        if (player.getRelativeY() >= SimpleRPG.SCREEN_HEIGHT || player.getRelativeY() <= this.bg.getHeight() - SimpleRPG.SCREEN_HEIGHT) {
+        if (player.getRelativeY() >= SimpleRPG.SCREEN_HEIGHT || player.getRelativeY() <= this.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT) {
             if (canMoveV) {
                 this.y += this.dy;
             }
