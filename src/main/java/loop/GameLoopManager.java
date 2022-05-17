@@ -23,8 +23,7 @@ public class GameLoopManager extends AnimationTimer {
     public void handle(long currentTime) {
         this.currentWorld.render();
         this.lastUpdateTime = currentTime;
-        this.master.canvasMiddle.getGraphicsContext2D().clearRect(0, 0,
-                master.canvasMiddle.getWidth(), master.canvasMiddle.getHeight());
+        this.master.canvasMiddle.getGraphicsContext2D().clearRect(0, 0, 1280, master.canvasMiddle.getHeight());
         this.currentWorld.renderNPC();
         this.player.render();
     }

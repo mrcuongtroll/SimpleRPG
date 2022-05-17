@@ -1,9 +1,7 @@
 package world;
 
 import entity.Enemy;
-import entity.NPC;
 import entity.Player;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -17,10 +15,11 @@ public class World {
     public static final String LEFT = "LEFT";
     public static final String RIGHT = "RIGHT";
 
+    private SimpleRPG master;
+
     private boolean isPlayerSprinting = false;
     private int dy = 0;
     private int dx = 0;
-    private SimpleRPG master;
     private int x;
     private int y;
     private GraphicsContext gc;
@@ -46,7 +45,7 @@ public class World {
 
     public World(SimpleRPG master, String bgImagePath) {
         this.master = master;
-        this.gc = this.master.canvasBackground.getGraphicsContext2D();
+        this.gc = master.canvasBackground.getGraphicsContext2D();
         this.bg = new Image(bgImagePath);
         this.testNPC = new Enemy(this, master, 1280/5-16, 720/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
@@ -96,8 +95,11 @@ public class World {
     public void setDy(int dy) {
         this.dy = dy;
     }
-
     public void setDx(int dx) {
         this.dx = dx;
+    }
+
+    public World getWorld(){
+        return this;
     }
 }

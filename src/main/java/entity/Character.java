@@ -1,6 +1,5 @@
 package entity;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import main.SimpleRPG;
@@ -47,10 +46,10 @@ public abstract class Character {
         return this.dy;
     }
     public double getRelativeX() {
-        return this.x - this.master.getWorld().getX();
+        return this.x - this.master.testWorld.getX();
     }
     public double getRelativeY() {
-        return this.y - this.master.getWorld().getY();
+        return this.y - this.master.testWorld.getY();
     }
     public double getLastX() {
         return this.lastRelativeX;

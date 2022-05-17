@@ -45,12 +45,12 @@ public class HUD {
         this.manaPoint.setText("" + manaPoint + " / 100");
     }
     public void render() {
-        this.master.root.getChildren().add(this.container);
-        this.master.root.getChildren().add(this.healthBarContainer);
-        this.master.root.getChildren().add(this.manaBarContainer);
-        this.master.root.getChildren().add(this.healthBar);
-        this.master.root.getChildren().add(this.manaBar);
-        this.master.root.getChildren().add(this.healthPoint);
-        this.master.root.getChildren().add(this.manaPoint);
+        this.master.mainPane.getChildren().add(this.container);
+        this.master.mainPane.getChildren().add(this.healthBarContainer);
+        this.master.mainPane.getChildren().add(this.manaBarContainer);
+        this.master.mainPane.getChildren().add(this.healthBar);
+        this.master.mainPane.getChildren().add(this.manaBar);
+        this.master.mainPane.getChildren().add(this.healthPoint);
+        this.master.mainPane.getChildren().add(this.manaPoint);
     }
 }
