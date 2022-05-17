@@ -1,7 +1,10 @@
 package entity;
 
 import main.SimpleRPG;
+import world.BattleMap;
 import world.World;
+
+import java.io.File;
 
 public class Enemy extends NPC{
     public static final double MOVEMENT_SPEED = 0.5;
@@ -86,5 +89,6 @@ public class Enemy extends NPC{
     @Override
     public void triggerScene() {
         //trigger combat
+        System.out.println("Encountered");
     }
 }

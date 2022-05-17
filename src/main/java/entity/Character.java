@@ -13,6 +13,7 @@ public abstract class Character {
     public static final String UP_IMAGE_PATH = "/move_up/";
     public static final String LEFT_IMAGE_PATH = "/move_left/";
     public static final String RIGHT_IMAGE_PATH = "/move_right/";
+    public static final String BATTLE_IMAGE_PATH = "/battle/";
     public static final int NUM_IMAGE_FRAME = 4;
     public static final String DOWN = "DOWN";
     public static final String UP = "UP";
@@ -58,10 +59,10 @@ public abstract class Character {
         return this.dy;
     }
     public double getRelativeX() {
-        return this.x - this.master.getWorld().getX();
+        return this.x - ((World) this.master.getWorld()).getX();
     }
     public double getRelativeY() {
-        return this.y - this.master.getWorld().getY();
+        return this.y - ((World) this.master.getWorld()).getY();
     }
     public double getMovementSpeed() {
         return this.movementSpeed;
@@ -152,7 +153,7 @@ public abstract class Character {
     protected void tick() {
         boolean canMoveH = true;
         boolean canMoveV = true;
-        World world = this.master.getWorld();
+        World world = (World) this.master.getWorld();
         for (Tile tile: world.getTileList()) {
             if (tile.isSolid()) {
                 if (tile.getRect().intersects(this.x+dx, this.y, this.rect.getWidth(), this.rect.getHeight())) {
