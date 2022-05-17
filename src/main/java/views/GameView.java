@@ -1,8 +1,13 @@
 package views;
 
+import entity.Enemy;
 import javafx.scene.control.Button;
 import main.SimpleRPG;
 import sceneElement.GameSubScene;
+import world.BattleMap;
+import world.World;
+
+import java.io.File;
 
 public class GameView extends View{
 
@@ -61,8 +66,15 @@ public class GameView extends View{
         simpleRPG.theScene.setOnKeyReleased(simpleRPG.keyHandler);
         simpleRPG.mainPane.getChildren().add(simpleRPG.canvasBackground);
         simpleRPG.mainPane.getChildren().add(simpleRPG.canvasMiddle);
+        simpleRPG.mainPane.getChildren().add(simpleRPG.canvasBattle);
+        simpleRPG.mainPane.getChildren().add(simpleRPG.mainHUD.getHUD());
 
-        simpleRPG.mainHUD.render();
+//        simpleRPG.setWorld(simpleRPG.world);
+//        simpleRPG.setWorld(new BattleMap(simpleRPG, (new File("./assets/test/battle_map.png")).getAbsolutePath(),
+//                 new Enemy((World) simpleRPG.getWorld(), simpleRPG, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
+//                         (new File("./assets/test/enemy")).getAbsolutePath(),
+//                         1, 100, 100, 10, 10)));
+
         createSubScenes(openSetting);
         CreateScreenElements();
         simpleRPG.gameLoopManager.start();

@@ -7,9 +7,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
+import java.io.File;
+
 public class GameSubScene extends SubScene {
 
-    private final static String BACKGROUND_IMAGE = "D:/Programming stuff/Intellij/Intro 2 SE project/SimpleRPG/assets/test/button/blue_button.png";
+    private final static String BACKGROUND_IMAGE = (new File("./assets/test/button/blue_button.png")).getAbsolutePath();
     public boolean isHidden;
     public AnchorPane pane;
 

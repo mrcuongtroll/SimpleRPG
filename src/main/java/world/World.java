@@ -1,6 +1,7 @@
 package world;
 
 import entity.Enemy;
+import entity.NPC;
 import entity.Player;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -30,10 +31,6 @@ public class World extends Map {
     private SimpleRPG master;
 
     private boolean isPlayerSprinting = false;
-    private int dy = 0;
-    private int dx = 0;
-    private int x;
-    private int y;
     private GraphicsContext gc;
     private Image bg;
     public double getX(){

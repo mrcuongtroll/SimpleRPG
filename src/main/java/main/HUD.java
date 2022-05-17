@@ -40,6 +40,7 @@ public class HUD {
         this.groupContainer = new Group();
 
         this.player = player;
+        this.start();
     }
 
     public void start() {
@@ -83,7 +84,6 @@ public class HUD {
     }
 
     public Group getHUD() {
-        this.start();
         return this.groupContainer;
     }
 

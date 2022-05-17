@@ -105,7 +105,7 @@ public class BattleMap extends Map {
         this.groupContainer.getChildren().add(this.playerFrame);
         this.groupContainer.getChildren().add(this.enemyFrame);
 
-        this.getMaster().root.getChildren().add(this.groupContainer);
+        this.getMaster().mainPane.getChildren().add(this.groupContainer);
     }
 
     @Override
