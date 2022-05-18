@@ -1,9 +1,11 @@
 package combat.action;
 
 import combat.CombatManager;
-import combat.TestChar;
 import combat.effect.Effect;
 import combat.effect.TestEffect;
+import combat.entity.Enemy;
+import combat.entity.Player;
+import combat.entity.TestChar;
 
 public class TestAction extends Action{
     public static final String name = "Lifesteal";
@@ -11,12 +13,16 @@ public class TestAction extends Action{
     public String getName(){
         return TestAction.name;
     }
+
+
+
     static Effect[] effectList = {
             new TestEffect(new String[]{"**This is the image path of the 1st effect of the action**",}),
             new TestEffect(new String[]{"**This is the image path of the 2nd effect of the action**",})
     };
 
-    public static void activate(TestChar char1, TestChar char2){
+    public static void activate(TestChar char1, TestChar[] chars2){
+        TestChar char2 = chars2[0];
         CombatManager.showActionText(char1, TestAction.name); //maybe move this to the activate method of Action class
 
         CombatManager.showEffectTest(effectList[0],char2);
@@ -30,6 +36,10 @@ public class TestAction extends Action{
         CombatManager.showEffectText(char1.getName() +" heals for 5" );
         CombatManager.showCharacterState(char1);
         CombatManager.showCharacterState(char2);
+    }
+    @Override
+    public void randomActivate(TestChar currentTurnChar, Player[] players, Enemy[] enemies) {
+        activate(currentTurnChar, players);
     }
 }
 /* Basically, each "action" class must

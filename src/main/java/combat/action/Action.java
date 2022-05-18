@@ -1,7 +1,9 @@
 package combat.action;
 
 import combat.effect.Effect;
-import combat.TestChar;
+import combat.entity.Enemy;
+import combat.entity.Player;
+import combat.entity.TestChar;
 
 public abstract class Action {
     String name;
@@ -14,5 +16,13 @@ public abstract class Action {
     Note:
     In case there are other types of action (e.g heal self)
     => create child classes and let GUI handle it
+
+    Design idea:
+    self-action
+    1 target action
+    aoe action
+    the player method will take in the correct parameter
+    the enemy method takes in both Player array and Enemy array
     */
+    abstract public void randomActivate(TestChar currentTurnChar, Player[] players, Enemy[] enemies);
 }
