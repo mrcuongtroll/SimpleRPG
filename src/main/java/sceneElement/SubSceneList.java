@@ -39,7 +39,7 @@ public class SubSceneList {
     }
 
     private GameSubScene createCreditScene() {
-        openCredit = new GameSubScene(600, 300, 700, 180, "Horizontal", (new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath());
+        openCredit = new GameSubScene(600, 300, 340, 210, "Horizontal", (new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath());
         return openCredit;
     }
 
