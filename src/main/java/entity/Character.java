@@ -2,10 +2,11 @@ package entity;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import java.awt.Rectangle;
 import main.SimpleRPG;
 import world.Tile;
 import world.World;
+
+import java.awt.*;
 
 public abstract class Character {
     public static final String DEFAULT_IMAGE_PATH = "/default/";
@@ -102,6 +103,12 @@ public abstract class Character {
     }
     public int getManaPoint(){
         return this.manaPoint;
+    }
+    public void increaseHealthPoint(int amount){
+        healthPoint += amount;
+    }
+    public void increaseManaPoint(int amount){
+        manaPoint += amount;
     }
     public String getName() {
         return this.name;
@@ -235,4 +242,5 @@ public abstract class Character {
             default -> {}
         }
     }
+    
 }

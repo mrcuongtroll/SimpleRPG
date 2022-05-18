@@ -16,19 +16,21 @@ public abstract class View {
     List<GameButton> menuButtons = new ArrayList<>();
 
     protected AnchorPane mainPane;
-    protected GameSubScene currentShowingScene;
+    public static GameSubScene currentShowingScene;
+    public static View currentShowingView;
     protected View(SimpleRPG simpleRPG){
         mainPane = simpleRPG.mainPane;
+        currentShowingView = this;
     }
 
-    protected void createSubSceneButton(String Title, GameSubScene Scene, int x, int y){
-        GameButton newButton = new GameButton(Title);
+    protected void createSubSceneButton(String Title, GameSubScene Scene, int height, int width, int x, int y){
+        GameButton newButton = new GameButton(Title, height, width);
         AddMenuButtons(newButton, x, y);
         newButton.setOnAction(event -> showSubScene(Scene));
     }
 
-    protected GameButton createBlankButton(String Title, int x, int y){
-        GameButton newButton = new GameButton(Title);
+    protected GameButton createBlankButton(String Title, int height, int width, int x, int y){
+        GameButton newButton = new GameButton(Title, height, width);
         AddMenuButtons(newButton, x, y);
         return newButton;
     }
@@ -64,14 +66,14 @@ public abstract class View {
         mainPane.getChildren().add(button);
     }
 
-    protected void createSubScenes(GameSubScene... scenes) {
+    protected void addSubSceneToPane(GameSubScene... scenes) {
         for(GameSubScene scene: scenes){
 //            scene = new GameSubScene();
             mainPane.getChildren().add(scene);
         }
     }
 
-    protected void showSubScene(GameSubScene subScene) {
+    public void showSubScene(GameSubScene subScene) {
         //Cần ai đó làm đơn giản lại cái if else này
         if (currentShowingScene == null) {
             subScene.moveSubScene();
@@ -86,6 +88,13 @@ public abstract class View {
                 subScene.moveSubScene();
                 currentShowingScene = subScene;
             }
+        }
+    }
+
+    // Check if any scene is opened before starting a new view
+    public void cleanUpScene(){
+        if(!currentShowingScene.isHidden){
+            currentShowingScene.moveSubScene();
         }
     }
 
