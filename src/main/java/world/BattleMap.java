@@ -14,8 +14,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import main.SimpleRPG;
 
-import java.util.ArrayList;
-
 public class BattleMap extends Map {
 
     private Rectangle playerHealthBar;
@@ -76,6 +74,10 @@ public class BattleMap extends Map {
         this.enemyManaBarContainer = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/2 - 50, BAR_WIDTH, 30);
 
         this.playerFrame = new ImageView(this.player.getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png");
+
+        //Flip the sprite
+        this.playerFrame.setScaleX(-1);
+
         this.enemyFrame = new ImageView(this.enemy.getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png");
         this.playerFrame.setX(100);
         this.playerFrame.setY(SimpleRPG.SCREEN_HEIGHT/2);
