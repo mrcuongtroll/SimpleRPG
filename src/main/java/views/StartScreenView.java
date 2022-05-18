@@ -5,8 +5,7 @@ import sceneElement.GameButton;
 
 import java.io.File;
 
-import static sceneElement.SubSceneList.openCredit;
-import static sceneElement.SubSceneList.openSetting;
+import static sceneElement.SubSceneList.*;
 
 public class StartScreenView extends View{
 
@@ -26,6 +25,7 @@ public class StartScreenView extends View{
 
     private void CreateScreenElements(){
         addSubSceneToPane(openCredit, openSetting);
+
         GameButton startGameButton = createBlankButton("Start Game",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y);
         startGameButton.setOnAction(event -> new GameView(simpleRPG));
         GameButton startBattleButton = createBlankButton("Start Battle",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 100);

@@ -52,10 +52,13 @@ public class SubSceneList {
 
         for (int i = 0; i < 3; i ++){
             for (int j = 0; j < 3; j ++){
-                Image testImage = new Image(listOfFile[j + i*3].getAbsolutePath(), 50, 50, false, true);
+                int index = j + i*3;
+                Image testImage = new Image(listOfFile[index].getAbsolutePath(), 50, 50, false, true);
                 ImageView imageView = new ImageView(testImage);
+                imageView.setFocusTraversable(true);
                 imageView.setOnMouseEntered(event -> imageView.setEffect(new DropShadow()));
                 imageView.setOnMouseExited(event -> imageView.setEffect(null));
+                imageView.setOnMouseClicked(event -> System.out.println("Item " + index));
                 GridPane.setMargin(imageView, new Insets(10, 10, 10, 10));
                 itemGrid.add(imageView, i, j);
             }
@@ -99,7 +102,7 @@ public class SubSceneList {
         GameButton btnFight= new GameButton("Đấm nhau", 100, 50);
         GameButton btnSurrender = new GameButton("Why are you running?", 100, 50);
         GameButton btnDoNothing = new GameButton("Do nothing", 100, 50);
-        GameButton btnItems = new GameButton("Items", 100, 50);
+        GameButton btnItems = new GameButton("Inventory", 100, 50);
 
         btnSurrender.setOnAction(event -> {view.cleanUpScene();
             new GameView(simpleRPG);
@@ -120,11 +123,6 @@ public class SubSceneList {
             simpleRPG.player.increaseManaPoint(10);
         });
 
-//        openBattleOption.addButton(btnFight, 800, 35);
-//        openBattleOption.addButton(btnSurrender, 950, 35);
-//        openBattleOption.addButton(btnDoNothing, 800, 100);
-//        openBattleOption.addButton(btnItems, 950, 100);
-
         addButtonGrid(openBattleOption, 800, 25, 2, 2, 10, btnFight, btnSurrender, btnDoNothing, btnItems);
 
         return openBattleOption;
@@ -133,7 +131,6 @@ public class SubSceneList {
     private GameSubScene createSkillOptionScene(){
         GameSubScene openSkill = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
 
-//        openBattleOption.addText("Choose your action", 200, 50);
         GameButton btnSkill1= new GameButton("Skill 1", 100, 50);
         GameButton btnSkill2 = new GameButton("Skill 2", 100, 50);
         GameButton btnSkill3 = new GameButton("Skill 3", 100, 50);
@@ -161,14 +158,19 @@ public class SubSceneList {
                 } catch (Exception e) {
                     break;
                 }
-
             }
         }
-
         gameSubScene.addGrid(gridPane, x, y);
-
     }
 
+    public void activateScene(GameSubScene gameSubScene){
+        gameSubScene.setVisible(true);
+        gameSubScene.moveSubScene();
+    }
 
+    public void deactivateScene(GameSubScene gameSubScene){
+        gameSubScene.setVisible(true);
+        gameSubScene.moveSubScene();
+    }
 
 }
