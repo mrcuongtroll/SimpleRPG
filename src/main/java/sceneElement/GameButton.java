@@ -8,15 +8,13 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.io.File;
 
 public class GameButton extends Button {
 
-    private final String FONT_PATH = "/resources/ARCADE_N.ttf";
-    private final String BUTTON_PRESSED_STYLE = "-fx-background-image: url('/resources/blue_button.png');";
-    private final String BUTTON_FREE_STYLE = "-fx-background-image: url('/resources/red_button.png');";
     private int width;
     private int height;
 
@@ -33,32 +31,32 @@ public class GameButton extends Button {
         this.height = height;
 
         setText(text);
-//        setButtonFont();
+        setButtonFont(10);
         setPrefWidth(width);
         setPrefHeight(height);
-//        setStyle(BUTTON_FREE_STYLE);
-        setBackground((new File("./assets/test/button/blue_button.png").getAbsolutePath()));
+        setStyle("-fx-wrap-text: true; -fx-text-alignment: CENTER; -fx-alignment: CENTER;");
+        setBackground((new File("./assets/test/button/smallFree.png").getAbsolutePath()));
         initializeButtonListeners();
-//        setFocusTraversable(false);
+
+        //Comment this to navigate buttons with arrow keys
+        setFocusTraversable(false);
 
     }
 
-    private void setButtonFont() {
+    private void setButtonFont(int size) {
 
-        setFont(Font.loadFont(getClass().getResourceAsStream(FONT_PATH), 23));
-
+        setFont(Font.loadFont("file:src/main/resources/arcade.ttf", size));
+        setTextFill(Color.BROWN);
     }
 
     private void setButtonPressedStyle() {
-//        setStyle(BUTTON_PRESSED_STYLE);
-        setBackground((new File("./assets/test/button/red_button.png").getAbsolutePath()));
+        setBackground((new File("./assets/test/button/smallPressed.png").getAbsolutePath()));
         setPrefHeight(height);
         setLayoutY(getLayoutY() + 4);
     }
 
     private void setButtonReleasedStyle() {
-//        setStyle(BUTTON_FREE_STYLE);
-        setBackground((new File("./assets/test/button/blue_button.png").getAbsolutePath()));
+        setBackground((new File("./assets/test/button/smallFree.png").getAbsolutePath()));
         setPrefHeight(height);
         setLayoutY(getLayoutY() - 4);
     }

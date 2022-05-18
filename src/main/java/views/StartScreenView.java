@@ -14,7 +14,7 @@ public class StartScreenView extends View{
     private final static int MENU_BUTTON_START_HEIGHT = 60;
     private final static int MENU_BUTTON_START_WIDTH = 150;
 
-    private SimpleRPG simpleRPG;
+    private final SimpleRPG simpleRPG;
 
     public StartScreenView(SimpleRPG simpleRPG){
         super(simpleRPG);
@@ -24,12 +24,22 @@ public class StartScreenView extends View{
     }
 
     private void CreateScreenElements(){
+
+//        createLogo((new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath(),700, 300, 400, 250 );
+//        createText("Simple\nRPG", WHITE, 90, 700, 300, 400, 250);
+
         addSubSceneToPane(openCredit, openSetting);
 
         GameButton startGameButton = createBlankButton("Start Game",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y);
-        startGameButton.setOnAction(event -> new GameView(simpleRPG));
+        startGameButton.setOnAction(event -> {
+            cleanUpScene();
+            new GameView(simpleRPG);
+        });
         GameButton startBattleButton = createBlankButton("Start Battle",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 100);
-        startBattleButton.setOnAction(event -> new BattleView(simpleRPG));
+        startBattleButton.setOnAction(event -> {
+            view.cleanUpScene();
+            new BattleView(simpleRPG);
+        });
         createSubSceneButton("Setting", openSetting,MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 200);
         createSubSceneButton("Credit", openCredit,MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 300);
         GameButton exitButton = createBlankButton("Exit",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 400);

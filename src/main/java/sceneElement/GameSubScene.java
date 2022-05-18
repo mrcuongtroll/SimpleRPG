@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import static main.SimpleRPG.SCREEN_HEIGHT;
@@ -13,7 +15,6 @@ import static main.SimpleRPG.SCREEN_WIDTH;
 public class GameSubScene extends AnchorPane {
 
     public boolean isHidden;
-    private AnchorPane pane;
     private int width;
     private int height;
     private int x;
@@ -35,9 +36,8 @@ public class GameSubScene extends AnchorPane {
         BackgroundImage image = new BackgroundImage(new Image(background, width, height, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
-        pane = this;
-        pane.setVisible(false);
-        pane.setBackground(new Background(image));
+        setVisible(false);
+        setBackground(new Background(image));
         isHidden = true ;
 
         switch (transitionStyle) {
@@ -59,20 +59,25 @@ public class GameSubScene extends AnchorPane {
     public void addButton(Button button, int x, int y){
         button.setLayoutX(x);
         button.setLayoutY(y);
-        pane.getChildren().add(button);
+        getChildren().add(button);
     }
 
     public void addGrid(GridPane grid, int x, int y){
         grid.setLayoutX(x);
         grid.setLayoutY(y);
-        pane.getChildren().add(grid);
+        getChildren().add(grid);
     }
 
-    public void addText(String text, int x, int y){
+    protected void addText(String text, Color color, int size, int width, int height, int x, int y){
         Label label = new Label(text);
+        label.setFont(Font.loadFont("file:src/main/resources/arcade.ttf", size));
+        label.setPrefHeight(height);
+        label.setPrefWidth(width);
+        label.setTextFill(color);
+        label.setStyle("-fx-text-alignment: CENTER; -fx-alignment: CENTER");
         label.setLayoutX(x);
         label.setLayoutY(y);
-        pane.getChildren().add(label);
+        getChildren().add(label);
     }
 
 

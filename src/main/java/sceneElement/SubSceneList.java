@@ -13,6 +13,8 @@ import views.View;
 
 import java.io.File;
 
+import static javafx.scene.paint.Color.BROWN;
+import static main.SimpleRPG.SCREEN_WIDTH;
 import static views.View.currentShowingView;
 
 public class SubSceneList {
@@ -45,6 +47,8 @@ public class SubSceneList {
 
     private GameSubScene createInventoryScene() {
         GameSubScene openInventory = new GameSubScene(400, 400, 440, 160, "Horizontal", (new File("./assets/test/menuBackground/square.png")).getAbsolutePath());
+        openInventory.addText("Inventory", BROWN, 15, 200, 50, 100, 30);
+
         GridPane itemGrid = new GridPane();
 
         File dir = new File("./assets/test/item");
@@ -53,7 +57,7 @@ public class SubSceneList {
         for (int i = 0; i < 3; i ++){
             for (int j = 0; j < 3; j ++){
                 int index = j + i*3;
-                Image testImage = new Image(listOfFile[index].getAbsolutePath(), 50, 50, false, true);
+                Image testImage = new Image(listOfFile != null ? listOfFile[index].getAbsolutePath() : null, 50, 50, false, true);
                 ImageView imageView = new ImageView(testImage);
                 imageView.setFocusTraversable(true);
                 imageView.setOnMouseEntered(event -> imageView.setEffect(new DropShadow()));
@@ -65,14 +69,14 @@ public class SubSceneList {
         }
 
         GameButton btnBack = new GameButton("Go back", 100, 50);
-        openInventory.addButton(btnBack, 250, 300);
+        openInventory.addButton(btnBack, 260, 180);
 
         btnBack.setOnAction(event -> {
             view.cleanUpScene();
             currentShowingView.showSubScene(openBattleOption);
         });
 
-        openInventory.addGrid(itemGrid, 30, 30);
+        openInventory.addGrid(itemGrid, 30, 90);
         return openInventory;
     }
 
@@ -81,7 +85,7 @@ public class SubSceneList {
 
         GameSubScene openSetting = new GameSubScene(600, 300, 340, 210, "Horizontal", (new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath());
 
-        openSetting.addText("Paused", 280, 50);
+        openSetting.addText("Paused", BROWN, 15, 200, 50, 200, 30);
         GameButton btnGoHome = new GameButton("Back to menu", 100, 50);
         GameButton btnTest1 = new GameButton("Button 2", 100, 50);
         GameButton btnTest2 = new GameButton("Button 3", 100, 50);
@@ -99,7 +103,7 @@ public class SubSceneList {
         GameSubScene openBattleOption = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
 
 //        openBattleOption.addText("Choose your action", 200, 50);
-        GameButton btnFight= new GameButton("Đấm nhau", 100, 50);
+        GameButton btnFight= new GameButton("Lets fuck", 100, 50);
         GameButton btnSurrender = new GameButton("Why are you running?", 100, 50);
         GameButton btnDoNothing = new GameButton("Do nothing", 100, 50);
         GameButton btnItems = new GameButton("Inventory", 100, 50);
@@ -129,7 +133,7 @@ public class SubSceneList {
     }
 
     private GameSubScene createSkillOptionScene(){
-        GameSubScene openSkill = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
+        GameSubScene openSkill = new GameSubScene(400, 200, (SCREEN_WIDTH - 400)/2, 470, "Vertical", (new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath());
 
         GameButton btnSkill1= new GameButton("Skill 1", 100, 50);
         GameButton btnSkill2 = new GameButton("Skill 2", 100, 50);
@@ -142,7 +146,7 @@ public class SubSceneList {
             currentShowingView.showSubScene(openBattleOption);
         });
 
-        addButtonGrid(openSkill, 700, 25, 2, 3, 10, btnSkill1, btnSkill2, btnSkill3, btnSkill4, btnBack);
+        addButtonGrid(openSkill, 20, 30, 2, 3, 10, btnSkill1, btnSkill2, btnSkill3, btnSkill4, btnBack);
         return openSkill;
     }
 
@@ -163,14 +167,5 @@ public class SubSceneList {
         gameSubScene.addGrid(gridPane, x, y);
     }
 
-    public void activateScene(GameSubScene gameSubScene){
-        gameSubScene.setVisible(true);
-        gameSubScene.moveSubScene();
-    }
-
-    public void deactivateScene(GameSubScene gameSubScene){
-        gameSubScene.setVisible(true);
-        gameSubScene.moveSubScene();
-    }
 
 }

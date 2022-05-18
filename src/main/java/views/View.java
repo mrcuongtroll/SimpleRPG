@@ -1,9 +1,12 @@
 package views;
 
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import main.SimpleRPG;
 import sceneElement.GameButton;
 import sceneElement.GameSubScene;
@@ -26,7 +29,9 @@ public abstract class View {
     protected void createSubSceneButton(String Title, GameSubScene Scene, int height, int width, int x, int y){
         GameButton newButton = new GameButton(Title, height, width);
         AddMenuButtons(newButton, x, y);
-        newButton.setOnAction(event -> showSubScene(Scene));
+        newButton.setOnAction(event -> {
+            showSubScene(Scene);
+        });
     }
 
     protected GameButton createBlankButton(String Title, int height, int width, int x, int y){
@@ -35,16 +40,28 @@ public abstract class View {
         return newButton;
     }
 
-    protected void createLogo(String path, int Height, int Width, int x, int y) {
+    protected void createLogo(String path, int width, int height, int x, int y) {
         ImageView logo = new ImageView(path);
-        logo.setFitHeight(Height);
-        logo.setFitWidth(Width);
+        logo.setFitHeight(height);
+        logo.setFitWidth(width);
         logo.setLayoutX(x);
         logo.setLayoutY(y);
         logo.setOnMouseEntered(event -> logo.setEffect(new DropShadow()));
         logo.setOnMouseExited(event -> logo.setEffect(null));
         mainPane.getChildren().add(logo);
 
+    }
+
+    protected void createText(String text, Color color, int size, int width, int height, int x, int y){
+        Label label = new Label(text);
+        label.setFont(Font.loadFont("file:src/main/resources/arcade.ttf", size));
+        label.setPrefHeight(height);
+        label.setPrefWidth(width);
+        label.setTextFill(color);
+        label.setStyle("-fx-text-alignment: CENTER; -fx-alignment: CENTER");
+        label.setLayoutX(x);
+        label.setLayoutY(y);
+        mainPane.getChildren().add(label);
     }
 
     protected void createBackground(String path, Boolean repeat) {
@@ -93,7 +110,7 @@ public abstract class View {
 
     // Check if any scene is opened before starting a new view
     public void cleanUpScene(){
-        if(!currentShowingScene.isHidden){
+        if(currentShowingScene != null && !currentShowingScene.isHidden){
             currentShowingScene.moveSubScene();
         }
     }
