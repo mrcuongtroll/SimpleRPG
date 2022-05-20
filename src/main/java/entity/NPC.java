@@ -30,16 +30,16 @@ public abstract class NPC extends Character {
         this.mode = mode;
     }
     public NPC(World worldMaster, SimpleRPG master, int x, int y, String name, String imagePath,
-               int level, int healthPoint, int manaPoint, String mode) {
-        super(master, x, y, name, imagePath, 32, 80, level, healthPoint, manaPoint);
+               int level, int healthPoint, int manaPoint, boolean isSolid, String mode) {
+        super(master, x, y, name, imagePath, 32, 80, level, healthPoint, manaPoint, isSolid);
         this.worldMaster = worldMaster;
         this.mode = mode;
         this.frameCounter = new Random().nextInt(100);
         this.setMovementSpeed(NPC.MOVEMENT_SPEED);
     }
     public NPC(World worldMaster, SimpleRPG master, int x, int y, String name, String imagePath,
-               int level, int healthPoint, int manaPoint) {
-        this(worldMaster, master, x, y, name, imagePath, level, healthPoint, manaPoint, NPC.MODE_IDLE);
+               int level, int healthPoint, int manaPoint, boolean isSolid) {
+        this(worldMaster, master, x, y, name, imagePath, level, healthPoint, manaPoint, isSolid, NPC.MODE_IDLE);
     }
 
     @Override
@@ -73,11 +73,17 @@ public abstract class NPC extends Character {
             } else if (this.xDistanceFromPlayer >= 0) {
                 this.move(Character.LEFT);
             }
+            if (Math.abs(this.xDistanceFromPlayer) <= 5) {
+                this.setDx(0);
+            }
             // Chase in the y-axis
             if (this.yDistanceFromPlayer < 0) {
                 this.move(Character.DOWN);
             } else if (this.yDistanceFromPlayer >= 0) {
                 this.move(Character.UP);
+            }
+            if (Math.abs(this.yDistanceFromPlayer) <= 5) {
+                this.setDy(0);
             }
         }
         super.tick();

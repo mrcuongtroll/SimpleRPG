@@ -27,6 +27,8 @@ public abstract class Character {
     private double dx;
     private double dy;
     private Rectangle rect;
+    private boolean isSolid;
+    private Tile tile;
     private double movementSpeed;
     private int lastMove;
     private int level;
@@ -72,6 +74,7 @@ public abstract class Character {
     public Rectangle getRect() {
         return this.rect;
     }
+    public Tile getTile() {return this.tile;}
     public double getLastX() {
         return this.lastRelativeX;
     }
@@ -134,11 +137,10 @@ public abstract class Character {
     }
 
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
-                     int width, int height, int level, int healthPoint, int manaPoint) {
+                     int width, int height, int level, int healthPoint, int manaPoint, boolean isSolid) {
         this.master = master;
         this.x = x;
         this.y = y;
-        this.rect = new Rectangle(x, y, 2*Tile.TILE_SIZE, Tile.TILE_SIZE);
         this.dx = 0;
         this.dy = 0;
         this.lastRelativeX = x;
@@ -152,6 +154,16 @@ public abstract class Character {
         this.level = level;
         this.healthPoint = healthPoint;
         this.manaPoint = manaPoint;
+        this.isSolid = isSolid;
+        this.rect = new Rectangle((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), 2*Tile.TILE_SIZE, Tile.TILE_SIZE);
+        this.tile = new Tile(this.rect, isSolid);
+        if (this.getMaster().getWorld() instanceof World) {
+            ((World)master.getWorld()).getTileList().add(this.tile);
+        }
+    }
+    public Character(SimpleRPG master, int x, int y, String name, String imagePath,
+                     int width, int height, int level, int healthPoint, int manaPoint) {
+        this(master, x, y, name, imagePath, width, height, level, healthPoint, manaPoint, true);
     }
 
     public void render() {
@@ -163,12 +175,27 @@ public abstract class Character {
         boolean canMoveV = true;
         World world = (World) this.master.getWorld();
         for (Tile tile: world.getTileList()) {
-            if (tile.isSolid()) {
-                if (tile.getRect().intersects(this.x+dx, this.y, this.rect.getWidth(), this.rect.getHeight())) {
-                    canMoveH = false;
-                }
-                if (tile.getRect().intersects(this.x, this.y+dy, this.rect.getWidth(), this.rect.getHeight())) {
-                    canMoveV = false;
+            if (!(this.tile == tile)) {
+                if (this.tile.isSolid()) {
+                    if (tile.isSolid()) {
+                        if (tile.getRect().intersects(this.x + dx, y + this.image.getHeight() - Tile.TILE_SIZE, this.rect.getWidth(), this.rect.getHeight())) {
+                            canMoveH = false;
+                        }
+                        if (tile.getRect().intersects(this.x, y + this.image.getHeight() - Tile.TILE_SIZE + dy, this.rect.getWidth(), this.rect.getHeight())) {
+                            canMoveV = false;
+                        }
+                    }
+                } else {
+                    if (!(tile == this.getMaster().getPlayer().getTile())) {
+                        if (tile.isSolid()) {
+                            if (tile.getRect().intersects(this.x + dx, y + this.image.getHeight() - Tile.TILE_SIZE, this.rect.getWidth(), this.rect.getHeight())) {
+                                canMoveH = false;
+                            }
+                            if (tile.getRect().intersects(this.x, y + this.image.getHeight() - Tile.TILE_SIZE + dy, this.rect.getWidth(), this.rect.getHeight())) {
+                                canMoveV = false;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -178,8 +205,8 @@ public abstract class Character {
         if (canMoveV) {
             this.y += this.dy;
         }
-        this.rect.setBounds((int)this.x, (int)this.y, (int)this.rect.getWidth(), (int)this.rect.getHeight());
-
+        this.rect.setBounds((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), (int)this.rect.getWidth(), (int)this.rect.getHeight());
+        // TODO: Refine relative position for checking collision and stuff
         // Handle frame changing
         if (this.getDy() == 0) {
             if (this.getDx() > 0) {

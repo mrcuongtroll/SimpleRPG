@@ -44,12 +44,12 @@ public class Player extends Character {
     }
     public void sprintRender() {
         if (this.isSprinting && this.isSprintable()) {
-            this.setStamina(this.getStamina() - 2);
+            this.setStamina(this.getStamina() - 1);
         } else if (this.getStamina() < MAX_STAMINA) {
             if (this.getStamina() <= 2 && !this.isSprinting()) {
-                this.setStamina(this.getStamina() + 1);
+                this.setStamina(this.getStamina() + 2);
             } else if (this.getStamina() > 2) {
-                this.setStamina(this.getStamina() + 1);
+                this.setStamina(this.getStamina() + 2);
             }
         }
         if (this.getStamina() <= 0 && this.isSprinting()) {
