@@ -31,11 +31,11 @@ public class SimpleRPG extends Application {
     public Canvas canvasMiddle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
     public Canvas canvasBattle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    public Map world = new World(this, (new File("./assets/test/old map.png")).getAbsolutePath(),
+    private Map world = new World(this, (new File("./assets/test/old map.png")).getAbsolutePath(),
             (new File("./assets/test/old map_mask.png")).getAbsolutePath());
 
     //    public Map world = BattleMap(this, (new File("./assets/test/battle_map.png")).getAbsolutePath());
-    public Player player = new Player(this, Player.X, Player.Y, "Player",
+    private Player player = new Player(this, Player.X, Player.Y, "Player",
             (new File("./assets/test/player")).getAbsolutePath(), 1, 10, 10,
             new Weapon(10, 0, "example_armor.png"),
             new Armor(0, 20, "example_armor.png"));
