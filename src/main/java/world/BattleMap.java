@@ -1,5 +1,6 @@
 package world;
 
+import combat.CombatManager;
 import entity.Character;
 import entity.Enemy;
 import entity.Player;
@@ -108,6 +109,8 @@ public class BattleMap extends Map {
         this.groupContainer.getChildren().add(this.enemyFrame);
 
         this.getMaster().mainPane.getChildren().add(this.groupContainer);
+
+        CombatManager combatInstance = new CombatManager(new Player[]{this.player}, new Enemy[]{this.enemy});
     }
 
     @Override

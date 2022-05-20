@@ -10,7 +10,7 @@ public abstract class TestChar {
     /*actionList doesn't have any function for now
      it will indicate the skill available to the player and enemy
      (choose randomly for the enemy?)*/
-    private  Action[] actionList;
+    private Action[] actionList;
 
     private int speed;
     private int turnProgress = 0;

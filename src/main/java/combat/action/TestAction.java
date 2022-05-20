@@ -9,16 +9,12 @@ import combat.entity.TestChar;
 
 public class TestAction extends Action{
     public static final String name = "Lifesteal";
-
     public String getName(){
         return TestAction.name;
     }
-
-
-
     static Effect[] effectList = {
-            new TestEffect(new String[]{"**This is the image path of the 1st effect of the action**",}),
-            new TestEffect(new String[]{"**This is the image path of the 2nd effect of the action**",})
+            new TestEffect(new String[]{"**This is the image path of the 1st effect of the action**",}, "Effect 1"),
+            new TestEffect(new String[]{"**This is the image path of the 2nd effect of the action**",}, "Effect 2")
     };
 
     public static void activate(TestChar char1, TestChar[] chars2){

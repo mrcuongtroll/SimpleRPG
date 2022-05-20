@@ -58,8 +58,8 @@ public class Player extends Character {
         }
     }
 
-    public Player(SimpleRPG master, int x, int y, String name, String imagePath, int level, int healthPoint, int manaPoint, Weapon weapon, Armor armor) {
-        super(master, x, y, name, imagePath, 32, 80, level, healthPoint, manaPoint);
+    public Player(SimpleRPG master, int x, int y, String name, String imagePath, int level, int attackSpeed, int healthPoint, int manaPoint, Weapon weapon, Armor armor) {
+        super(master, x, y, name, imagePath, 32, 80, level, attackSpeed, healthPoint, manaPoint);
         this.weapon = weapon;
         this.armor = armor;
         this.lastMove = 0;

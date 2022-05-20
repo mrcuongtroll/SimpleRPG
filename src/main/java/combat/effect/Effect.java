@@ -1,12 +1,16 @@
 package combat.effect;
 
 public abstract class  Effect {
-     private final String[] effectImagePaths;
-
-     protected Effect(String[] effectImagePaths) {
-          this.effectImagePaths = effectImagePaths;
+     private String[] effectImagePath;
+     private String name;
+     protected Effect(String[] effectImagePath, String name) {
+          this.effectImagePath = effectImagePath;
+          this.name = name;
      }
-     public String[] getEffectImagePaths(){
-          return effectImagePaths;
+     public String[] getEffectImagePath(){
+          return effectImagePath;
+     }
+     public String getName() {
+          return this.name;
      }
 }

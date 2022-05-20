@@ -55,7 +55,7 @@ public class BattleView  extends View{
         BattleMap battleMap = new BattleMap(simpleRPG, (new File("./assets/test/battle_map.png")).getAbsolutePath(),
                 new Enemy((World) simpleRPG.getWorld(), simpleRPG, SCREEN_WIDTH/5-16, SCREEN_HEIGHT/2-40, "Enemy",
                         (new File("./assets/test/enemy")).getAbsolutePath(),
-                        1, 100, 100, 10, 10));
+                        1, 5, 100, 100, 10, 10));
 
         simpleRPG.setBattleMap(battleMap);
         simpleRPG.setWorld(battleMap);

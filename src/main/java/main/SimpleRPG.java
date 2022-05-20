@@ -36,7 +36,7 @@ public class SimpleRPG extends Application {
 
     //    public Map world = BattleMap(this, (new File("./assets/test/battle_map.png")).getAbsolutePath());
     public Player player = new Player(this, Player.X, Player.Y, "Player",
-            (new File("./assets/test/player")).getAbsolutePath(), 1, 10, 10,
+            (new File("./assets/test/player")).getAbsolutePath(), 1, 10, 10, 10,
             new Weapon(10, 0, "example_armor.png"),
             new Armor(0, 20, "example_armor.png"));
     public KeyHandler keyHandler = new KeyHandler(this);

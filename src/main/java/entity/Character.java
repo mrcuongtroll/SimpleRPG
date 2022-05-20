@@ -1,5 +1,6 @@
 package entity;
 
+import combat.action.Action;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import main.SimpleRPG;
@@ -29,6 +30,9 @@ public abstract class Character {
     private Rectangle rect;
     private double movementSpeed;
     private int level;
+    private int attackSpeed;
+    private Action[] combatActionList;
+    private int turnProgress = 0;
     private int manaPoint;
     private int healthPoint;
     private String imagePath;
@@ -104,6 +108,24 @@ public abstract class Character {
     public int getManaPoint(){
         return this.manaPoint;
     }
+    public int getAttackSpeed(){
+        return this.attackSpeed;
+    }
+    public void advanceTurn(){
+        this.turnProgress += this.attackSpeed;
+    }
+    public int getTurnProgress() {
+        return turnProgress;
+    }
+    public void setTurnProgress(int turnProgress) {
+        this.turnProgress = turnProgress;
+    }
+    public Action[] getActionList() {
+        return this.combatActionList;
+    }
+    public void setActionList(Action[] actionList) {
+        this.combatActionList = actionList;
+    }
     public void increaseHealthPoint(int amount){
         healthPoint += amount;
     }
@@ -133,7 +155,7 @@ public abstract class Character {
     }
 
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
-                     int width, int height, int level, int healthPoint, int manaPoint) {
+                     int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint) {
         this.master = master;
         this.x = x;
         this.y = y;
@@ -149,6 +171,7 @@ public abstract class Character {
         this.image = new Image(imagePath + DEFAULT_IMAGE_PATH + "1.png");
         this.gc = this.master.canvasMiddle.getGraphicsContext2D();
         this.level = level;
+        this.attackSpeed = attackSpeed;
         this.healthPoint = healthPoint;
         this.manaPoint = manaPoint;
     }

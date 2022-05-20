@@ -16,8 +16,8 @@ public class Enemy extends NPC{
     private int defense;
     private double distanceFromPlayer;
     private boolean isChasing = false;
-    public Enemy(World worldMaster, SimpleRPG master, int x, int y, String name, String imagePath, int level, int healthPoint, int manaPoint, int attack, int defense) {
-        super(worldMaster, master, x, y, name, imagePath, level, healthPoint, manaPoint);
+    public Enemy(World worldMaster, SimpleRPG master, int x, int y, String name, String imagePath, int level, int attackSpeed, int healthPoint, int manaPoint, int attack, int defense) {
+        super(worldMaster, master, x, y, name, imagePath, level, attackSpeed, healthPoint, manaPoint);
         this.attack = attack;
         this.defense = defense;
     }
