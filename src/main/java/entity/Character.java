@@ -16,10 +16,10 @@ public abstract class Character {
     public static final String RIGHT_IMAGE_PATH = "/move_right/";
     public static final String BATTLE_IMAGE_PATH = "/battle/";
     public static final int NUM_IMAGE_FRAME = 4;
-    public static final String DOWN = "DOWN";
-    public static final String UP = "UP";
-    public static final String LEFT = "LEFT";
-    public static final String RIGHT = "RIGHT";
+    public static final String DOWN = "/move_down/";
+    public static final String UP = "/move_up/";
+    public static final String LEFT = "/move_left/";
+    public static final String RIGHT = "/move_right/";
     private SimpleRPG master;
     private String name;
     private double x;
@@ -28,6 +28,7 @@ public abstract class Character {
     private double dy;
     private Rectangle rect;
     private double movementSpeed;
+    private int lastMove;
     private int level;
     private int manaPoint;
     private int healthPoint;
@@ -178,30 +179,52 @@ public abstract class Character {
             this.y += this.dy;
         }
         this.rect.setBounds((int)this.x, (int)this.y, (int)this.rect.getWidth(), (int)this.rect.getHeight());
+
+        // Handle frame changing
+        if (this.getDy() == 0) {
+            if (this.getDx() > 0) {
+                this.changeFrame(Character.RIGHT_IMAGE_PATH);
+            } else if (this.getDx() < 0) {
+                this.changeFrame(Character.LEFT_IMAGE_PATH);
+            }
+        } else if (this.getDx() == 0) {
+            if (this.getDy() > 0) {
+                this.changeFrame(Character.DOWN_IMAGE_PATH);
+            } else if (this.getDy() < 0) {
+                this.changeFrame(Character.UP_IMAGE_PATH);
+            }
+        } else if (this.getDx() != 0 && this.getDy() != 0) {
+            if (this.getDx() > 0) {
+                this.changeFrame(Character.RIGHT_IMAGE_PATH);
+            } else if (this.getDx() < 0) {
+                this.changeFrame(Character.LEFT_IMAGE_PATH);
+            }
+        }
     }
 
     public void changeFrame(String direction) {
-        if (Math.abs(this.getRelativeX() - this.lastRelativeX) > 5 || Math.abs(this.getRelativeY() - this.lastRelativeY) > 5) {
-            this.lastRelativeX = this.getRelativeX();
-            this.lastRelativeY = this.getRelativeY();
+        this.lastMove += this.getMovementSpeed()*this.getMovementSpeed();
+        if (this.lastMove > 12 * this.getMovementSpeed()) {
+            this.lastMove = 0;
             if (direction.equals(DEFAULT_IMAGE_PATH)) {
-                this.currentFrame = 1;
-            } else if (direction.equals(this.lastDirection)){
-                this.currentFrame++;
-                if (this.currentFrame > NUM_IMAGE_FRAME) {
+                this.setCurrentFrame(1);
+            } else if (direction.equals(this.getLastDirection())){
+                this.currentFrame += 1;
+                if (this.currentFrame > 4) {
                     this.currentFrame = 1;
                 }
             } else {
-                lastDirection = direction;
-                this.currentFrame = 1;
+                this.setLastDirection(direction);
+                this.setCurrentFrame(1);
             }
-            this.image = new Image(this.imagePath + direction + currentFrame + ".png");
+            this.image = new Image(this.imagePath + direction + this.currentFrame + ".png");
         }
     }
 
     public void defaultFrame(String direction) {
         this.currentFrame = NUM_IMAGE_FRAME;
         this.image = new Image(this.imagePath + direction + currentFrame + ".png");
+        this.lastMove = (int) (12 * this.getMovementSpeed()) + 1;
     }
 
     public void move(String direction) {

@@ -62,7 +62,7 @@ public class World extends Map {
             npc.setDy(dy);
         }
     }
-    public void setDxNPC(int dx) {
+    public void setDxNPC(double dx) {
         for (NPC npc : this.npcList) {
             npc.setDx(dx);
         }
@@ -158,11 +158,6 @@ public class World extends Map {
         if (player.getRelativeY() >= SimpleRPG.SCREEN_HEIGHT || player.getRelativeY() <= this.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT) {
             if (canMoveV) {
                 this.y += this.dy;
-            }
-        }
-        for (NPC npc : this.npcList) {
-            if (npc instanceof Enemy) {
-                ((Enemy) npc).chasePlayer();
             }
         }
     }
