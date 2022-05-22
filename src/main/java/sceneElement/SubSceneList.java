@@ -119,9 +119,11 @@ public class SubSceneList {
         });
 
         btnDoNothing.setOnAction(event -> {
+
             simpleRPG.player.increaseHealthPoint(10);
             simpleRPG.player.increaseManaPoint(10);
             BattleMap.showSkillEffect(simpleRPG.player, new Heal());
+
         });
 
 //        openBattleOption.addButton(btnFight, 800, 35);

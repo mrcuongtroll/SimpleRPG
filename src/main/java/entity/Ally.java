@@ -16,7 +16,6 @@ public class Ally extends NPC{
     @Override
     public int getDefensePoint() {
         return 0;
-    }
 
     @Override
     public void render() {

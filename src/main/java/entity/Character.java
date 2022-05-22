@@ -17,11 +17,18 @@ public abstract class Character {
     public static final String RIGHT_IMAGE_PATH = "/move_right/";
     public static final String BATTLE_IMAGE_PATH = "/battle/";
     public static final int NUM_IMAGE_FRAME = 4;
+
     public static final String DOWN = "DOWN";
     public static final String UP = "UP";
     public static final String LEFT = "LEFT";
     public static final String RIGHT = "RIGHT";
     public static final int MINIMUM_SPEED = 0;
+
+//     public static final String DOWN = "/move_down/";
+//     public static final String UP = "/move_up/";
+//     public static final String LEFT = "/move_left/";
+//     public static final String RIGHT = "/move_right/";
+
     private SimpleRPG master;
     private String name;
     private double x;
@@ -29,7 +36,10 @@ public abstract class Character {
     private double dx;
     private double dy;
     private Rectangle rect;
+    private boolean isSolid;
+    private Tile tile;
     private double movementSpeed;
+    private int lastMove;
     private int level;
     private int attackSpeed;
     private Action[] combatActionList;
@@ -78,6 +88,7 @@ public abstract class Character {
     public Rectangle getRect() {
         return this.rect;
     }
+    public Tile getTile() {return this.tile;}
     public double getLastX() {
         return this.lastRelativeX;
     }
@@ -172,11 +183,12 @@ public abstract class Character {
     }
 
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
-                     int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint) {
+
+                     int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid) {
+
         this.master = master;
         this.x = x;
         this.y = y;
-        this.rect = new Rectangle(x, y, 2*Tile.TILE_SIZE, Tile.TILE_SIZE);
         this.dx = 0;
         this.dy = 0;
         this.lastRelativeX = x;
@@ -191,8 +203,21 @@ public abstract class Character {
         this.attackSpeed = attackSpeed;
         this.healthPoint = healthPoint;
         this.manaPoint = manaPoint;
+
         this.maxHealthPoint = maxHealthPoint;
         this.maxManaPoint = maxManaPoint;
+
+        this.isSolid = isSolid;
+        this.rect = new Rectangle((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), 2*Tile.TILE_SIZE, Tile.TILE_SIZE);
+        this.tile = new Tile(this.rect, isSolid);
+        if (this.getMaster().getWorld() instanceof World) {
+            ((World)master.getWorld()).getTileList().add(this.tile);
+        }
+    }
+    public Character(SimpleRPG master, int x, int y, String name, String imagePath,
+                     int width, int height, int level, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint) {
+        this(master, x, y, name, imagePath, width, height, level, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true);
+
     }
 
     public void render() {
@@ -204,12 +229,27 @@ public abstract class Character {
         boolean canMoveV = true;
         World world = (World) this.master.getWorld();
         for (Tile tile: world.getTileList()) {
-            if (tile.isSolid()) {
-                if (tile.getRect().intersects(this.x+dx, this.y, this.rect.getWidth(), this.rect.getHeight())) {
-                    canMoveH = false;
-                }
-                if (tile.getRect().intersects(this.x, this.y+dy, this.rect.getWidth(), this.rect.getHeight())) {
-                    canMoveV = false;
+            if (!(this.tile == tile)) {
+                if (this.tile.isSolid()) {
+                    if (tile.isSolid()) {
+                        if (tile.getRect().intersects(this.x + dx, y + this.image.getHeight() - Tile.TILE_SIZE, this.rect.getWidth(), this.rect.getHeight())) {
+                            canMoveH = false;
+                        }
+                        if (tile.getRect().intersects(this.x, y + this.image.getHeight() - Tile.TILE_SIZE + dy, this.rect.getWidth(), this.rect.getHeight())) {
+                            canMoveV = false;
+                        }
+                    }
+                } else {
+                    if (!(tile == this.getMaster().getPlayer().getTile())) {
+                        if (tile.isSolid()) {
+                            if (tile.getRect().intersects(this.x + dx, y + this.image.getHeight() - Tile.TILE_SIZE, this.rect.getWidth(), this.rect.getHeight())) {
+                                canMoveH = false;
+                            }
+                            if (tile.getRect().intersects(this.x, y + this.image.getHeight() - Tile.TILE_SIZE + dy, this.rect.getWidth(), this.rect.getHeight())) {
+                                canMoveV = false;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -219,31 +259,53 @@ public abstract class Character {
         if (canMoveV) {
             this.y += this.dy;
         }
-        this.rect.setBounds((int)this.x, (int)this.y, (int)this.rect.getWidth(), (int)this.rect.getHeight());
+        this.rect.setBounds((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), (int)this.rect.getWidth(), (int)this.rect.getHeight());
+        // TODO: Refine relative position for checking collision and stuff
+        // Handle frame changing
+        if (this.getDy() == 0) {
+            if (this.getDx() > 0) {
+                this.changeFrame(Character.RIGHT_IMAGE_PATH);
+            } else if (this.getDx() < 0) {
+                this.changeFrame(Character.LEFT_IMAGE_PATH);
+            }
+        } else if (this.getDx() == 0) {
+            if (this.getDy() > 0) {
+                this.changeFrame(Character.DOWN_IMAGE_PATH);
+            } else if (this.getDy() < 0) {
+                this.changeFrame(Character.UP_IMAGE_PATH);
+            }
+        } else if (this.getDx() != 0 && this.getDy() != 0) {
+            if (this.getDx() > 0) {
+                this.changeFrame(Character.RIGHT_IMAGE_PATH);
+            } else if (this.getDx() < 0) {
+                this.changeFrame(Character.LEFT_IMAGE_PATH);
+            }
+        }
     }
 
     public void changeFrame(String direction) {
-        if (Math.abs(this.getRelativeX() - this.lastRelativeX) > 5 || Math.abs(this.getRelativeY() - this.lastRelativeY) > 5) {
-            this.lastRelativeX = this.getRelativeX();
-            this.lastRelativeY = this.getRelativeY();
+        this.lastMove += this.getMovementSpeed()*this.getMovementSpeed();
+        if (this.lastMove > 12 * this.getMovementSpeed()) {
+            this.lastMove = 0;
             if (direction.equals(DEFAULT_IMAGE_PATH)) {
-                this.currentFrame = 1;
-            } else if (direction.equals(this.lastDirection)){
-                this.currentFrame++;
-                if (this.currentFrame > NUM_IMAGE_FRAME) {
+                this.setCurrentFrame(1);
+            } else if (direction.equals(this.getLastDirection())){
+                this.currentFrame += 1;
+                if (this.currentFrame > 4) {
                     this.currentFrame = 1;
                 }
             } else {
-                lastDirection = direction;
-                this.currentFrame = 1;
+                this.setLastDirection(direction);
+                this.setCurrentFrame(1);
             }
-            this.image = new Image(this.imagePath + direction + currentFrame + ".png");
+            this.image = new Image(this.imagePath + direction + this.currentFrame + ".png");
         }
     }
 
     public void defaultFrame(String direction) {
         this.currentFrame = NUM_IMAGE_FRAME;
         this.image = new Image(this.imagePath + direction + currentFrame + ".png");
+        this.lastMove = (int) (12 * this.getMovementSpeed()) + 1;
     }
 
     public void move(String direction) {

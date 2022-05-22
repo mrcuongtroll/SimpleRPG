@@ -19,16 +19,14 @@ public class World extends Map {
     public static final String UP = "UP";
     public static final String LEFT = "LEFT";
     public static final String RIGHT = "RIGHT";
-    private double dy = 0;
-    private double dx = 0;
-    private double x = 0;
-    private double y = 0;
+    private double dy;
+    private double dx;
+    private double x;
+    private double y;
     private BufferedImage mask;
     private int[][] maskArray;
     private ArrayList<Tile> tileList = new ArrayList<Tile>();
     public ArrayList<NPC> npcList = new ArrayList<>();
-
-    private SimpleRPG master;
 
     private boolean isPlayerSprinting = false;
     private GraphicsContext gc;
@@ -57,14 +55,14 @@ public class World extends Map {
     public void setDx(double dx) {
         this.dx = dx;
     }
-    public void setDyNPC(double dy) {
+    public void updateYNPC(double dy) {
         for (NPC npc : this.npcList) {
-            npc.setDy(dy);
+            npc.setY(npc.getY() + dy);
         }
     }
-    public void setDxNPC(int dx) {
+    public void updateXNPC(double dx) {
         for (NPC npc : this.npcList) {
-            npc.setDx(dx);
+            npc.setX(npc.getX() + dx);
         }
     }
     public ArrayList<Tile> getTileList() {
@@ -137,12 +135,14 @@ public class World extends Map {
         boolean canMoveV = true;
         Player player = this.getMaster().getPlayer();
         for (Tile tile: this.tileList) {
-            if (tile.isSolid()) {
-                if (tile.getRect().intersects(player.getX()-dx, player.getY(), player.getRect().getWidth(), player.getRect().getHeight())) {
-                    canMoveH = false;
-                }
-                if (tile.getRect().intersects(player.getX(), player.getY()-dy, player.getRect().getWidth(), player.getRect().getHeight())) {
-                    canMoveV = false;
+            if (!(player.getTile() == tile)) {
+                if (tile.isSolid()) {
+                    if (tile.getRect().intersects(player.getX() - dx, player.getY() + player.getImage().getHeight() - Tile.TILE_SIZE, player.getRect().getWidth(), player.getRect().getHeight())) {
+                        canMoveH = false;
+                    }
+                    if (tile.getRect().intersects(player.getX(), player.getY() + player.getImage().getHeight() - Tile.TILE_SIZE - dy, player.getRect().getWidth(), player.getRect().getHeight())) {
+                        canMoveV = false;
+                    }
                 }
             }
         }
@@ -152,17 +152,16 @@ public class World extends Map {
         if (player.getRelativeX() >= SimpleRPG.SCREEN_WIDTH || player.getRelativeX() <= this.getBg().getWidth() - SimpleRPG.SCREEN_WIDTH) {
             if (canMoveH) {
                 this.x += this.dx;
+                // Also update NPCs' x-value to keep their relative position consistent
+                this.updateXNPC(this.dx);
             }
         }
         // Check the y-axis
         if (player.getRelativeY() >= SimpleRPG.SCREEN_HEIGHT || player.getRelativeY() <= this.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT) {
             if (canMoveV) {
                 this.y += this.dy;
-            }
-        }
-        for (NPC npc : this.npcList) {
-            if (npc instanceof Enemy) {
-                ((Enemy) npc).chasePlayer();
+                // Also update NPCs' x-value to keep their relative position consistent
+                this.updateYNPC(this.dy);
             }
         }
     }
@@ -172,41 +171,41 @@ public class World extends Map {
         }
     }
 
-    public void moveNPC(String direction) {
-        switch (direction) {
-            case World.DOWN -> {
-                this.setDyNPC(-Player.MOVEMENT_SPEED);
-            }
-            case World.UP -> {
-                this.setDyNPC(Player.MOVEMENT_SPEED);
-            }
-            case World.LEFT -> {
-                this.setDxNPC(Player.MOVEMENT_SPEED);
-            }
-            case World.RIGHT -> {
-                this.setDxNPC(-Player.MOVEMENT_SPEED);
-            }
-            default -> {}
-        }
-    }
-
-    public void move(String direction) {
-        switch (direction) {
-            case World.DOWN -> {
-                this.dy = -Player.MOVEMENT_SPEED;
-            }
-            case World.UP -> {
-                this.dy = Player.MOVEMENT_SPEED;
-            }
-            case World.LEFT -> {
-                this.dx = Player.MOVEMENT_SPEED;
-            }
-            case World.RIGHT -> {
-                this.dx = -Player.MOVEMENT_SPEED;
-            }
-            default -> {}
-        }
-        moveNPC(direction);
-    }
+//    public void moveNPC(String direction) {
+//        switch (direction) {
+//            case World.DOWN -> {
+//                this.setDyNPC(-Player.MOVEMENT_SPEED);
+//            }
+//            case World.UP -> {
+//                this.setDyNPC(Player.MOVEMENT_SPEED);
+//            }
+//            case World.LEFT -> {
+//                this.setDxNPC(Player.MOVEMENT_SPEED);
+//            }
+//            case World.RIGHT -> {
+//                this.setDxNPC(-Player.MOVEMENT_SPEED);
+//            }
+//            default -> {}
+//        }
+//    }
+//
+//    public void move(String direction) {
+//        switch (direction) {
+//            case World.DOWN -> {
+//                this.dy = -Player.MOVEMENT_SPEED;
+//            }
+//            case World.UP -> {
+//                this.dy = Player.MOVEMENT_SPEED;
+//            }
+//            case World.LEFT -> {
+//                this.dx = Player.MOVEMENT_SPEED;
+//            }
+//            case World.RIGHT -> {
+//                this.dx = -Player.MOVEMENT_SPEED;
+//            }
+//            default -> {}
+//        }
+//        moveNPC(direction);
+//    }
 
 }
