@@ -35,7 +35,7 @@ public class GameView extends View{
         this.gameLoopManager = simpleRPG.gameLoopManager;
         this.mainHUD = simpleRPG.mainHUD;
         mainHUD.showHUD();
-        this.world = simpleRPG.world;
+        this.world = simpleRPG.getWorld();
         this.keyHandler = simpleRPG.keyHandler;
 
 

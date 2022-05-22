@@ -11,6 +11,10 @@ public class Tile {
         this.rect = new Rectangle(x, y, Tile.TILE_SIZE, Tile.TILE_SIZE);
         this.isSolid = isSolid;
     }
+    public Tile(Rectangle rect, boolean isSolid) {
+        this.rect = rect;
+        this.isSolid = isSolid;
+    }
 
     public boolean isSolid() {
         return this.isSolid;

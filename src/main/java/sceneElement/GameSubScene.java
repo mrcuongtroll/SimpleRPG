@@ -82,7 +82,6 @@ public class GameSubScene extends AnchorPane {
 
 
     public void moveSubScene() {
-
         TranslateTransition transition = new TranslateTransition();
         transition.setDuration(Duration.seconds(0.3));
         transition.setNode(this);
