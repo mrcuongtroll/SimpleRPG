@@ -1,5 +1,7 @@
 package sceneElement;
 
+import combat.action.NormalAttack;
+import combat.effect.Heal;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
@@ -10,6 +12,7 @@ import main.SimpleRPG;
 import views.GameView;
 import views.StartScreenView;
 import views.View;
+import world.BattleMap;
 
 import java.io.File;
 
@@ -118,6 +121,7 @@ public class SubSceneList {
         btnDoNothing.setOnAction(event -> {
             simpleRPG.player.increaseHealthPoint(10);
             simpleRPG.player.increaseManaPoint(10);
+            BattleMap.showSkillEffect(simpleRPG.player, new Heal());
         });
 
 //        openBattleOption.addButton(btnFight, 800, 35);
@@ -138,14 +142,19 @@ public class SubSceneList {
         GameButton btnSkill2 = new GameButton("Skill 2", 100, 50);
         GameButton btnSkill3 = new GameButton("Skill 3", 100, 50);
         GameButton btnSkill4 = new GameButton("Skill 4", 100, 50);
+        GameButton btnNormalAttack = new GameButton("Normal Attack", 100, 50);
         GameButton btnBack = new GameButton("Go back", 100, 50);
+
+        btnNormalAttack.setOnAction(event -> {
+            (new NormalAttack()).activate(simpleRPG.getPlayer(), ((BattleMap) simpleRPG.getWorld()).getEnemy());
+        });
 
         btnBack.setOnAction(event -> {
             view.cleanUpScene();
             currentShowingView.showSubScene(openBattleOption);
         });
 
-        addButtonGrid(openSkill, 700, 25, 2, 3, 10, btnSkill1, btnSkill2, btnSkill3, btnSkill4, btnBack);
+        addButtonGrid(openSkill, 700, 25, 2, 3, 10, btnSkill1, btnSkill2, btnSkill3, btnSkill4, btnNormalAttack, btnBack);
         return openSkill;
     }
 

@@ -75,13 +75,13 @@ public class World extends Map {
         super(master, bgImagePath);
         this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 10, 10));
+                1, 5, 100, 100, 100, 100, 10, 10));
         this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/7-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 10, 10));
+                1, 5, 100, 100, 100, 100, 10, 10));
         this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/9-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 10, 10));
+                1, 5, 100, 100, 100, 100, 10, 10));
 
         // Load collision mask
         try {

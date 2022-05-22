@@ -12,7 +12,8 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class CombatManager {
-    private final static String[] combatChoices = new String[] {"Actions", "Items", "Skip", "Run"};
+    private static final String[] combatChoices = new String[] {"Actions", "Items", "Skip", "Run"};
+    private static final int MAX_TURN_PROGRESS = 50;
     private ArrayList<Player> players;
     private ArrayList<Enemy> enemies;
     private ArrayList<Character> turnQueue = new ArrayList<>();
@@ -35,57 +36,60 @@ public class CombatManager {
         this.players = new ArrayList<>(Arrays.asList(players));
         this.enemies = new ArrayList<>(Arrays.asList(enemies));
 
-        while (!this.endCombat) {
-//            TestChar currentTurnChar = turnDecider(this.players, this.enemies);
-            Character currentTurnChar = turnDeciderTest(this.players, this.enemies);
-//            switch (currentTurnChar.getCharacterType()){
-//                case "Enemy":
-////                    int randomAction = ThreadLocalRandom.current().nextInt(0, 5);
-////                    currentTurnChar.getActionList()[randomAction].randomActivate(currentTurnChar,players,enemies);
-//                    break;
-//                case "Players":
+//        while (!this.endCombat) {
+////            TestChar currentTurnChar = turnDecider(this.players, this.enemies);
+//            Character currentTurnChar = turnDeciderTest(this.players, this.enemies);
+////            switch (currentTurnChar.getCharacterType()){
+////                case "Enemy":
+//////                    int randomAction = ThreadLocalRandom.current().nextInt(0, 5);
+//////                    currentTurnChar.getActionList()[randomAction].randomActivate(currentTurnChar,players,enemies);
+////                    break;
+////                case "Players":
+////
+////                    break;
+////            }
+//            if (currentTurnChar instanceof Enemy) {
 //
-//                    break;
+//            } else if (currentTurnChar instanceof Player) {
+//
 //            }
-            if (currentTurnChar instanceof Enemy) {
-
-            } else if (currentTurnChar instanceof Player) {
-
-            }
-        }
+//        }
 
     }
+
+    public Character getCurrentTurnCharacter() {
+        return turnDecider(this.players, this.enemies);
+    }
+
     private Character turnDecider(ArrayList<Player> players, ArrayList<Enemy> enemies) {
         while (turnQueue.isEmpty()){
             for (Player player : players){
                 player.advanceTurn();
-                if (player.getTurnProgress()>=100){
+                if (player.getTurnProgress() >= MAX_TURN_PROGRESS){
                     turnQueue.add(player);
                 }
             }
             for (Enemy enemy : enemies){
                 enemy.advanceTurn();
-                if (enemy.getTurnProgress()>=100){
+                if (enemy.getTurnProgress() >= MAX_TURN_PROGRESS){
                     turnQueue.add(enemy);
                 }
             }
         }
         Collections.shuffle(turnQueue);
         turnQueue.sort(turnProgressComparator);
-        System.out.println();
         Character toPop = turnQueue.get(0);
-        toPop.setTurnProgress(toPop.getTurnProgress()-100);
+        toPop.setTurnProgress(toPop.getTurnProgress() - MAX_TURN_PROGRESS);
         turnQueue.remove(0);
         return toPop;
-
     }
 
     //This function will need to show the effect and the GUI needs to show before the next effect happens
     public static void showEffectTest(Effect effect, TestChar character){
         // This function is only for testing and will print all the effect's image path
-        for (int i=0; i<effect.getEffectImagePath().length; i++){
-            System.out.println(effect.getEffectImagePath()[i]);
-        }
+//        for (int i=0; i<effect.getEffectImagePath().length; i++){
+//            System.out.println(effect.getEffectImagePath()[i]);
+//        }
         System.out.println();
     }
     //Announces action

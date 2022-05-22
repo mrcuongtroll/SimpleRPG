@@ -18,7 +18,7 @@ import static main.SimpleRPG.SCREEN_HEIGHT;
 import static main.SimpleRPG.SCREEN_WIDTH;
 import static sceneElement.SubSceneList.*;
 
-public class BattleView  extends View{
+public class BattleView extends View{
 
     private Scene theScene;
     private AnchorPane mainPane;
@@ -52,25 +52,23 @@ public class BattleView  extends View{
         mainPane.getChildren().add(canvasBattle);
         mainPane.getChildren().add(mainHUD.getHUD());
 
-        BattleMap battleMap = new BattleMap(simpleRPG, (new File("./assets/test/battle_map.png")).getAbsolutePath(),
+        BattleMap battleMap = new BattleMap(simpleRPG, this, (new File("./assets/test/battle_map.png")).getAbsolutePath(),
                 new Enemy((World) simpleRPG.getWorld(), simpleRPG, SCREEN_WIDTH/5-16, SCREEN_HEIGHT/2-40, "Enemy",
                         (new File("./assets/test/enemy")).getAbsolutePath(),
-                        1, 5, 100, 100, 10, 10));
+                        1, 5, 100, 100, 100, 100, 15, 0));
 
         simpleRPG.setBattleMap(battleMap);
         simpleRPG.setWorld(battleMap);
 
-        CreateScreenElements();
+        createScreenElements();
         gameLoopManager.start();
     }
 
-    public void CreateScreenElements(){
-
+    public void createScreenElements(){
         addSubSceneToPane(openBattleOption);
         addSubSceneToPane(openInventory);
         addSubSceneToPane(openSkill);
-        showSubScene(openBattleOption);
-
+//        showSubScene(openBattleOption);
     }
 
 }

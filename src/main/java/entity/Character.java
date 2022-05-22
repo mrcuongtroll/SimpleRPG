@@ -21,6 +21,7 @@ public abstract class Character {
     public static final String UP = "UP";
     public static final String LEFT = "LEFT";
     public static final String RIGHT = "RIGHT";
+    public static final int MINIMUM_SPEED = 0;
     private SimpleRPG master;
     private String name;
     private double x;
@@ -35,6 +36,8 @@ public abstract class Character {
     private int turnProgress = 0;
     private int manaPoint;
     private int healthPoint;
+    private int maxHealthPoint;
+    private int maxManaPoint;
     private String imagePath;
     private int currentFrame;
     private String lastDirection;
@@ -111,6 +114,8 @@ public abstract class Character {
     public int getAttackSpeed(){
         return this.attackSpeed;
     }
+    public abstract int getAttackPoint();
+    public abstract int getDefensePoint();
     public void advanceTurn(){
         this.turnProgress += this.attackSpeed;
     }
@@ -128,9 +133,21 @@ public abstract class Character {
     }
     public void increaseHealthPoint(int amount){
         healthPoint += amount;
+        if (healthPoint >= maxHealthPoint) {
+            healthPoint = maxHealthPoint;
+        }
     }
     public void increaseManaPoint(int amount){
         manaPoint += amount;
+        if (manaPoint >= maxManaPoint) {
+            manaPoint = maxManaPoint;
+        }
+    }
+    public void setHealthPoint(int healthPoint){
+        this.healthPoint = healthPoint;
+    }
+    public void setManaPoint(int manaPoint){
+        this.manaPoint = manaPoint;
     }
     public String getName() {
         return this.name;
@@ -155,7 +172,7 @@ public abstract class Character {
     }
 
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
-                     int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint) {
+                     int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint) {
         this.master = master;
         this.x = x;
         this.y = y;
@@ -174,6 +191,8 @@ public abstract class Character {
         this.attackSpeed = attackSpeed;
         this.healthPoint = healthPoint;
         this.manaPoint = manaPoint;
+        this.maxHealthPoint = maxHealthPoint;
+        this.maxManaPoint = maxManaPoint;
     }
 
     public void render() {

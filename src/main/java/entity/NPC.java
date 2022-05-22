@@ -9,8 +9,8 @@ public abstract class NPC extends Character {
     public World getWorldMaster(){
         return this.worldMaster;
     }
-    public NPC(World worldMaster, SimpleRPG master, int x, int y, String name, String imagePath, int level, int attackSpeed, int healthPoint, int manaPoint) {
-        super(master, x, y, name, imagePath, 32, 80, level, attackSpeed, healthPoint, manaPoint);
+    public NPC(World worldMaster, SimpleRPG master, int x, int y, String name, String imagePath, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint) {
+        super(master, x, y, name, imagePath, 32, 80, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint);
         this.worldMaster = worldMaster;
     }
 

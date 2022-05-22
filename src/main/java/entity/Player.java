@@ -1,5 +1,7 @@
 package entity;
 
+import entity.equipment.Armor;
+import entity.equipment.Weapon;
 import javafx.scene.image.Image;
 import main.SimpleRPG;
 import world.World;
@@ -15,6 +17,14 @@ public class Player extends Character {
     private int lastMove;
     private int stamina;
     private boolean isSprinting;
+    @Override
+    public int getAttackPoint() {
+        return this.weapon.getAttackPoint() + this.armor.getAttackPoint();
+    }
+    @Override
+    public int getDefensePoint() {
+        return this.weapon.getDefensePoint() + this.armor.getDefensePoint();
+    }
     public int getStamina() {
         return this.stamina;
     }
@@ -58,8 +68,8 @@ public class Player extends Character {
         }
     }
 
-    public Player(SimpleRPG master, int x, int y, String name, String imagePath, int level, int attackSpeed, int healthPoint, int manaPoint, Weapon weapon, Armor armor) {
-        super(master, x, y, name, imagePath, 32, 80, level, attackSpeed, healthPoint, manaPoint);
+    public Player(SimpleRPG master, int x, int y, String name, String imagePath, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, Weapon weapon, Armor armor) {
+        super(master, x, y, name, imagePath, 32, 80, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint);
         this.weapon = weapon;
         this.armor = armor;
         this.lastMove = 0;

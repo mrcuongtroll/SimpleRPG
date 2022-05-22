@@ -1,9 +1,12 @@
 package world;
 
 import combat.CombatManager;
+import combat.action.NormalAttack;
+import combat.effect.Effect;
 import entity.Character;
 import entity.Enemy;
 import entity.Player;
+import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -14,6 +17,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import main.SimpleRPG;
+import sceneElement.SubSceneList;
+import views.BattleView;
+
+import java.nio.file.Paths;
 
 public class BattleMap extends Map {
 
@@ -31,48 +38,71 @@ public class BattleMap extends Map {
 
     private Text enemyHealthPoint;
     private Text enemyManaPoint;
-
     private ImageView playerFrame;
     private ImageView enemyFrame;
+    private static ImageView playerHitBox;
+    private static ImageView enemyHitBox;
+
     private int currentFrame = 2;
     private int lastFrameStep = 0;
-
-    private Button btnFight;
-    private Button btnSurrender;
-    private Button btnDoNothing;
-    private Button btnItems;
-
-    private Button btnSkill1;
-    private Button btnSkill2;
-    private Button btnSkill3;
-    private Button btnSkill4;
-
-    private HBox container;
-    private Rectangle narrator;
-    private GridPane mainOptionContainer;
-    private GridPane skillOptionContainer;
-    
     private Group groupContainer;
-
     private static final int BAR_WIDTH = 100;
+    private static Player player;
+    private static Enemy enemy;
 
-    private Player player;
-    private Enemy enemy;
+    private static CombatManager combatManager;
+    private static BattleView view;
+    public Player getPlayer() {
+        return player;
+    }
+    public Enemy getEnemy() {
+        return enemy;
+    }
+    private static class EffectAnimation extends AnimationTimer {
 
-    public BattleMap(SimpleRPG master, String imagePath, Enemy enemy) {
+        private long lastUpdate;
+        private int currentFrame;
+        private String currentFramePath;
+        private Effect effect;
+        private ImageView hitBox;
+
+        public EffectAnimation(Effect effect, ImageView hitBox) {
+            this.effect = effect;
+            this.hitBox = hitBox;
+            this.lastUpdate = 0;
+            this.currentFrame = 1;
+            this.start();
+        }
+
+        @Override
+        public void handle(long now) {
+            if (now - lastUpdate >= 40_000_000) {
+                currentFramePath = Paths.get(effect.getEffectImagePath(), currentFrame + ".png").toString();
+                hitBox.setImage(new Image(currentFramePath));
+                lastUpdate = now;
+                currentFrame++;
+                if (currentFrame > effect.getNumEffectFrame()) {
+                    this.stop();
+                    turnDecide();
+                }
+            }
+        }
+    }
+
+    public BattleMap(SimpleRPG master, BattleView battleView, String imagePath, Enemy enemyFighter) {
         super(master, imagePath);
-        this.player = master.getPlayer();
-        this.enemy = enemy;
+        player = master.getPlayer();
+        enemy = enemyFighter;
 
-        this.playerHealthBar = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/2 - 100, BAR_WIDTH, 30);
-        this.playerManaBar = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/2 - 50, BAR_WIDTH, 30);
-        this.playerHealthBarContainer = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/2 - 100, BAR_WIDTH, 30);
-        this.playerManaBarContainer = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/2 - 50, BAR_WIDTH, 30);
+        this.playerHealthBar = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4 - 100, BAR_WIDTH, 30);
+        this.playerManaBar = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4 - 50, BAR_WIDTH, 30);
+        this.playerHealthBarContainer = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4 - 100, BAR_WIDTH, 30);
+        this.playerManaBarContainer = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4 - 50, BAR_WIDTH, 30);
 
-        this.enemyHealthBar = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/2 - 100, BAR_WIDTH, 30);
-        this.enemyManaBar = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/2 - 50, BAR_WIDTH, 30);
-        this.enemyHealthBarContainer = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/2 - 100, BAR_WIDTH, 30);
-        this.enemyManaBarContainer = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/2 - 50, BAR_WIDTH, 30);
+        this.enemyHealthBar = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 - 100, BAR_WIDTH, 30);
+        this.enemyManaBar = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 - 50, BAR_WIDTH, 30);
+        this.enemyHealthBarContainer = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 - 100, BAR_WIDTH, 30);
+        this.enemyManaBarContainer = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 - 50, BAR_WIDTH, 30);
 
         this.playerFrame = new ImageView(this.player.getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png");
 
@@ -81,12 +111,36 @@ public class BattleMap extends Map {
 
         this.enemyFrame = new ImageView(this.enemy.getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png");
         this.playerFrame.setX(100);
-        this.playerFrame.setY(SimpleRPG.SCREEN_HEIGHT/2);
+        this.playerFrame.setY(SimpleRPG.SCREEN_HEIGHT/4);
+
+        this.playerFrame.setFitWidth(80);
+        this.playerFrame.setFitHeight(150);
 
         this.enemyFrame.setX(SimpleRPG.SCREEN_WIDTH - 200);
-        this.enemyFrame.setY(SimpleRPG.SCREEN_HEIGHT/2);
+        this.enemyFrame.setY(SimpleRPG.SCREEN_HEIGHT/4);
+
+        this.enemyFrame.setFitWidth(80);
+        this.enemyFrame.setFitHeight(150);
+
+        playerHitBox = new ImageView();
+
+        //Flip the sprite
+        playerHitBox.setScaleX(-1);
+
+        enemyHitBox = new ImageView();
+        playerHitBox.setX(0);
+        playerHitBox.setY(SimpleRPG.SCREEN_HEIGHT/6);
+        playerHitBox.setFitWidth(300);
+        playerHitBox.setFitHeight(300);
+
+        enemyHitBox.setX(SimpleRPG.SCREEN_WIDTH - 300);
+        enemyHitBox.setY(SimpleRPG.SCREEN_HEIGHT/6);
+        enemyHitBox.setFitWidth(300);
+        enemyHitBox.setFitHeight(300);
 
         this.groupContainer = new Group();
+        combatManager = new CombatManager(new Player[]{this.player}, new Enemy[]{this.enemy});
+        view = battleView;
         start();
     }
 
@@ -108,9 +162,35 @@ public class BattleMap extends Map {
         this.groupContainer.getChildren().add(this.playerFrame);
         this.groupContainer.getChildren().add(this.enemyFrame);
 
-        this.getMaster().mainPane.getChildren().add(this.groupContainer);
+        this.groupContainer.getChildren().add(playerHitBox);
+        this.groupContainer.getChildren().add(enemyHitBox);
 
-        CombatManager combatInstance = new CombatManager(new Player[]{this.player}, new Enemy[]{this.enemy});
+//        playerHitBox.setVisible(false);
+//        enemyHitBox.setVisible(false);
+
+        this.getMaster().mainPane.getChildren().add(this.groupContainer);
+        turnDecide();
+    }
+
+    public static void turnDecide() {
+        Character currentTurnChar = combatManager.getCurrentTurnCharacter();
+        if (currentTurnChar instanceof Player) {
+            view.cleanUpScene();
+            view.showSubScene(SubSceneList.openBattleOption);
+            System.out.println("Player turn");
+        } else if (currentTurnChar instanceof Enemy) {
+            view.cleanUpScene();
+            System.out.println("Enemy turn");
+            (new NormalAttack()).activate(currentTurnChar, player);
+        }
+    }
+
+    public static void showSkillEffect(Character defender, Effect effect) {
+        if (defender instanceof Player) {
+            new EffectAnimation(effect, playerHitBox);
+        } else if (defender instanceof Enemy) {
+            new EffectAnimation(effect, enemyHitBox);
+        }
     }
 
     @Override
