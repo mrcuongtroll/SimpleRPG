@@ -15,7 +15,7 @@ public class NormalAttack  extends Action{
     static Effect effect = new combat.effect.NormalAttack();
 
     public void activate(Character attacker, Character defender){
-        BattleMap.showSkillEffect(defender, effect);
+        BattleMap.showSkillEffect(attacker, defender, effect);
         int damage = attacker.getAttackPoint() - defender.getDefensePoint();
         if (damage > 0) {
             defender.setHealthPoint(defender.getHealthPoint() - damage);

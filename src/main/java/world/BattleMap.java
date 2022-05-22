@@ -3,10 +3,14 @@ package world;
 import combat.CombatManager;
 import combat.action.NormalAttack;
 import combat.effect.Effect;
+import combat.effect.EffectAnimationTimer;
 import entity.Character;
 import entity.Enemy;
 import entity.Player;
 import javafx.animation.AnimationTimer;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -16,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import main.SimpleRPG;
 import sceneElement.SubSceneList;
 import views.BattleView;
@@ -38,8 +43,8 @@ public class BattleMap extends Map {
 
     private Text enemyHealthPoint;
     private Text enemyManaPoint;
-    private ImageView playerFrame;
-    private ImageView enemyFrame;
+    private static ImageView playerFrame;
+    private static ImageView enemyFrame;
     private static ImageView playerHitBox;
     private static ImageView enemyHitBox;
 
@@ -58,35 +63,13 @@ public class BattleMap extends Map {
     public Enemy getEnemy() {
         return enemy;
     }
-    private static class EffectAnimation extends AnimationTimer {
 
-        private long lastUpdate;
-        private int currentFrame;
-        private String currentFramePath;
-        private Effect effect;
-        private ImageView hitBox;
+    public static ImageView getEnemyFrame() {
+        return enemyFrame;
+    }
 
-        public EffectAnimation(Effect effect, ImageView hitBox) {
-            this.effect = effect;
-            this.hitBox = hitBox;
-            this.lastUpdate = 0;
-            this.currentFrame = 1;
-            this.start();
-        }
-
-        @Override
-        public void handle(long now) {
-            if (now - lastUpdate >= 40_000_000) {
-                currentFramePath = Paths.get(effect.getEffectImagePath(), currentFrame + ".png").toString();
-                hitBox.setImage(new Image(currentFramePath));
-                lastUpdate = now;
-                currentFrame++;
-                if (currentFrame > effect.getNumEffectFrame()) {
-                    this.stop();
-                    turnDecide();
-                }
-            }
-        }
+    public static ImageView getPlayerFrame() {
+        return playerFrame;
     }
 
     public BattleMap(SimpleRPG master, BattleView battleView, String imagePath, Enemy enemyFighter) {
@@ -104,23 +87,23 @@ public class BattleMap extends Map {
         this.enemyHealthBarContainer = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 - 100, BAR_WIDTH, 30);
         this.enemyManaBarContainer = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 - 50, BAR_WIDTH, 30);
 
-        this.playerFrame = new ImageView(this.player.getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png");
+        playerFrame = new ImageView(this.player.getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png");
 
         //Flip the sprite
-        this.playerFrame.setScaleX(-1);
+        playerFrame.setScaleX(-1);
 
-        this.enemyFrame = new ImageView(this.enemy.getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png");
-        this.playerFrame.setX(100);
-        this.playerFrame.setY(SimpleRPG.SCREEN_HEIGHT/4);
+        enemyFrame = new ImageView(this.enemy.getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png");
+        playerFrame.setX(100);
+        playerFrame.setY(SimpleRPG.SCREEN_HEIGHT/4);
 
-        this.playerFrame.setFitWidth(80);
-        this.playerFrame.setFitHeight(150);
+        playerFrame.setFitWidth(80);
+        playerFrame.setFitHeight(150);
 
-        this.enemyFrame.setX(SimpleRPG.SCREEN_WIDTH - 200);
-        this.enemyFrame.setY(SimpleRPG.SCREEN_HEIGHT/4);
+        enemyFrame.setX(SimpleRPG.SCREEN_WIDTH - 200);
+        enemyFrame.setY(SimpleRPG.SCREEN_HEIGHT/4);
 
-        this.enemyFrame.setFitWidth(80);
-        this.enemyFrame.setFitHeight(150);
+        enemyFrame.setFitWidth(80);
+        enemyFrame.setFitHeight(150);
 
         playerHitBox = new ImageView();
 
@@ -139,7 +122,7 @@ public class BattleMap extends Map {
         enemyHitBox.setFitHeight(300);
 
         this.groupContainer = new Group();
-        combatManager = new CombatManager(new Player[]{this.player}, new Enemy[]{this.enemy});
+        combatManager = new CombatManager(new Player[]{player}, new Enemy[]{enemy});
         view = battleView;
         start();
     }
@@ -159,9 +142,9 @@ public class BattleMap extends Map {
         this.groupContainer.getChildren().add(this.playerManaBar);
         this.groupContainer.getChildren().add(this.enemyHealthBar);
         this.groupContainer.getChildren().add(this.enemyManaBar);
-        this.groupContainer.getChildren().add(this.playerFrame);
-        this.groupContainer.getChildren().add(this.enemyFrame);
 
+        this.groupContainer.getChildren().add(playerFrame);
+        this.groupContainer.getChildren().add(enemyFrame);
         this.groupContainer.getChildren().add(playerHitBox);
         this.groupContainer.getChildren().add(enemyHitBox);
 
@@ -185,20 +168,20 @@ public class BattleMap extends Map {
         }
     }
 
-    public static void showSkillEffect(Character defender, Effect effect) {
+    public static void showSkillEffect(Character attacker, Character defender, Effect effect) {
         if (defender instanceof Player) {
-            new EffectAnimation(effect, playerHitBox);
+            new EffectAnimationTimer(effect, playerHitBox, attacker, defender);
         } else if (defender instanceof Enemy) {
-            new EffectAnimation(effect, enemyHitBox);
+            new EffectAnimationTimer(effect, enemyHitBox, attacker, defender);
         }
     }
 
     @Override
     public void tick() {
-        this.playerHealthBar.setWidth(BAR_WIDTH * this.player.getHealthPoint() / 100);
-        this.playerManaBar.setWidth(BAR_WIDTH * this.player.getManaPoint() / 100);
-        this.enemyHealthBar.setWidth(BAR_WIDTH * this.enemy.getHealthPoint() / 100);
-        this.enemyManaBar.setWidth(BAR_WIDTH * this.enemy.getManaPoint() / 100);
+        this.playerHealthBar.setWidth(BAR_WIDTH * player.getHealthPoint() / 100);
+        this.playerManaBar.setWidth(BAR_WIDTH * player.getManaPoint() / 100);
+        this.enemyHealthBar.setWidth(BAR_WIDTH * enemy.getHealthPoint() / 100);
+        this.enemyManaBar.setWidth(BAR_WIDTH * enemy.getManaPoint() / 100);
 
         this.playerHealthBar.setFill(Color.CRIMSON);
         this.playerManaBar.setFill(Color.CORNFLOWERBLUE);
@@ -219,8 +202,8 @@ public class BattleMap extends Map {
             if (this.currentFrame > Character.NUM_IMAGE_FRAME) {
                 this.currentFrame = 1;
             }
-            this.playerFrame.setImage(new Image(this.player.getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"));
-            this.enemyFrame.setImage(new Image(this.enemy.getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"));
+            playerFrame.setImage(new Image(player.getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"));
+            enemyFrame.setImage(new Image(enemy.getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"));
         }
     }
     @Override
