@@ -157,7 +157,7 @@ public class SubSceneList {
             currentShowingView.showSubScene(openBattleOption);
         });
 
-        addButtonGrid(openSkill, 700, 25, 2, 3, 10, btnSkill1, btnSkill2, btnSkill3, btnSkill4, btnNormalAttack, btnBack);
+        addButtonGrid(openSkill, 25, 25, 2, 3, 10, btnSkill1, btnSkill2, btnSkill3, btnSkill4, btnNormalAttack, btnBack);
         return openSkill;
     }
 
