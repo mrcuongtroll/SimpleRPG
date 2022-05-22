@@ -24,8 +24,8 @@ public class Enemy extends NPC{
         return this.defense;
     }
 
-    public Enemy(World worldMaster, SimpleRPG master, int x, int y, String name, String imagePath, int level, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, int attack, int defense) {
-        super(worldMaster, master, x, y, name, imagePath, level, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, false, NPC.MODE_WANDER);
+    public Enemy(World worldMaster, SimpleRPG master, int x, int y, String name, String imagePath, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, int attack, int defense) {
+        super(worldMaster, master, x, y, name, imagePath, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, false, NPC.MODE_WANDER);
         this.attack = attack;
         this.defense = defense;
     }

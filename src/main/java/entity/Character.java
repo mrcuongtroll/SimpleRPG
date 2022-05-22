@@ -11,23 +11,14 @@ import java.awt.*;
 
 public abstract class Character {
     public static final String DEFAULT_IMAGE_PATH = "/default/";
-    public static final String DOWN_IMAGE_PATH = "/move_down/";
-    public static final String UP_IMAGE_PATH = "/move_up/";
-    public static final String LEFT_IMAGE_PATH = "/move_left/";
-    public static final String RIGHT_IMAGE_PATH = "/move_right/";
     public static final String BATTLE_IMAGE_PATH = "/battle/";
     public static final int NUM_IMAGE_FRAME = 4;
 
-    public static final String DOWN = "DOWN";
-    public static final String UP = "UP";
-    public static final String LEFT = "LEFT";
-    public static final String RIGHT = "RIGHT";
+    public static final String DOWN = "/move_down/";
+    public static final String UP = "/move_up/";
+    public static final String LEFT = "/move_left/";
+    public static final String RIGHT = "/move_right/";
     public static final int MINIMUM_SPEED = 0;
-
-//     public static final String DOWN = "/move_down/";
-//     public static final String UP = "/move_up/";
-//     public static final String LEFT = "/move_left/";
-//     public static final String RIGHT = "/move_right/";
 
     private SimpleRPG master;
     private String name;
@@ -183,7 +174,6 @@ public abstract class Character {
     }
 
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
-
                      int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid) {
 
         this.master = master;
@@ -215,8 +205,8 @@ public abstract class Character {
         }
     }
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
-                     int width, int height, int level, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint) {
-        this(master, x, y, name, imagePath, width, height, level, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true);
+                     int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint) {
+        this(master, x, y, name, imagePath, width, height, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true);
 
     }
 
@@ -264,21 +254,21 @@ public abstract class Character {
         // Handle frame changing
         if (this.getDy() == 0) {
             if (this.getDx() > 0) {
-                this.changeFrame(Character.RIGHT_IMAGE_PATH);
+                this.changeFrame(Character.RIGHT);
             } else if (this.getDx() < 0) {
-                this.changeFrame(Character.LEFT_IMAGE_PATH);
+                this.changeFrame(Character.LEFT);
             }
         } else if (this.getDx() == 0) {
             if (this.getDy() > 0) {
-                this.changeFrame(Character.DOWN_IMAGE_PATH);
+                this.changeFrame(Character.DOWN);
             } else if (this.getDy() < 0) {
-                this.changeFrame(Character.UP_IMAGE_PATH);
+                this.changeFrame(Character.UP);
             }
         } else if (this.getDx() != 0 && this.getDy() != 0) {
             if (this.getDx() > 0) {
-                this.changeFrame(Character.RIGHT_IMAGE_PATH);
+                this.changeFrame(Character.RIGHT);
             } else if (this.getDx() < 0) {
-                this.changeFrame(Character.LEFT_IMAGE_PATH);
+                this.changeFrame(Character.LEFT);
             }
         }
     }
@@ -329,19 +319,19 @@ public abstract class Character {
         switch (direction) {
             case Character.DOWN -> {
                 this.dy = 0;
-                this.defaultFrame(Character.DOWN_IMAGE_PATH);
+                this.defaultFrame(Character.DOWN);
             }
             case Character.UP -> {
                 this.dy = 0;
-                this.defaultFrame(Character.UP_IMAGE_PATH);
+                this.defaultFrame(Character.UP);
             }
             case Character.LEFT -> {
                 this.dx = 0;
-                this.defaultFrame(Character.LEFT_IMAGE_PATH);
+                this.defaultFrame(Character.LEFT);
             }
             case Character.RIGHT -> {
                 this.dx = 0;
-                this.defaultFrame(Character.RIGHT_IMAGE_PATH);
+                this.defaultFrame(Character.RIGHT);
             }
             default -> {}
         }
