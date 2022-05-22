@@ -1,8 +1,8 @@
 package main;
 
-import entity.Armor;
+import entity.equipment.Armor;
 import entity.Player;
-import entity.Weapon;
+import entity.equipment.Weapon;
 import handler.KeyHandler;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -35,10 +35,13 @@ public class SimpleRPG extends Application {
             (new File("./assets/test/old map_mask.png")).getAbsolutePath());
 
     //    public Map world = BattleMap(this, (new File("./assets/test/battle_map.png")).getAbsolutePath());
-    private Player player = new Player(this, Player.X, Player.Y, "Player",
-            (new File("./assets/test/player")).getAbsolutePath(), 1, 10, 10,
-            new Weapon(10, 0, "example_armor.png"),
-            new Armor(0, 20, "example_armor.png"));
+
+    public Player player = new Player(this, Player.X, Player.Y, "Player",
+            (new File("./assets/test/player")).getAbsolutePath(), 1, 10,
+            80, 100, 100, 100,
+            new Weapon("Wooden sword",15, 0, "example_armor.png"),
+            new Armor("Wooden armor", 0, 10, "example_armor.png"));
+
     public KeyHandler keyHandler = new KeyHandler(this);
     public AnchorPane mainPane = new AnchorPane();
     public Scene theScene = new Scene(mainPane, SCREEN_WIDTH, SCREEN_HEIGHT);

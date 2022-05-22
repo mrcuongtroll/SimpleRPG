@@ -93,7 +93,7 @@ public abstract class View {
 
     // Check if any scene is opened before starting a new view
     public void cleanUpScene(){
-        if(!currentShowingScene.isHidden){
+        if(currentShowingScene != null && !currentShowingScene.isHidden){
             currentShowingScene.moveSubScene();
         }
     }
