@@ -1,20 +1,20 @@
 package sceneElement;
 
 import javafx.animation.TranslateTransition;
-import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import static main.SimpleRPG.SCREEN_HEIGHT;
 import static main.SimpleRPG.SCREEN_WIDTH;
 
-public class GameSubScene extends SubScene {
+public class GameSubScene extends AnchorPane {
 
     public boolean isHidden;
-    private AnchorPane pane;
     private int width;
     private int height;
     private int x;
@@ -22,20 +22,22 @@ public class GameSubScene extends SubScene {
     private String transitionStyle;
 
     public GameSubScene(int width, int height, int x, int y, String transitionStyle, String background) {
-        super(new AnchorPane(), width, height);
+        super(new AnchorPane());
         this.width = width;
         this.height = height;
         this.x = x;
         this.y = y;
         this.transitionStyle = transitionStyle;
+
+        this.setMinSize(width, height);
         prefWidth(width);
         prefHeight(height);
 
         BackgroundImage image = new BackgroundImage(new Image(background, width, height, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
-        pane = (AnchorPane) this.getRoot();
-        pane.setBackground(new Background(image));
+        setVisible(false);
+        setBackground(new Background(image));
         isHidden = true ;
 
         switch (transitionStyle) {
@@ -57,20 +59,25 @@ public class GameSubScene extends SubScene {
     public void addButton(Button button, int x, int y){
         button.setLayoutX(x);
         button.setLayoutY(y);
-        pane.getChildren().add(button);
+        getChildren().add(button);
     }
 
     public void addGrid(GridPane grid, int x, int y){
         grid.setLayoutX(x);
         grid.setLayoutY(y);
-        pane.getChildren().add(grid);
+        getChildren().add(grid);
     }
 
-    public void addText(String text, int x, int y){
+    protected void addText(String text, Color color, int size, int width, int height, int x, int y){
         Label label = new Label(text);
+        label.setFont(Font.loadFont("file:src/main/resources/arcade.ttf", size));
+        label.setPrefHeight(height);
+        label.setPrefWidth(width);
+        label.setTextFill(color);
+        label.setStyle("-fx-text-alignment: CENTER; -fx-alignment: CENTER");
         label.setLayoutX(x);
         label.setLayoutY(y);
-        pane.getChildren().add(label);
+        getChildren().add(label);
     }
 
 
@@ -81,6 +88,7 @@ public class GameSubScene extends SubScene {
 
         if (transitionStyle.equals("Horizontal")) {
             if (isHidden) {
+                this.setVisible(true);
                 transition.setToX(x - SCREEN_WIDTH);
                 isHidden = false;
             } else {
@@ -89,6 +97,7 @@ public class GameSubScene extends SubScene {
             }
         } else if (transitionStyle.equals("Vertical")) {
             if (isHidden) {
+                this.setVisible(true);
                 transition.setToY(y - SCREEN_HEIGHT);
                 isHidden = false;
             } else {
@@ -98,11 +107,12 @@ public class GameSubScene extends SubScene {
         }
 
         transition.play();
+        transition.setOnFinished(event -> {
+            if (isHidden) {
+                this.setVisible(false);
+            }
+        });
 
-    }
-
-    public AnchorPane getPane() {
-        return (AnchorPane) this.getRoot();
     }
 
 }

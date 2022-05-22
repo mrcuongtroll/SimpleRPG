@@ -34,6 +34,7 @@ public class GameView extends View{
         this.canvasBattle = simpleRPG.canvasBattle;
         this.gameLoopManager = simpleRPG.gameLoopManager;
         this.mainHUD = simpleRPG.mainHUD;
+        mainHUD.showHUD();
         this.world = simpleRPG.getWorld();
         this.keyHandler = simpleRPG.keyHandler;
 
