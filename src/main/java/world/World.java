@@ -77,13 +77,13 @@ public class World extends Map {
         super(master, bgImagePath);
         this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 100, 100, 10, 10));
+                1, 5, 100, 100, 100, 100, 100, 10));
         this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/7-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 100, 100, 10, 10));
+                1, 5, 100, 100, 100, 100, 100, 10));
         this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/9-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 100, 100, 10, 10));
+                1, 5, 100, 100, 100, 100, 100, 10));
         for (NPC npc: this.npcList) {
             Event enemyEvent = new BattleEvent(this, Event.TRIGGER_TYPE_TOUCH, npc);
             npc.setEvent(enemyEvent);
@@ -177,6 +177,12 @@ public class World extends Map {
             }
         }
     }
+
+    public void removeNPC(NPC npc) {
+        this.eventList.remove(npc.getEvent());
+        this.npcList.remove(npc);
+    }
+
     public void renderNPC() {
         for (NPC npc : this.npcList) {
             npc.render();
