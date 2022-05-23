@@ -22,16 +22,17 @@ public class EffectAnimationTimer extends AnimationTimer {
     private Effect effect;
     private ImageView hitBox;
     private Character character;
-
+    private String dialogText;
     private SimpleRPG gameInstance;
 
-    public EffectAnimationTimer(Effect effect, ImageView hitBox, Character character, SimpleRPG gameInstance) {
+    public EffectAnimationTimer(Effect effect, ImageView hitBox, Character character, String dialogText, SimpleRPG gameInstance) {
         this.effect = effect;
         this.hitBox = hitBox;
         this.character = character;
         this.lastUpdate = 0;
         this.currentFrame = 1;
         this.gameInstance = gameInstance;
+        this.dialogText = dialogText;
         this.start();
     }
 
@@ -84,7 +85,7 @@ public class EffectAnimationTimer extends AnimationTimer {
             currentFrame++;
             if (currentFrame > effect.getNumEffectFrame()) {
                 this.stop();
-                BattleMap.showDialog("IT LA vua cua moi nghe");
+                BattleMap.showDialog(this.dialogText);
             }
         }
     }
