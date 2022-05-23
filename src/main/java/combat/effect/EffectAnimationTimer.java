@@ -9,6 +9,7 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import main.SimpleRPG;
 import world.BattleMap;
 
 import java.nio.file.Paths;
@@ -20,16 +21,17 @@ public class EffectAnimationTimer extends AnimationTimer {
     private String currentFramePath;
     private Effect effect;
     private ImageView hitBox;
-    private Character attacker;
-    private Character defender;
+    private Character character;
 
-    public EffectAnimationTimer(Effect effect, ImageView hitBox, Character attacker, Character defender) {
+    private SimpleRPG gameInstance;
+
+    public EffectAnimationTimer(Effect effect, ImageView hitBox, Character character, SimpleRPG gameInstance) {
         this.effect = effect;
         this.hitBox = hitBox;
-        this.attacker = attacker;
-        this.defender = defender;
+        this.character = character;
         this.lastUpdate = 0;
         this.currentFrame = 1;
+        this.gameInstance = gameInstance;
         this.start();
     }
 
@@ -45,13 +47,13 @@ public class EffectAnimationTimer extends AnimationTimer {
                 TranslateTransition transitionForward = new TranslateTransition(Duration.seconds(0.1));
                 TranslateTransition transitionBackward = new TranslateTransition(Duration.seconds(0.1));
 
-                if (defender instanceof Enemy) {
+                if (character instanceof Enemy) {
                     fadeTransitionForward.setNode(BattleMap.getEnemyFrame());
                     fadeTransitionBackward.setNode(BattleMap.getEnemyFrame());
                     transitionForward.setNode(BattleMap.getPlayerFrame());
                     transitionBackward.setNode(BattleMap.getPlayerFrame());
                     transitionForward.setToX(transitionForward.getNode().getScaleX() + 100);
-                } else if (defender instanceof Player) {
+                } else if (character instanceof Player) {
                     fadeTransitionForward.setNode(BattleMap.getPlayerFrame());
                     fadeTransitionBackward.setNode(BattleMap.getPlayerFrame());
                     transitionForward.setNode(BattleMap.getEnemyFrame());
@@ -82,7 +84,7 @@ public class EffectAnimationTimer extends AnimationTimer {
             currentFrame++;
             if (currentFrame > effect.getNumEffectFrame()) {
                 this.stop();
-                BattleMap.turnDecide();
+                BattleMap.showDialog("IT LA vua cua moi nghe");
             }
         }
     }

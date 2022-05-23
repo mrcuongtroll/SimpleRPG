@@ -1,6 +1,5 @@
 package combat.action;
 
-import combat.CombatManager;
 import combat.effect.Effect;
 import entity.Character;
 import entity.Enemy;
@@ -15,7 +14,7 @@ public class NormalAttack  extends Action{
     static Effect effect = new combat.effect.NormalAttack();
 
     public void activate(Character attacker, Character defender){
-        BattleMap.showSkillEffect(attacker, defender, effect);
+        BattleMap.showSkillEffect(defender, effect);
         int damage = attacker.getAttackPoint() - defender.getDefensePoint();
         if (damage > 0) {
             defender.setHealthPoint(defender.getHealthPoint() - damage);

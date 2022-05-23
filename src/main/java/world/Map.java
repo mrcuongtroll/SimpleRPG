@@ -6,12 +6,12 @@ import javafx.scene.image.Image;
 
 public abstract class Map {
 
-    private SimpleRPG master;
+    private static SimpleRPG master;
     private GraphicsContext gc;
     private Image bg;
 
-    public SimpleRPG getMaster() {
-        return this.master;
+    public static SimpleRPG getMaster() {
+        return master;
     }
     public GraphicsContext getGraphicsContext() {
         return this.gc;
@@ -23,9 +23,9 @@ public abstract class Map {
 
     public abstract void render();
 
-    public Map(SimpleRPG master, String imagePath) {
-        this.master = master;
-        this.gc = this.master.canvasBackground.getGraphicsContext2D();
+    public Map(SimpleRPG gameInstance, String imagePath) {
+        master = gameInstance;
+        this.gc = master.canvasBackground.getGraphicsContext2D();
         this.bg = new Image(imagePath);
     }
 }
