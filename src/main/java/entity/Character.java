@@ -251,6 +251,7 @@ public abstract class Character {
         }
         this.rect.setBounds((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), (int)this.rect.getWidth(), (int)this.rect.getHeight());
         // TODO: Refine relative position for checking collision and stuff
+        // TODO: Idea: split the coordinates into logical and display coordinates
         // Handle frame changing
         if (this.getDy() == 0) {
             if (this.getDx() > 0) {
