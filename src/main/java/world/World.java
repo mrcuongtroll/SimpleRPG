@@ -3,6 +3,8 @@ package world;
 import entity.Enemy;
 import entity.NPC;
 import entity.Player;
+import event.BattleEvent;
+import event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -12,6 +14,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class World extends Map {
@@ -26,7 +29,8 @@ public class World extends Map {
     private BufferedImage mask;
     private int[][] maskArray;
     private ArrayList<Tile> tileList = new ArrayList<Tile>();
-    public ArrayList<NPC> npcList = new ArrayList<>();
+    public ArrayList<NPC> npcList = new ArrayList<NPC>();
+    public ArrayList<Event> eventList = new ArrayList<Event>();
 
     private boolean isPlayerSprinting = false;
     private GraphicsContext gc;
@@ -80,6 +84,11 @@ public class World extends Map {
         this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/9-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
                 1, 5, 100, 100, 100, 100, 10, 10));
+        for (NPC npc: this.npcList) {
+            Event enemyEvent = new BattleEvent(this, Event.TRIGGER_TYPE_TOUCH, npc);
+            npc.setEvent(enemyEvent);
+            this.eventList.add(enemyEvent);
+        }
 
         // Load collision mask
         try {
@@ -131,6 +140,9 @@ public class World extends Map {
     }
     @Override
     protected void tick() {
+        for (Event e: this.eventList) {
+            e.tick();
+        }
         boolean canMoveH = true;
         boolean canMoveV = true;
         Player player = this.getMaster().getPlayer();

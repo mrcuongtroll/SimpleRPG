@@ -29,6 +29,8 @@ public class SimpleRPG extends Application {
     public static final int SCREEN_HEIGHT = 720;
     public Canvas canvasBackground = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
     public Canvas canvasMiddle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    public AnchorPane popupPane = new AnchorPane();
     public Canvas canvasBattle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     private Map world = new World(this, (new File("./assets/test/old map.png")).getAbsolutePath(),
@@ -87,10 +89,18 @@ public class SimpleRPG extends Application {
     public void start(Stage primaryStage) throws IOException{
         mainStage = primaryStage;
         mainStage.setTitle("Simple RPG");
+        theScene.getStylesheets().add("buttonStyle.css");
         mainStage.setScene(theScene);
         SubSceneList sceneList = new SubSceneList(this);
         openView(new StartScreenView(this));
-//        startScreenView = new StartScreenView(this);
         mainStage.show();
+    }
+
+    public GameLoopManager getGameLoopManager() {
+        return this.gameLoopManager;
+    }
+
+    public void setGameLoopManager(GameLoopManager gameLoopManager) {
+        this.gameLoopManager = gameLoopManager;
     }
 }

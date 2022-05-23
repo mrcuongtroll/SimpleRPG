@@ -2,17 +2,19 @@ package sceneElement;
 
 import combat.action.NormalAttack;
 import combat.effect.Heal;
+import entity.Enemy;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import main.SimpleRPG;
+import views.BattleView;
 import views.GameView;
 import views.StartScreenView;
 import views.View;
 import world.BattleMap;
+import world.World;
 
 import java.io.File;
 
@@ -29,6 +31,7 @@ public class SubSceneList {
     public static GameSubScene openCredit;
     public static GameSubScene openInventory;
     public static GameSubScene openSkill;
+    public static GameSubScene openGameOver;
 
     public SubSceneList(SimpleRPG simpleRPG) {
         SubSceneList.simpleRPG = simpleRPG;
@@ -37,6 +40,7 @@ public class SubSceneList {
         openInventory = createInventoryScene();
         openCredit = createCreditScene();
         openSkill = createSkillOptionScene();
+        openGameOver = createGameOverScene();
     }
 
     public static void openView(View newView){
@@ -46,6 +50,23 @@ public class SubSceneList {
     private GameSubScene createCreditScene() {
         openCredit = new GameSubScene(600, 300, 340, 210, "Horizontal", (new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath());
         return openCredit;
+    }
+
+    private GameSubScene createGameOverScene() {
+        openGameOver = new GameSubScene(600, 300, 340, 210, "Horizontal", (new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath());
+        openGameOver.addText("You died", BROWN, 50, 200, 50, 50, 30);
+        GameButton btnGoHome = new GameButton("Back to menu", 100, 50);
+        GameButton btnRetry = new GameButton("Try again", 100, 50);
+
+        btnGoHome.setOnAction(event ->  {view.cleanUpScene(); simpleRPG.mainPane.getChildren().clear(); openView(new StartScreenView(simpleRPG));});
+        btnRetry.setOnAction(event -> {
+            view.cleanUpScene();
+            simpleRPG.mainPane.getChildren().clear(); openView(new BattleView(simpleRPG, new Enemy((World) simpleRPG.getWorld(), simpleRPG, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
+                (new File("./assets/test/enemy")).getAbsolutePath(),
+                1, 5, 100, 100, 100, 100, 15, 0)));
+        });
+
+        return openGameOver;
     }
 
     private GameSubScene createInventoryScene() {
@@ -62,8 +83,9 @@ public class SubSceneList {
                 int index = j + i*3;
                 Image testImage = new Image(listOfFile != null ? listOfFile[index].getAbsolutePath() : null, 50, 50, false, true);
                 ImageView imageView = new ImageView(testImage);
+                imageView.getStyleClass().add("imageView");
                 imageView.setFocusTraversable(true);
-                imageView.setOnMouseEntered(event -> imageView.setEffect(new DropShadow()));
+                imageView.setOnMouseEntered(event -> imageView.requestFocus());
                 imageView.setOnMouseExited(event -> imageView.setEffect(null));
                 imageView.setOnMouseClicked(event -> System.out.println("Item " + index));
                 GridPane.setMargin(imageView, new Insets(10, 10, 10, 10));

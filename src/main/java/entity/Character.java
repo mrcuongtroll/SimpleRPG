@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import main.SimpleRPG;
 import world.Tile;
 import world.World;
+import event.Event;
 
 import java.awt.*;
 
@@ -45,6 +46,7 @@ public abstract class Character {
     private double lastRelativeX;
     private double lastRelativeY;
     private Image image;
+    private Event event;
     private GraphicsContext gc;
     public GraphicsContext getGraphicContext() {
         return this.gc;
@@ -83,6 +85,9 @@ public abstract class Character {
     public double getLastX() {
         return this.lastRelativeX;
     }
+    public Event getEvent() {
+        return this.event;
+    }
     public double getLastY() {
         return this.lastRelativeY;
     }
@@ -106,6 +111,9 @@ public abstract class Character {
     }
     public void setMovementSpeed(double movementSpeed) {
         this.movementSpeed = movementSpeed;
+    }
+    public void setEvent(Event e) {
+        this.event = e;
     }
     public int getHealthPoint(){
         return this.healthPoint;
@@ -251,6 +259,7 @@ public abstract class Character {
         }
         this.rect.setBounds((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), (int)this.rect.getWidth(), (int)this.rect.getHeight());
         // TODO: Refine relative position for checking collision and stuff
+        // TODO: Idea: split the coordinates into logical and display coordinates
         // Handle frame changing
         if (this.getDy() == 0) {
             if (this.getDx() > 0) {

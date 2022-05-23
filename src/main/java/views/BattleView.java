@@ -10,12 +10,9 @@ import main.HUD;
 import main.SimpleRPG;
 import world.BattleMap;
 import world.Map;
-import world.World;
 
 import java.io.File;
 
-import static main.SimpleRPG.SCREEN_HEIGHT;
-import static main.SimpleRPG.SCREEN_WIDTH;
 import static sceneElement.SubSceneList.*;
 
 public class BattleView extends View{
@@ -30,7 +27,7 @@ public class BattleView extends View{
     private HUD mainHUD;
     private Map world;
 
-    public BattleView(SimpleRPG simpleRPG){
+    public BattleView(SimpleRPG simpleRPG, Enemy enemy){
         super(simpleRPG);
         clearPane();
 
@@ -39,7 +36,6 @@ public class BattleView extends View{
         this.canvasBackground = simpleRPG.canvasBackground;
         this.canvasMiddle = simpleRPG.canvasMiddle;
         this.canvasBattle = simpleRPG.canvasBattle;
-        this.gameLoopManager = simpleRPG.gameLoopManager;
         this.mainHUD = simpleRPG.mainHUD;
         this.world = simpleRPG.getWorld();
         this.keyHandler = simpleRPG.keyHandler;
@@ -52,22 +48,23 @@ public class BattleView extends View{
         mainPane.getChildren().add(canvasBattle);
         mainPane.getChildren().add(mainHUD.getHUD());
 
-        BattleMap battleMap = new BattleMap(simpleRPG, this, (new File("./assets/test/battle_map.png")).getAbsolutePath(),
-                new Enemy((World) simpleRPG.getWorld(), simpleRPG, SCREEN_WIDTH/5-16, SCREEN_HEIGHT/2-40, "Enemy",
-                        (new File("./assets/test/enemy")).getAbsolutePath(),
-                        1, 5, 100, 100, 100, 100, 15, 0));
+        BattleMap battleMap = new BattleMap(simpleRPG, this, (new File("./assets/test/battle_map.png")).getAbsolutePath(), enemy);
 
+        simpleRPG.getGameLoopManager().stop();
         simpleRPG.setBattleMap(battleMap);
         simpleRPG.setWorld(battleMap);
+        simpleRPG.setGameLoopManager(new GameLoopManager(simpleRPG));
 
         createScreenElements();
-        gameLoopManager.start();
+        this.gameLoopManager = simpleRPG.getGameLoopManager();
+        this.gameLoopManager.start();
     }
 
     public void createScreenElements(){
         addSubSceneToPane(openBattleOption);
         addSubSceneToPane(openInventory);
         addSubSceneToPane(openSkill);
+        addSubSceneToPane(openGameOver);
 //        showSubScene(openBattleOption);
     }
 
