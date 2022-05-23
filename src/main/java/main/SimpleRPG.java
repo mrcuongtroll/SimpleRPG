@@ -93,10 +93,10 @@ public class SimpleRPG extends Application {
     public void start(Stage primaryStage) throws IOException{
         mainStage = primaryStage;
         mainStage.setTitle("Simple RPG");
+        theScene.getStylesheets().add("buttonStyle.css");
         mainStage.setScene(theScene);
         SubSceneList sceneList = new SubSceneList(this);
         openView(new StartScreenView(this));
-//        startScreenView = new StartScreenView(this);
         mainStage.show();
     }
 }

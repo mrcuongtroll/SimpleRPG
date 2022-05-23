@@ -51,6 +51,7 @@ public class GameView extends View{
         simpleRPG.setGameLoopManager(new GameLoopManager(simpleRPG));
         this.gameLoopManager = simpleRPG.getGameLoopManager();
         CreateScreenElements();
+        canvasMiddle.requestFocus();
         this.gameLoopManager.start();
     }
 
