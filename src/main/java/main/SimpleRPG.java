@@ -95,4 +95,12 @@ public class SimpleRPG extends Application {
         openView(new StartScreenView(this));
         mainStage.show();
     }
+
+    public GameLoopManager getGameLoopManager() {
+        return this.gameLoopManager;
+    }
+
+    public void setGameLoopManager(GameLoopManager gameLoopManager) {
+        this.gameLoopManager = gameLoopManager;
+    }
 }
