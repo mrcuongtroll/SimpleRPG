@@ -24,7 +24,6 @@ public class SimpleRPG extends Application {
 
     //Variables for starting screen
     public Stage mainStage;
-    public StartScreenView startScreenView;
     public static final int SCREEN_WIDTH = 1280;
     public static final int SCREEN_HEIGHT = 720;
     public Canvas canvasBackground = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -87,6 +86,8 @@ public class SimpleRPG extends Application {
     public void start(Stage primaryStage) throws IOException{
         mainStage = primaryStage;
         mainStage.setTitle("Simple RPG");
+//        String scenesStyle= getClass().getResource("resources/buttonStyle.css").toExternalForm();
+        theScene.getStylesheets().add("buttonStyle.css");
         mainStage.setScene(theScene);
         SubSceneList sceneList = new SubSceneList(this);
         openView(new StartScreenView(this));

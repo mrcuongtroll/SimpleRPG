@@ -10,16 +10,14 @@ import main.HUD;
 import main.SimpleRPG;
 import world.BattleMap;
 import world.Map;
-import world.World;
 
 import java.io.File;
 
-import static main.SimpleRPG.SCREEN_HEIGHT;
-import static main.SimpleRPG.SCREEN_WIDTH;
 import static sceneElement.SubSceneList.*;
 
 public class BattleView extends View{
 
+<<<<<<< Updated upstream
     private Scene theScene;
     private AnchorPane mainPane;
     private Canvas canvasBackground;
@@ -43,6 +41,20 @@ public class BattleView extends View{
         this.mainHUD = simpleRPG.mainHUD;
         this.world = simpleRPG.getWorld();
         this.keyHandler = simpleRPG.keyHandler;
+=======
+    public BattleView(SimpleRPG simpleRPG, Enemy enemy){
+        super(simpleRPG);
+        clearPane();
+
+        Scene theScene = simpleRPG.theScene;
+        AnchorPane mainPane = simpleRPG.mainPane;
+        Canvas canvasBackground = simpleRPG.canvasBackground;
+        Canvas canvasMiddle = simpleRPG.canvasMiddle;
+        Canvas canvasBattle = simpleRPG.canvasBattle;
+        HUD mainHUD = simpleRPG.mainHUD;
+        Map world = simpleRPG.getWorld();
+        KeyHandler keyHandler = simpleRPG.keyHandler;
+>>>>>>> Stashed changes
 
 
         theScene.setOnKeyPressed(keyHandler);
@@ -61,6 +73,10 @@ public class BattleView extends View{
         simpleRPG.setWorld(battleMap);
 
         createScreenElements();
+<<<<<<< Updated upstream
+=======
+        GameLoopManager gameLoopManager = simpleRPG.getGameLoopManager();
+>>>>>>> Stashed changes
         gameLoopManager.start();
     }
 
@@ -68,6 +84,8 @@ public class BattleView extends View{
         addSubSceneToPane(openBattleOption);
         addSubSceneToPane(openInventory);
         addSubSceneToPane(openSkill);
+        addSubSceneToPane(openGameOver);
+
 //        showSubScene(openBattleOption);
     }
 

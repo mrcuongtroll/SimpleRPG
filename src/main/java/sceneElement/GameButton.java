@@ -1,8 +1,8 @@
 package sceneElement;
 
 import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -24,39 +24,36 @@ public class GameButton extends Button {
         setBackground(new Background(image));
     }
 
-
-
     public GameButton(String text, int width, int height) {
         this.width = width;
         this.height = height;
 
         setText(text);
-        setButtonFont(10);
+//        setButtonFont(10);
         setPrefWidth(width);
         setPrefHeight(height);
-        setStyle("-fx-wrap-text: true; -fx-text-alignment: CENTER; -fx-alignment: CENTER;");
+//        setStyle("-fx-wrap-text: true; -fx-text-alignment: CENTER; -fx-alignment: CENTER;");
         setBackground((new File("./assets/test/button/smallFree.png").getAbsolutePath()));
         initializeButtonListeners();
 
         //Comment this to navigate buttons with arrow keys
-        setFocusTraversable(false);
+//        setFocusTraversable(false);
 
     }
 
     private void setButtonFont(int size) {
-
         setFont(Font.loadFont("file:src/main/resources/arcade.ttf", size));
         setTextFill(Color.BROWN);
     }
 
     private void setButtonPressedStyle() {
-        setBackground((new File("./assets/test/button/smallPressed.png").getAbsolutePath()));
+//        setBackground((new File("./assets/test/button/smallPressed.png").getAbsolutePath()));
         setPrefHeight(height);
         setLayoutY(getLayoutY() + 4);
     }
 
     private void setButtonReleasedStyle() {
-        setBackground((new File("./assets/test/button/smallFree.png").getAbsolutePath()));
+//        setBackground((new File("./assets/test/button/smallFree.png").getAbsolutePath()));
         setPrefHeight(height);
         setLayoutY(getLayoutY() - 4);
     }
@@ -76,7 +73,19 @@ public class GameButton extends Button {
             }
         });
 
-        setOnMouseEntered(event -> setEffect(new DropShadow()));
+        setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.SPACE)) {
+                setButtonPressedStyle();
+            }
+        });
+
+        setOnKeyReleased(event -> {
+            if (event.getCode().equals(KeyCode.SPACE)) {
+                setButtonReleasedStyle();
+            }
+        });
+
+        setOnMouseEntered(event -> requestFocus());
 
         setOnMouseExited(event -> setEffect(null));
     }

@@ -13,15 +13,15 @@ import static sceneElement.SubSceneList.openSetting;
 
 public class GameView extends View{
 
-    private Scene theScene;
-    private AnchorPane mainPane;
-    private Canvas canvasBackground;
-    private Canvas canvasMiddle;
-    private Canvas canvasBattle;
-    private GameLoopManager gameLoopManager;
-    private KeyHandler keyHandler;
-    private HUD mainHUD;
-    private Map world;
+    private final Scene theScene;
+    private final AnchorPane mainPane;
+    private final Canvas canvasBackground;
+    private final Canvas canvasMiddle;
+    private final Canvas canvasBattle;
+    private final GameLoopManager gameLoopManager;
+    private final KeyHandler keyHandler;
+    private final HUD mainHUD;
+    private final Map world;
 
     public GameView(SimpleRPG simpleRPG){
         super(simpleRPG);
@@ -55,6 +55,7 @@ public class GameView extends View{
     private void CreateScreenElements(){
         addSubSceneToPane(openSetting);
         createSubSceneButton("Pause", openSetting,150, 60, 1100, 20);
+
     }
 
 }
