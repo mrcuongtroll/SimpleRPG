@@ -14,6 +14,33 @@ public class Player extends Character {
     private Armor armor;
     private int stamina;
     private boolean isSprinting;
+
+    @Override
+    public double getRelativeX() {
+        double xPos = Player.X;
+        // Now check if the map scrolls or not
+        World world = ((World) this.getMaster().getWorld());
+        // Check x-axis:
+        if (this.getX() - world.getX() <= SimpleRPG.SCREEN_WIDTH) {
+            xPos = this.getX() - world.getX();
+        } else if (this.getX() - world.getX() >= world.getBg().getWidth() - SimpleRPG.SCREEN_WIDTH) {
+            xPos = this.getX() - world.getX() - (world.getBg().getWidth() - SimpleRPG.SCREEN_WIDTH);
+        }
+        return xPos - world.getX();
+    }
+    @Override
+    public double getRelativeY() {
+        double yPos = Player.Y;
+        // Now check if the map scrolls or not
+        World world = ((World) this.getMaster().getWorld());
+        // Check y-axis:
+        if (this.getY() - world.getY() <= SimpleRPG.SCREEN_HEIGHT) {
+            yPos = this.getY() - world.getY();
+        } else if (this.getY() - world.getY() >= world.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT) {
+            yPos = this.getY() - world.getY() - (world.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT);
+        }
+        return yPos - world.getY();
+    }
     public int getStamina() {
         return this.stamina;
     }
