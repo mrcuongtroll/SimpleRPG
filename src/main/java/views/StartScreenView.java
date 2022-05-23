@@ -42,7 +42,7 @@ public class StartScreenView extends View{
             view.cleanUpScene();
             new BattleView(simpleRPG, new Enemy((World) simpleRPG.getWorld(), simpleRPG, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
                     (new File("./assets/test/enemy")).getAbsolutePath(),
-                    1, 5, 100, 100, 100, 100, 15, 0));
+                    1, 5, 100, 100, 100, 100, 20, 0));
         });
         createSubSceneButton("Setting", openSetting,MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 200);
         createSubSceneButton("Credit", openCredit,MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 300);

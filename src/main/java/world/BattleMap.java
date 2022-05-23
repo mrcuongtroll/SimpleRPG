@@ -17,6 +17,7 @@ import main.SimpleRPG;
 import sceneElement.GameSubScene;
 import sceneElement.SubSceneList;
 import views.BattleView;
+import views.GameView;
 
 public class BattleMap extends Map {
 
@@ -150,23 +151,32 @@ public class BattleMap extends Map {
     }
 
     public static void turnDecide() {
-        Character currentTurnChar = combatManager.getCurrentTurnCharacter();
-        if (currentTurnChar instanceof Player) {
+        if (enemy.getHealthPoint() <= 0) {
             view.cleanUpScene();
-            view.showSubScene(SubSceneList.openBattleOption);
-            System.out.println("Player turn");
-        } else if (currentTurnChar instanceof Enemy) {
+            new GameView(getMaster());
+            ((World) getMaster().getWorld()).removeNPC(enemy);
+        } else if (player.getHealthPoint() <= 0) {
             view.cleanUpScene();
-            System.out.println("Enemy turn");
-            (new NormalAttack()).activate(currentTurnChar, player);
+            view.showSubScene(SubSceneList.openGameOver);
+        } else {
+            Character currentTurnChar = combatManager.getCurrentTurnCharacter();
+            if (currentTurnChar instanceof Player) {
+                view.cleanUpScene();
+                view.showSubScene(SubSceneList.openBattleOption);
+                System.out.println("Player turn");
+            } else if (currentTurnChar instanceof Enemy) {
+                view.cleanUpScene();
+                System.out.println("Enemy turn");
+                (new NormalAttack()).activate(currentTurnChar, player);
+            }
         }
     }
 
-    public static void showSkillEffect(Character character, Effect effect) {
+    public static void showSkillEffect(Character character, Effect effect, String dialogText) {
         if (character instanceof Player) {
-            new EffectAnimationTimer(effect, playerHitBox, character, getMaster());
+            new EffectAnimationTimer(effect, playerHitBox, character, dialogText, getMaster());
         } else if (character instanceof Enemy) {
-            new EffectAnimationTimer(effect, enemyHitBox, character, getMaster());
+            new EffectAnimationTimer(effect, enemyHitBox, character, dialogText, getMaster());
         }
     }
 
