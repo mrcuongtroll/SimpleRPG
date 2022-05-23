@@ -10,12 +10,9 @@ import main.HUD;
 import main.SimpleRPG;
 import world.BattleMap;
 import world.Map;
-import world.World;
 
 import java.io.File;
 
-import static main.SimpleRPG.SCREEN_HEIGHT;
-import static main.SimpleRPG.SCREEN_WIDTH;
 import static sceneElement.SubSceneList.*;
 
 public class BattleView extends View{
@@ -67,6 +64,7 @@ public class BattleView extends View{
         addSubSceneToPane(openBattleOption);
         addSubSceneToPane(openInventory);
         addSubSceneToPane(openSkill);
+        addSubSceneToPane(openGameOver);
 //        showSubScene(openBattleOption);
     }
 

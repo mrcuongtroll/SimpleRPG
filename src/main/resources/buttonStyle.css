@@ -1,0 +1,41 @@
+.root {
+    -fx-font-family: "Arcade Normal";
+}
+
+.button {
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-background-color: transparent;
+    -fx-background-image: url("/smallFree.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: contain;
+    -fx-background-position: center;
+    -fx-text-fill: brown;
+    -fx-wrap-text: true;
+    -fx-text-alignment: CENTER;
+    -fx-alignment: CENTER;
+    -fx-font-size: 8;
+
+}
+.button:hover {
+}
+.button:pressed {
+}
+
+.button:focused {
+    -fx-background-image: url("/smallPressed.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+
+}
+.button Text {
+    -fx-fill: white;
+    -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
+}
+
+.imageView:focused {
+    -fx-effect: dropshadow( gaussian , rgba(200,0,0,1) , 10,0,0,1 );
+}
+
+.imageView:hover {
+    -fx-effect: dropshadow( gaussian , rgba(200,0,0,1) , 10,0,0,1 );
+}
