@@ -20,8 +20,20 @@ public abstract class Event {
     private Rectangle rect;
     private boolean triggered = false;
 
+    public SimpleRPG getGameInstance() {
+        return this.gameInstance;
+    }
+
+    public Character getCharacter() {
+        return this.character;
+    }
+
     public Rectangle getRect() {
         return this.rect;
+    }
+
+    public World getWorld() {
+        return this.world;
     }
 
     public Event(World world, String triggerType) {

@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import main.SimpleRPG;
 import world.Tile;
 import world.World;
+import event.Event;
 
 import java.awt.*;
 
@@ -45,6 +46,7 @@ public abstract class Character {
     private double lastRelativeX;
     private double lastRelativeY;
     private Image image;
+    private Event event;
     private GraphicsContext gc;
     public GraphicsContext getGraphicContext() {
         return this.gc;
@@ -83,6 +85,9 @@ public abstract class Character {
     public double getLastX() {
         return this.lastRelativeX;
     }
+    public Event getEvent() {
+        return this.event;
+    }
     public double getLastY() {
         return this.lastRelativeY;
     }
@@ -106,6 +111,9 @@ public abstract class Character {
     }
     public void setMovementSpeed(double movementSpeed) {
         this.movementSpeed = movementSpeed;
+    }
+    public void setEvent(Event e) {
+        this.event = e;
     }
     public int getHealthPoint(){
         return this.healthPoint;

@@ -46,13 +46,16 @@ public class SimpleRPG extends Application {
     public AnchorPane mainPane = new AnchorPane();
     public Scene theScene = new Scene(mainPane, SCREEN_WIDTH, SCREEN_HEIGHT);
     public HUD mainHUD = new HUD(this, player);
-    public GameLoopManager gameLoopManager = new GameLoopManager(this);
+    private GameLoopManager gameLoopManager = new GameLoopManager(this);
 
     public Map battleMap;
     public Map archiveWorld = world;
 
     public Map getWorld() {
         return this.world;
+    }
+    public GameLoopManager getGameLoopManager() {
+        return this.gameLoopManager;
     }
 
     public void setWorld(Map world) {
@@ -61,6 +64,9 @@ public class SimpleRPG extends Application {
 
     public void setBattleMap(Map world) {
         this.battleMap = world;
+    }
+    public void setGameLoopManager(GameLoopManager glm) {
+        this.gameLoopManager = glm;
     }
 
     public void setArchiveWorld(Map world) {

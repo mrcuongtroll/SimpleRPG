@@ -32,7 +32,6 @@ public class GameView extends View{
         this.canvasBackground = simpleRPG.canvasBackground;
         this.canvasMiddle = simpleRPG.canvasMiddle;
         this.canvasBattle = simpleRPG.canvasBattle;
-        this.gameLoopManager = simpleRPG.gameLoopManager;
         this.mainHUD = simpleRPG.mainHUD;
         mainHUD.showHUD();
         this.world = simpleRPG.getWorld();
@@ -46,10 +45,13 @@ public class GameView extends View{
         mainPane.getChildren().add(canvasBattle);
         mainPane.getChildren().add(mainHUD.getHUD());
 
+        simpleRPG.getGameLoopManager().stop();
 //        simpleRPG.setArchiveWorld(world);
         simpleRPG.setWorld(simpleRPG.archiveWorld);
+        simpleRPG.setGameLoopManager(new GameLoopManager(simpleRPG));
+        this.gameLoopManager = simpleRPG.getGameLoopManager();
         CreateScreenElements();
-        gameLoopManager.start();
+        this.gameLoopManager.start();
     }
 
     private void CreateScreenElements(){
