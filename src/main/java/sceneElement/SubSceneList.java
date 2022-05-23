@@ -40,6 +40,7 @@ public class SubSceneList {
         openInventory = createInventoryScene();
         openCredit = createCreditScene();
         openSkill = createSkillOptionScene();
+        openGameOver = createGameOverScene();
     }
 
     public static void openView(View newView){
