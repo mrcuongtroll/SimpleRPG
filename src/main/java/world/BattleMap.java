@@ -7,25 +7,15 @@ import combat.effect.EffectAnimationTimer;
 import entity.Character;
 import entity.Enemy;
 import entity.Player;
-import javafx.animation.AnimationTimer;
-import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 import main.SimpleRPG;
 import sceneElement.SubSceneList;
 import views.BattleView;
-
-import java.nio.file.Paths;
 
 public class BattleMap extends Map {
 
@@ -168,11 +158,11 @@ public class BattleMap extends Map {
         }
     }
 
-    public static void showSkillEffect(Character attacker, Character defender, Effect effect) {
-        if (defender instanceof Player) {
-            new EffectAnimationTimer(effect, playerHitBox, attacker, defender);
-        } else if (defender instanceof Enemy) {
-            new EffectAnimationTimer(effect, enemyHitBox, attacker, defender);
+    public static void showSkillEffect(Character character, Effect effect) {
+        if (character instanceof Player) {
+            new EffectAnimationTimer(effect, playerHitBox, character);
+        } else if (character instanceof Enemy) {
+            new EffectAnimationTimer(effect, enemyHitBox, character);
         }
     }
 

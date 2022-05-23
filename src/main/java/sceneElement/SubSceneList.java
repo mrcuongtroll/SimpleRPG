@@ -129,7 +129,7 @@ public class SubSceneList {
 
             simpleRPG.player.increaseHealthPoint(10);
             simpleRPG.player.increaseManaPoint(10);
-            BattleMap.showSkillEffect(simpleRPG.getPlayer(), simpleRPG.getPlayer(), new Heal());
+            BattleMap.showSkillEffect(simpleRPG.getPlayer(), new Heal());
 
         });
 
