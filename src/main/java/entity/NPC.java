@@ -30,16 +30,16 @@ public abstract class NPC extends Character {
         this.mode = mode;
     }
     public NPC(World worldMaster, SimpleRPG master, int x, int y, String name, String imagePath,
-               int level, int healthPoint, int manaPoint, boolean isSolid, String mode) {
-        super(master, x, y, name, imagePath, 32, 80, level, healthPoint, manaPoint, isSolid);
+               int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid, String mode) {
+        super(master, x, y, name, imagePath, 32, 80, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, isSolid);
         this.worldMaster = worldMaster;
         this.mode = mode;
         this.frameCounter = new Random().nextInt(100);
         this.setMovementSpeed(NPC.MOVEMENT_SPEED);
     }
     public NPC(World worldMaster, SimpleRPG master, int x, int y, String name, String imagePath,
-               int level, int healthPoint, int manaPoint, boolean isSolid) {
-        this(worldMaster, master, x, y, name, imagePath, level, healthPoint, manaPoint, isSolid, NPC.MODE_IDLE);
+               int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid) {
+        this(worldMaster, master, x, y, name, imagePath, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, isSolid, NPC.MODE_IDLE);
     }
 
     @Override

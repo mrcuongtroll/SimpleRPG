@@ -1,12 +1,31 @@
 package combat.effect;
 
-public abstract class  Effect {
-     private final String[] effectImagePaths;
+import java.io.File;
 
-     protected Effect(String[] effectImagePaths) {
-          this.effectImagePaths = effectImagePaths;
+public abstract class Effect {
+     public static final String SELF_APPLY_EFFECT = "SELF";
+     public static final String OPPONENT_APPLY_EFFECT = "OPPONENT";
+     private String effectImagePath;
+     private int numEffectFrame;
+     private String name;
+     private String effectType;
+     protected Effect(String effectImagePath, String name, int numEffectFrame, String effectType) {
+          this.effectImagePath = effectImagePath;
+          this.name = name;
+          this.numEffectFrame = numEffectFrame;
+          this.effectType = effectType;
      }
-     public String[] getEffectImagePaths(){
-          return effectImagePaths;
+     public String getEffectImagePath(){
+          return (new File(effectImagePath)).getAbsolutePath();
+     }
+     public int getNumEffectFrame() {
+          return this.numEffectFrame;
+     }
+     public String getName() {
+          return this.name;
+     }
+
+     public String getEffectType() {
+          return effectType;
      }
 }

@@ -90,4 +90,8 @@ public class HUD {
     public void hideHUD() {
         this.groupContainer.setVisible(false);
     }
+
+    public void showHUD() {
+        this.groupContainer.setVisible(true);
+    }
 }

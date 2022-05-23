@@ -1,9 +1,10 @@
 package combat.action;
 
 import combat.effect.Effect;
-import combat.entity.Enemy;
-import combat.entity.Player;
 import combat.entity.TestChar;
+import entity.Character;
+import entity.Enemy;
+import entity.Player;
 
 public abstract class Action {
     String name;
@@ -24,5 +25,5 @@ public abstract class Action {
     the player method will take in the correct parameter
     the enemy method takes in both Player array and Enemy array
     */
-    abstract public void randomActivate(TestChar currentTurnChar, Player[] players, Enemy[] enemies);
+    abstract public void randomActivate(Character currentTurnChar, Player player, Enemy enemy);
 }

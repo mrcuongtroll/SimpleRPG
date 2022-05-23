@@ -1,5 +1,6 @@
 package entity;
 
+import combat.action.Action;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import main.SimpleRPG;
@@ -10,16 +11,15 @@ import java.awt.*;
 
 public abstract class Character {
     public static final String DEFAULT_IMAGE_PATH = "/default/";
-    public static final String DOWN_IMAGE_PATH = "/move_down/";
-    public static final String UP_IMAGE_PATH = "/move_up/";
-    public static final String LEFT_IMAGE_PATH = "/move_left/";
-    public static final String RIGHT_IMAGE_PATH = "/move_right/";
     public static final String BATTLE_IMAGE_PATH = "/battle/";
     public static final int NUM_IMAGE_FRAME = 4;
+
     public static final String DOWN = "/move_down/";
     public static final String UP = "/move_up/";
     public static final String LEFT = "/move_left/";
     public static final String RIGHT = "/move_right/";
+    public static final int MINIMUM_SPEED = 0;
+
     private SimpleRPG master;
     private String name;
     private double x;
@@ -32,8 +32,13 @@ public abstract class Character {
     private double movementSpeed;
     private int lastMove;
     private int level;
+    private int attackSpeed;
+    private Action[] combatActionList;
+    private int turnProgress = 0;
     private int manaPoint;
     private int healthPoint;
+    private int maxHealthPoint;
+    private int maxManaPoint;
     private String imagePath;
     private int currentFrame;
     private String lastDirection;
@@ -108,11 +113,43 @@ public abstract class Character {
     public int getManaPoint(){
         return this.manaPoint;
     }
+    public int getAttackSpeed(){
+        return this.attackSpeed;
+    }
+    public abstract int getAttackPoint();
+    public abstract int getDefensePoint();
+    public void advanceTurn(){
+        this.turnProgress += this.attackSpeed;
+    }
+    public int getTurnProgress() {
+        return turnProgress;
+    }
+    public void setTurnProgress(int turnProgress) {
+        this.turnProgress = turnProgress;
+    }
+    public Action[] getActionList() {
+        return this.combatActionList;
+    }
+    public void setActionList(Action[] actionList) {
+        this.combatActionList = actionList;
+    }
     public void increaseHealthPoint(int amount){
         healthPoint += amount;
+        if (healthPoint >= maxHealthPoint) {
+            healthPoint = maxHealthPoint;
+        }
     }
     public void increaseManaPoint(int amount){
         manaPoint += amount;
+        if (manaPoint >= maxManaPoint) {
+            manaPoint = maxManaPoint;
+        }
+    }
+    public void setHealthPoint(int healthPoint){
+        this.healthPoint = healthPoint;
+    }
+    public void setManaPoint(int manaPoint){
+        this.manaPoint = manaPoint;
     }
     public String getName() {
         return this.name;
@@ -137,7 +174,8 @@ public abstract class Character {
     }
 
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
-                     int width, int height, int level, int healthPoint, int manaPoint, boolean isSolid) {
+                     int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid) {
+
         this.master = master;
         this.x = x;
         this.y = y;
@@ -152,8 +190,13 @@ public abstract class Character {
         this.image = new Image(imagePath + DEFAULT_IMAGE_PATH + "1.png");
         this.gc = this.master.canvasMiddle.getGraphicsContext2D();
         this.level = level;
+        this.attackSpeed = attackSpeed;
         this.healthPoint = healthPoint;
         this.manaPoint = manaPoint;
+
+        this.maxHealthPoint = maxHealthPoint;
+        this.maxManaPoint = maxManaPoint;
+
         this.isSolid = isSolid;
         this.rect = new Rectangle((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), 2*Tile.TILE_SIZE, Tile.TILE_SIZE);
         this.tile = new Tile(this.rect, isSolid);
@@ -162,8 +205,9 @@ public abstract class Character {
         }
     }
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
-                     int width, int height, int level, int healthPoint, int manaPoint) {
-        this(master, x, y, name, imagePath, width, height, level, healthPoint, manaPoint, true);
+                     int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint) {
+        this(master, x, y, name, imagePath, width, height, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true);
+
     }
 
     public void render() {
@@ -211,21 +255,21 @@ public abstract class Character {
         // Handle frame changing
         if (this.getDy() == 0) {
             if (this.getDx() > 0) {
-                this.changeFrame(Character.RIGHT_IMAGE_PATH);
+                this.changeFrame(Character.RIGHT);
             } else if (this.getDx() < 0) {
-                this.changeFrame(Character.LEFT_IMAGE_PATH);
+                this.changeFrame(Character.LEFT);
             }
         } else if (this.getDx() == 0) {
             if (this.getDy() > 0) {
-                this.changeFrame(Character.DOWN_IMAGE_PATH);
+                this.changeFrame(Character.DOWN);
             } else if (this.getDy() < 0) {
-                this.changeFrame(Character.UP_IMAGE_PATH);
+                this.changeFrame(Character.UP);
             }
         } else if (this.getDx() != 0 && this.getDy() != 0) {
             if (this.getDx() > 0) {
-                this.changeFrame(Character.RIGHT_IMAGE_PATH);
+                this.changeFrame(Character.RIGHT);
             } else if (this.getDx() < 0) {
-                this.changeFrame(Character.LEFT_IMAGE_PATH);
+                this.changeFrame(Character.LEFT);
             }
         }
     }
@@ -276,19 +320,19 @@ public abstract class Character {
         switch (direction) {
             case Character.DOWN -> {
                 this.dy = 0;
-                this.defaultFrame(Character.DOWN_IMAGE_PATH);
+                this.defaultFrame(Character.DOWN);
             }
             case Character.UP -> {
                 this.dy = 0;
-                this.defaultFrame(Character.UP_IMAGE_PATH);
+                this.defaultFrame(Character.UP);
             }
             case Character.LEFT -> {
                 this.dx = 0;
-                this.defaultFrame(Character.LEFT_IMAGE_PATH);
+                this.defaultFrame(Character.LEFT);
             }
             case Character.RIGHT -> {
                 this.dx = 0;
-                this.defaultFrame(Character.RIGHT_IMAGE_PATH);
+                this.defaultFrame(Character.RIGHT);
             }
             default -> {}
         }
