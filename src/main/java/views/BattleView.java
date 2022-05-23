@@ -47,6 +47,7 @@ public class BattleView extends View{
         mainPane.getChildren().add(canvasMiddle);
         mainPane.getChildren().add(canvasBattle);
         mainPane.getChildren().add(mainHUD.getHUD());
+//        mainPane.getChildren().add(simpleRPG.popupPane);
 
         BattleMap battleMap = new BattleMap(simpleRPG, this, (new File("./assets/test/battle_map.png")).getAbsolutePath(), enemy);
 
@@ -61,6 +62,7 @@ public class BattleView extends View{
     }
 
     public void createScreenElements(){
+        addSubSceneToPane(openDialog);
         addSubSceneToPane(openBattleOption);
         addSubSceneToPane(openInventory);
         addSubSceneToPane(openSkill);

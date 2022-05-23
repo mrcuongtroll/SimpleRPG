@@ -44,7 +44,6 @@ public class BattleMap extends Map {
     private static final int BAR_WIDTH = 100;
     private static Player player;
     private static Enemy enemy;
-
     private static CombatManager combatManager;
     private static BattleView view;
     public Player getPlayer() {
@@ -60,6 +59,10 @@ public class BattleMap extends Map {
 
     public static ImageView getPlayerFrame() {
         return playerFrame;
+    }
+
+    public static BattleView getView() {
+        return view;
     }
 
     public BattleMap(SimpleRPG master, BattleView battleView, String imagePath, Enemy enemyFighter) {
@@ -118,9 +121,9 @@ public class BattleMap extends Map {
     }
 
     public void start() {
-        this.getMaster().hideHUD();
+        getMaster().hideHUD();
         this.getGraphicsContext().setFill(Color.BLACK);
-        this.getGraphicsContext().fillRect(0, 0, this.getMaster().canvasBattle.getWidth(), this.getMaster().canvasBattle.getHeight());
+        this.getGraphicsContext().fillRect(0, 0, getMaster().canvasBattle.getWidth(), getMaster().canvasBattle.getHeight());
         this.getGraphicsContext().drawImage(this.getBg(), 0, 0, SimpleRPG.SCREEN_WIDTH, SimpleRPG.SCREEN_HEIGHT);
 
         this.groupContainer.getChildren().add(this.playerHealthBarContainer);
@@ -141,7 +144,7 @@ public class BattleMap extends Map {
 //        playerHitBox.setVisible(false);
 //        enemyHitBox.setVisible(false);
 
-        this.getMaster().mainPane.getChildren().add(this.groupContainer);
+        getMaster().mainPane.getChildren().add(this.groupContainer);
         turnDecide();
     }
 
@@ -160,10 +163,15 @@ public class BattleMap extends Map {
 
     public static void showSkillEffect(Character character, Effect effect) {
         if (character instanceof Player) {
-            new EffectAnimationTimer(effect, playerHitBox, character);
+            new EffectAnimationTimer(effect, playerHitBox, character, getMaster());
         } else if (character instanceof Enemy) {
-            new EffectAnimationTimer(effect, enemyHitBox, character);
+            new EffectAnimationTimer(effect, enemyHitBox, character, getMaster());
         }
+    }
+
+    public static void showDialog() {
+        view.cleanUpScene();
+        view.showSubScene(SubSceneList.openDialog);
     }
 
     @Override

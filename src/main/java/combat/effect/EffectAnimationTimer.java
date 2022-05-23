@@ -1,5 +1,7 @@
 package combat.effect;
 
+import dialogue.Dialogue;
+import dialogue.DialogueRender;
 import entity.Character;
 import entity.Enemy;
 import entity.Player;
@@ -9,6 +11,8 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import main.SimpleRPG;
+import sceneElement.SubSceneList;
 import world.BattleMap;
 
 import java.nio.file.Paths;
@@ -22,12 +26,15 @@ public class EffectAnimationTimer extends AnimationTimer {
     private ImageView hitBox;
     private Character character;
 
-    public EffectAnimationTimer(Effect effect, ImageView hitBox, Character character) {
+    private SimpleRPG gameInstance;
+
+    public EffectAnimationTimer(Effect effect, ImageView hitBox, Character character, SimpleRPG gameInstance) {
         this.effect = effect;
         this.hitBox = hitBox;
         this.character = character;
         this.lastUpdate = 0;
         this.currentFrame = 1;
+        this.gameInstance = gameInstance;
         this.start();
     }
 
@@ -80,7 +87,7 @@ public class EffectAnimationTimer extends AnimationTimer {
             currentFrame++;
             if (currentFrame > effect.getNumEffectFrame()) {
                 this.stop();
-                BattleMap.turnDecide();
+                BattleMap.showDialog();
             }
         }
     }
