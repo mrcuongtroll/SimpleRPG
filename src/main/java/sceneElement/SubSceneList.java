@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import main.SimpleRPG;
 import views.BattleView;
 import views.GameView;
@@ -186,15 +185,17 @@ public class SubSceneList {
         return openSkill;
     }
 
-    private GameSubScene createDialogScene(String text){
-        GameSubScene openBattleOption = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
+    public static GameSubScene createDialogScene(String text){
+        openDialog = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
         GameButton btnBack = new GameButton("Go back", 100, 50);
-        openBattleOption.addButton(btnBack, 900, 100);
+        openDialog.addButton(btnBack, 900, 100);
         btnBack.setOnAction(event -> {
             BattleMap.turnDecide();
+
         });
-        openBattleOption.addText("ABC", BROWN, 20, 1100, 200, 0, 0);
-        return openBattleOption;
+
+        openDialog.addText(text, BROWN, 20, 1100, 200, 0, 0);
+        return openDialog;
     }
 
     private void addButtonGrid(GameSubScene gameSubScene, int x, int y, int rows, int columns, int padding, Button... buttons){

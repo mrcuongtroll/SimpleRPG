@@ -1,7 +1,5 @@
 package combat.effect;
 
-import dialogue.Dialogue;
-import dialogue.DialogueRender;
 import entity.Character;
 import entity.Enemy;
 import entity.Player;
@@ -12,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import main.SimpleRPG;
-import sceneElement.SubSceneList;
 import world.BattleMap;
 
 import java.nio.file.Paths;
@@ -87,7 +84,7 @@ public class EffectAnimationTimer extends AnimationTimer {
             currentFrame++;
             if (currentFrame > effect.getNumEffectFrame()) {
                 this.stop();
-                BattleMap.showDialog();
+                BattleMap.showDialog("IT LA vua cua moi nghe");
             }
         }
     }

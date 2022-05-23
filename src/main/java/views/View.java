@@ -83,7 +83,7 @@ public abstract class View {
         mainPane.getChildren().add(button);
     }
 
-    protected void addSubSceneToPane(GameSubScene... scenes) {
+    public void addSubSceneToPane(GameSubScene... scenes) {
         for(GameSubScene scene: scenes){
 //            scene = new GameSubScene();
             mainPane.getChildren().add(scene);

@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import main.SimpleRPG;
+import sceneElement.GameSubScene;
 import sceneElement.SubSceneList;
 import views.BattleView;
 
@@ -169,9 +170,13 @@ public class BattleMap extends Map {
         }
     }
 
-    public static void showDialog() {
+    public static void showDialog(String text) {
         view.cleanUpScene();
-        view.showSubScene(SubSceneList.openDialog);
+        GameSubScene dialogScene = SubSceneList.createDialogScene(text);
+        view.addSubSceneToPane(dialogScene);
+        view.showSubScene(dialogScene);
+//        view.showSubScene(SubSceneList.openDialog);
+
     }
 
     @Override
