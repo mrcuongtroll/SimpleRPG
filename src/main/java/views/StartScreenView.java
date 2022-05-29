@@ -22,7 +22,7 @@ public class StartScreenView extends View{
         super(simpleRPG);
         this.simpleRPG = simpleRPG;
         CreateScreenElements();
-        createBackground((new File("./assets/test/old map.png")).getAbsolutePath(), false);
+        createBackground((new File("./assets/test/titleScreen.gif")).getAbsolutePath(), false);
     }
 
     private void CreateScreenElements(){
