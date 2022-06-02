@@ -7,25 +7,17 @@ import combat.effect.EffectAnimationTimer;
 import entity.Character;
 import entity.Enemy;
 import entity.Player;
-import javafx.animation.AnimationTimer;
-import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 import main.SimpleRPG;
+import sceneElement.GameSubScene;
 import sceneElement.SubSceneList;
 import views.BattleView;
-
-import java.nio.file.Paths;
+import views.GameView;
 
 public class BattleMap extends Map {
 
@@ -54,7 +46,6 @@ public class BattleMap extends Map {
     private static final int BAR_WIDTH = 100;
     private static Player player;
     private static Enemy enemy;
-
     private static CombatManager combatManager;
     private static BattleView view;
     public Player getPlayer() {
@@ -70,6 +61,10 @@ public class BattleMap extends Map {
 
     public static ImageView getPlayerFrame() {
         return playerFrame;
+    }
+
+    public static BattleView getView() {
+        return view;
     }
 
     public BattleMap(SimpleRPG master, BattleView battleView, String imagePath, Enemy enemyFighter) {
@@ -128,9 +123,9 @@ public class BattleMap extends Map {
     }
 
     public void start() {
-        this.getMaster().hideHUD();
+        getMaster().hideHUD();
         this.getGraphicsContext().setFill(Color.BLACK);
-        this.getGraphicsContext().fillRect(0, 0, this.getMaster().canvasBattle.getWidth(), this.getMaster().canvasBattle.getHeight());
+        this.getGraphicsContext().fillRect(0, 0, getMaster().canvasBattle.getWidth(), getMaster().canvasBattle.getHeight());
         this.getGraphicsContext().drawImage(this.getBg(), 0, 0, SimpleRPG.SCREEN_WIDTH, SimpleRPG.SCREEN_HEIGHT);
 
         this.groupContainer.getChildren().add(this.playerHealthBarContainer);
@@ -151,29 +146,47 @@ public class BattleMap extends Map {
 //        playerHitBox.setVisible(false);
 //        enemyHitBox.setVisible(false);
 
-        this.getMaster().mainPane.getChildren().add(this.groupContainer);
+        getMaster().mainPane.getChildren().add(this.groupContainer);
         turnDecide();
     }
 
     public static void turnDecide() {
-        Character currentTurnChar = combatManager.getCurrentTurnCharacter();
-        if (currentTurnChar instanceof Player) {
+        if (enemy.getHealthPoint() <= 0) {
             view.cleanUpScene();
-            view.showSubScene(SubSceneList.openBattleOption);
-            System.out.println("Player turn");
-        } else if (currentTurnChar instanceof Enemy) {
+            new GameView(getMaster());
+            ((World) getMaster().getWorld()).removeNPC(enemy);
+        } else if (player.getHealthPoint() <= 0) {
             view.cleanUpScene();
-            System.out.println("Enemy turn");
-            (new NormalAttack()).activate(currentTurnChar, player);
+            view.showSubScene(SubSceneList.openGameOver);
+        } else {
+            Character currentTurnChar = combatManager.getCurrentTurnCharacter();
+            if (currentTurnChar instanceof Player) {
+                view.cleanUpScene();
+                view.showSubScene(SubSceneList.openBattleOption);
+                System.out.println("Player turn");
+            } else if (currentTurnChar instanceof Enemy) {
+                view.cleanUpScene();
+                System.out.println("Enemy turn");
+                (new NormalAttack()).activate(currentTurnChar, player);
+            }
         }
     }
 
-    public static void showSkillEffect(Character attacker, Character defender, Effect effect) {
-        if (defender instanceof Player) {
-            new EffectAnimationTimer(effect, playerHitBox, attacker, defender);
-        } else if (defender instanceof Enemy) {
-            new EffectAnimationTimer(effect, enemyHitBox, attacker, defender);
+    public static void showSkillEffect(Character character, Effect effect, String dialogText) {
+        if (character instanceof Player) {
+            new EffectAnimationTimer(effect, playerHitBox, character, dialogText, getMaster());
+        } else if (character instanceof Enemy) {
+            new EffectAnimationTimer(effect, enemyHitBox, character, dialogText, getMaster());
         }
+    }
+
+    public static void showDialog(String text) {
+        view.cleanUpScene();
+        GameSubScene dialogScene = SubSceneList.createDialogScene(text);
+        view.addSubSceneToPane(dialogScene);
+        view.showSubScene(dialogScene);
+//        view.showSubScene(SubSceneList.openDialog);
+
     }
 
     @Override

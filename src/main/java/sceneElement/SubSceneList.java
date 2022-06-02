@@ -1,7 +1,7 @@
 package sceneElement;
 
+import combat.action.Heal;
 import combat.action.NormalAttack;
-import combat.effect.Heal;
 import entity.Enemy;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -32,6 +32,7 @@ public class SubSceneList {
     public static GameSubScene openInventory;
     public static GameSubScene openSkill;
     public static GameSubScene openGameOver;
+    public static GameSubScene openDialog;
 
     public SubSceneList(SimpleRPG simpleRPG) {
         SubSceneList.simpleRPG = simpleRPG;
@@ -41,6 +42,7 @@ public class SubSceneList {
         openCredit = createCreditScene();
         openSkill = createSkillOptionScene();
         openGameOver = createGameOverScene();
+        openDialog = createDialogScene("Test dialog");
     }
 
     public static void openView(View newView){
@@ -54,7 +56,7 @@ public class SubSceneList {
 
     private GameSubScene createGameOverScene() {
         openGameOver = new GameSubScene(600, 300, 340, 210, "Horizontal", (new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath());
-        openGameOver.addText("You died", BROWN, 50, 200, 50, 50, 30);
+        openGameOver.addText("You died", BROWN, 40, 400, 100, 100, 30);
         GameButton btnGoHome = new GameButton("Back to menu", 100, 50);
         GameButton btnRetry = new GameButton("Try again", 100, 50);
 
@@ -65,7 +67,8 @@ public class SubSceneList {
                 (new File("./assets/test/enemy")).getAbsolutePath(),
                 1, 5, 100, 100, 100, 100, 15, 0)));
         });
-
+        openGameOver.addButton(btnGoHome, 150, 150);
+        openGameOver.addButton(btnRetry, 350, 150);
         return openGameOver;
     }
 
@@ -148,10 +151,9 @@ public class SubSceneList {
         });
 
         btnDoNothing.setOnAction(event -> {
-
             simpleRPG.player.increaseHealthPoint(10);
             simpleRPG.player.increaseManaPoint(10);
-            BattleMap.showSkillEffect(simpleRPG.getPlayer(), simpleRPG.getPlayer(), new Heal());
+            new Heal().activate(simpleRPG.getPlayer(), simpleRPG.getPlayer());
 
         });
 
@@ -181,6 +183,18 @@ public class SubSceneList {
 
         addButtonGrid(openSkill, 25, 25, 2, 3, 10, btnSkill1, btnSkill2, btnSkill3, btnSkill4, btnNormalAttack, btnBack);
         return openSkill;
+    }
+
+    public static GameSubScene createDialogScene(String text){
+        openDialog = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
+        GameButton btnBack = new GameButton("Continue", 100, 50);
+        openDialog.addButton(btnBack, 900, 100);
+        btnBack.setOnAction(event -> {
+            BattleMap.turnDecide();
+        });
+
+        openDialog.addText(text, BROWN, 20, 1100, 200, 0, 0);
+        return openDialog;
     }
 
     private void addButtonGrid(GameSubScene gameSubScene, int x, int y, int rows, int columns, int padding, Button... buttons){

@@ -41,7 +41,7 @@ public class SimpleRPG extends Application {
     public Player player = new Player(this, Player.X, Player.Y, "Player",
             (new File("./assets/test/player")).getAbsolutePath(), 1, 10,
             80, 100, 100, 100,
-            new Weapon("Wooden sword",15, 0, "example_armor.png"),
+            new Weapon("Wooden sword",50, 0, "example_armor.png"),
             new Armor("Wooden armor", 0, 10, "example_armor.png"));
 
     public KeyHandler keyHandler = new KeyHandler(this);
