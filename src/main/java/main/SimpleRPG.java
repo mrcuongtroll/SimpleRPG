@@ -29,20 +29,24 @@ public class SimpleRPG extends Application {
     public static final int SCREEN_HEIGHT = 720;
     public Canvas canvasBackground = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
     public Canvas canvasMiddle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+    public Canvas canvasOverlay = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+    public Canvas canvasShading = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     public AnchorPane popupPane = new AnchorPane();
     public Canvas canvasBattle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    private Map world = new World(this, (new File("./assets/test/old map.png")).getAbsolutePath(),
-            (new File("./assets/test/old map_mask.png")).getAbsolutePath());
-
-    //    public Map world = BattleMap(this, (new File("./assets/test/battle_map.png")).getAbsolutePath());
-
-    public Player player = new Player(this, Player.X, Player.Y, "Player",
+    private Player player = new Player(this, Player.X, Player.Y, "Player",
             (new File("./assets/test/player")).getAbsolutePath(), 1, 10,
             80, 100, 100, 100,
             new Weapon("Wooden sword",50, 0, "example_armor.png"),
             new Armor("Wooden armor", 0, 10, "example_armor.png"));
+    private Map world = new World(this, 300, 300,
+            (new File("./assets/Map/Home/home_bottom.png")).getAbsolutePath(),
+            (new File("./assets/Map/Home/home_overlay.png")).getAbsolutePath(),
+            (new File("./assets/Map/Home/home_shading.png")).getAbsolutePath(),
+            (new File("./assets/Map/Home/home_mask.png")).getAbsolutePath());
+
+    //    public Map world = BattleMap(this, (new File("./assets/test/battle_map.png")).getAbsolutePath());
 
     public KeyHandler keyHandler = new KeyHandler(this);
     public AnchorPane mainPane = new AnchorPane();

@@ -17,6 +17,8 @@ public class GameView extends View{
     private AnchorPane mainPane;
     private Canvas canvasBackground;
     private Canvas canvasMiddle;
+    private Canvas canvasOverlay;
+    private Canvas canvasShading;
     private Canvas canvasBattle;
     private GameLoopManager gameLoopManager;
     private KeyHandler keyHandler;
@@ -31,6 +33,8 @@ public class GameView extends View{
         this.mainPane = simpleRPG.mainPane;
         this.canvasBackground = simpleRPG.canvasBackground;
         this.canvasMiddle = simpleRPG.canvasMiddle;
+        this.canvasOverlay = simpleRPG.canvasOverlay;
+        this.canvasShading = simpleRPG.canvasShading;
         this.canvasBattle = simpleRPG.canvasBattle;
         this.mainHUD = simpleRPG.mainHUD;
         mainHUD.showHUD();
@@ -42,6 +46,8 @@ public class GameView extends View{
         theScene.setOnKeyReleased(keyHandler);
         mainPane.getChildren().add(canvasBackground);
         mainPane.getChildren().add(canvasMiddle);
+        mainPane.getChildren().add(canvasOverlay);
+        mainPane.getChildren().add(canvasShading);
         mainPane.getChildren().add(canvasBattle);
         mainPane.getChildren().add(mainHUD.getHUD());
 

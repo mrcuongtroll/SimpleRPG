@@ -68,7 +68,7 @@ public class BattleMap extends Map {
     }
 
     public BattleMap(SimpleRPG master, BattleView battleView, String imagePath, Enemy enemyFighter) {
-        super(master, imagePath);
+        super(master, 0, 0, imagePath);
         player = master.getPlayer();
         enemy = enemyFighter;
 
