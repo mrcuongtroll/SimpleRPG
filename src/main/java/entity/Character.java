@@ -1,14 +1,16 @@
 package entity;
 
 import combat.action.Action;
+import combat.status_effect.StatusEffect;
+import event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import main.SimpleRPG;
 import world.Tile;
 import world.World;
-import event.Event;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public abstract class Character {
     public static final String DEFAULT_IMAGE_PATH = "/default/";
@@ -40,6 +42,7 @@ public abstract class Character {
     private int healthPoint;
     private int maxHealthPoint;
     private int maxManaPoint;
+    private ArrayList<StatusEffect> statusEffects;
     private String imagePath;
     private int currentFrame;
     private String lastDirection;
@@ -124,6 +127,9 @@ public abstract class Character {
     public int getAttackSpeed(){
         return this.attackSpeed;
     }
+    public void setAttackSpeed(int attackSpeed){
+        this.attackSpeed = attackSpeed;
+    }
     public abstract int getAttackPoint();
     public abstract int getDefensePoint();
     public void advanceTurn(){
@@ -159,6 +165,8 @@ public abstract class Character {
     public void setManaPoint(int manaPoint){
         this.manaPoint = manaPoint;
     }
+
+
     public String getName() {
         return this.name;
     }
@@ -179,6 +187,15 @@ public abstract class Character {
     }
     public void setImage(Image image) {
         this.image = image;
+    }
+    public void advanceStatusEffect(){
+        for (StatusEffect statusEffect:this.getStatusEffects()){
+            statusEffect.setNumTurn(statusEffect.getNumTurn()-1);
+            statusEffect.applyEffect(this);
+            if (statusEffect.getNumTurn()==0){
+                statusEffect.unApplyEffect(this);
+            }
+        }
     }
 
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
@@ -345,5 +362,8 @@ public abstract class Character {
             default -> {}
         }
     }
-    
+
+    public ArrayList<StatusEffect> getStatusEffects() {
+        return statusEffects;
+    }
 }
