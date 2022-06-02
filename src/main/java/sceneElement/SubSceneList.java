@@ -151,8 +151,8 @@ public class SubSceneList {
         });
 
         btnDoNothing.setOnAction(event -> {
-            simpleRPG.player.increaseHealthPoint(10);
-            simpleRPG.player.increaseManaPoint(10);
+            simpleRPG.getPlayer().increaseHealthPoint(10);
+            simpleRPG.getPlayer().increaseManaPoint(10);
             new Heal().activate(simpleRPG.getPlayer(), simpleRPG.getPlayer());
 
         });

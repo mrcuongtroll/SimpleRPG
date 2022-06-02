@@ -26,6 +26,10 @@ public class World extends Map {
     private double dx;
     private double x;
     private double y;
+    private GraphicsContext gcOverlay;
+    private GraphicsContext gcShading;
+    private Image overlayImage;
+    private Image shadingImage;
     private BufferedImage mask;
     private int[][] maskArray;
     private ArrayList<Tile> tileList = new ArrayList<Tile>();
@@ -33,8 +37,6 @@ public class World extends Map {
     public ArrayList<Event> eventList = new ArrayList<Event>();
 
     private boolean isPlayerSprinting = false;
-    private GraphicsContext gc;
-    private Image bg;
     public double getX(){
         return this.x;
     }
@@ -47,6 +49,8 @@ public class World extends Map {
     public double getDy() {
         return this.dy;
     }
+    public GraphicsContext getGraphicsContextOverlay() { return this.gcOverlay; }
+    public GraphicsContext getGraphicsContextShading() { return this.gcShading; }
     public void setX(double x) {
         this.x = x;
     }
@@ -73,22 +77,26 @@ public class World extends Map {
         return this.tileList;
     }
 
-    public World(SimpleRPG master, String bgImagePath, String maskPath) {
-        super(master, bgImagePath);
-        this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 100, 100, 100, 10));
-        this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/7-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 100, 100, 100, 10));
-        this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/9-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 100, 100, 100, 10));
-        for (NPC npc: this.npcList) {
-            Event enemyEvent = new BattleEvent(this, Event.TRIGGER_TYPE_TOUCH, npc);
-            npc.setEvent(enemyEvent);
-            this.eventList.add(enemyEvent);
-        }
+    public World(SimpleRPG master, double playerX, double playerY, String bgImagePath, String overlayImagePath, String shadingImagePath, String maskPath) {
+        super(master, playerX, playerY, bgImagePath);
+        this.gcOverlay = this.getMaster().canvasOverlay.getGraphicsContext2D();
+        this.gcShading = this.getMaster().canvasShading.getGraphicsContext2D();
+        this.overlayImage = new Image(overlayImagePath);
+        this.shadingImage = new Image(shadingImagePath);
+//        this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
+//                (new File("./assets/test/enemy")).getAbsolutePath(),
+//                1, 5, 100, 100, 100, 100, 100, 10));
+//        this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/7-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
+//                (new File("./assets/test/enemy")).getAbsolutePath(),
+//                1, 5, 100, 100, 100, 100, 100, 10));
+//        this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/9-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
+//                (new File("./assets/test/enemy")).getAbsolutePath(),
+//                1, 5, 100, 100, 100, 100, 100, 10));
+//        for (NPC npc: this.npcList) {
+//            Event enemyEvent = new BattleEvent(this, Event.TRIGGER_TYPE_TOUCH, npc);
+//            npc.setEvent(enemyEvent);
+//            this.eventList.add(enemyEvent);
+//        }
 
         // Load collision mask
         try {
@@ -133,10 +141,15 @@ public class World extends Map {
 
     @Override
     public void render() {
+        this.getGraphicsContext().clearRect(0, 0, SimpleRPG.SCREEN_WIDTH, SimpleRPG.SCREEN_HEIGHT);
+        this.gcOverlay.clearRect(0, 0, SimpleRPG.SCREEN_WIDTH, SimpleRPG.SCREEN_HEIGHT);
+        this.gcShading.clearRect(0, 0, SimpleRPG.SCREEN_WIDTH, SimpleRPG.SCREEN_HEIGHT);
         this.tick();
         this.getGraphicsContext().setFill(Color.BLACK);
         this.getGraphicsContext().fillRect(0, 0, this.getMaster().canvasBackground.getWidth(), this.getMaster().canvasBackground.getHeight());
         this.getGraphicsContext().drawImage(this.getBg(), this.x, this.y);
+        this.gcOverlay.drawImage(this.overlayImage, this.x, this.y);
+        this.gcShading.drawImage(this.shadingImage, this.x, this.y);
     }
     @Override
     protected void tick() {
