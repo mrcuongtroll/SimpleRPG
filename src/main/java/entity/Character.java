@@ -42,7 +42,7 @@ public abstract class Character {
     private int healthPoint;
     private int maxHealthPoint;
     private int maxManaPoint;
-    private ArrayList<StatusEffect> statusEffects;
+    private ArrayList<StatusEffect> statusEffects = new ArrayList<StatusEffect>();
     private String imagePath;
     private int currentFrame;
     private String lastDirection;
@@ -189,11 +189,14 @@ public abstract class Character {
         this.image = image;
     }
     public void advanceStatusEffect(){
-        for (StatusEffect statusEffect:this.getStatusEffects()){
-            statusEffect.setNumTurn(statusEffect.getNumTurn()-1);
-            statusEffect.applyEffect(this);
-            if (statusEffect.getNumTurn()==0){
-                statusEffect.unApplyEffect(this);
+        if (!this.getStatusEffects().isEmpty()){
+            for (int i = 0; i < this.getStatusEffects().size(); i++){
+                StatusEffect statusEffect = this.getStatusEffects().get(i);
+                statusEffect.setNumTurn(statusEffect.getNumTurn()-1);
+                statusEffect.applyEffect(this);
+                if (statusEffect.getNumTurn()==0){
+                    statusEffect.unApplyEffect(this);
+                }
             }
         }
     }
