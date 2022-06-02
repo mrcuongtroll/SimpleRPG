@@ -1,7 +1,7 @@
 package sceneElement;
 
-import combat.action.Heal;
 import combat.action.NormalAttack;
+import combat.action.Rest;
 import entity.Enemy;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -153,7 +153,7 @@ public class SubSceneList {
         btnDoNothing.setOnAction(event -> {
             simpleRPG.getPlayer().increaseHealthPoint(10);
             simpleRPG.getPlayer().increaseManaPoint(10);
-            new Heal().activate(simpleRPG.getPlayer(), simpleRPG.getPlayer());
+            new Rest().activate(simpleRPG.getPlayer(), simpleRPG.getPlayer());
 
         });
 

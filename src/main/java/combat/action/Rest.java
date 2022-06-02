@@ -6,8 +6,8 @@ import entity.Enemy;
 import entity.Player;
 import world.BattleMap;
 
-public class Heal extends Action{
-    public static final String NAME = "Self Healing";
+public class Rest extends Action{
+    public static final String NAME = "Rest";
     public static final int HEAL_POINTS = 10;
 
     public String getName(){
@@ -16,9 +16,11 @@ public class Heal extends Action{
     static Effect effect = new combat.effect.Heal();
 
     public void activate(Character attacker, Character defender){
-        attacker.setManaPoint(attacker.getManaPoint()-Cost);
-        attacker.setHealthPoint((int) Math.round(attacker.getMaxHealthPoint()*0.15));
-        BattleMap.showSkillEffect(defender, effect, attacker.getName() + " heals " + Math.round(attacker.getMaxHealthPoint()*0.15) + " health points ");
+        attacker.increaseHealthPoint(HEAL_POINTS);
+        attacker.increaseManaPoint(HEAL_POINTS);
+
+        BattleMap.showSkillEffect(defender, effect, attacker.getName() + " heals " + HEAL_POINTS + " health points ");
+        BattleMap.showSkillEffect(defender, effect, attacker.getName() + " recovers " + HEAL_POINTS + " mana points ");
     }
     @Override
     public void randomActivate(Character currentTurnChar, Player player, Enemy enemy) {
