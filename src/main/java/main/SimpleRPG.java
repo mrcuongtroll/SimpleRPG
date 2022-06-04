@@ -45,7 +45,7 @@ public class SimpleRPG extends Application {
             new Armor("Wooden armor", 0, 10, "example_armor.png"));
 
     public KeyHandler keyHandler = new KeyHandler(this);
-    public AnchorPane mainPane = new AnchorPane();
+    public static AnchorPane mainPane = new AnchorPane();
     public Scene theScene = new Scene(mainPane, SCREEN_WIDTH, SCREEN_HEIGHT);
     public HUD mainHUD = new HUD(this, player);
     public GameLoopManager gameLoopManager = new GameLoopManager(this);

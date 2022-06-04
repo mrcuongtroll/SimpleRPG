@@ -60,10 +60,14 @@ public class SubSceneList {
         GameButton btnGoHome = new GameButton("Back to menu", 100, 50);
         GameButton btnRetry = new GameButton("Try again", 100, 50);
 
-        btnGoHome.setOnAction(event ->  {view.cleanUpScene(); simpleRPG.mainPane.getChildren().clear(); openView(new StartScreenView(simpleRPG));});
+        btnGoHome.setOnAction(event ->  {
+            view.cleanUpScene();
+            simpleRPG.mainPane.getChildren().clear();
+            openView(new StartScreenView(simpleRPG));});
         btnRetry.setOnAction(event -> {
             view.cleanUpScene();
-            simpleRPG.mainPane.getChildren().clear(); openView(new BattleView(simpleRPG, new Enemy((World) simpleRPG.getWorld(), simpleRPG, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
+            simpleRPG.mainPane.getChildren().clear();
+            openView(new BattleView(simpleRPG, new Enemy((World) simpleRPG.getWorld(), simpleRPG, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
                 1, 5, 100, 100, 100, 100, 15, 0)));
         });
