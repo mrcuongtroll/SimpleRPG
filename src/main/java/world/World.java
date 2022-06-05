@@ -174,7 +174,7 @@ public class World extends Map {
         // Check when not to scroll the map
         // Idea: The map will not scroll if the player is near the side of the map
         // Check the x-axis:
-        if (player.getRelativeX() >= SimpleRPG.SCREEN_WIDTH || player.getRelativeX() <= this.getBg().getWidth() - SimpleRPG.SCREEN_WIDTH) {
+        if (player.getRelativeX() >= (double)SimpleRPG.SCREEN_WIDTH/2 - (double)Player.SPRITE_WIDTH/2 && player.getRelativeX() <= this.getBg().getWidth() - (double)SimpleRPG.SCREEN_WIDTH/2 - (double)Player.SPRITE_WIDTH/2) {
             if (canMoveH) {
                 this.x += this.dx;
                 // Also update NPCs' x-value to keep their relative position consistent
@@ -182,7 +182,7 @@ public class World extends Map {
             }
         }
         // Check the y-axis
-        if (player.getRelativeY() >= SimpleRPG.SCREEN_HEIGHT || player.getRelativeY() <= this.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT) {
+        if (player.getRelativeY() >= (double)SimpleRPG.SCREEN_HEIGHT/2 - (double)Player.SPRITE_HEIGHT/2 && player.getRelativeY() <= this.getBg().getHeight() - (double)SimpleRPG.SCREEN_HEIGHT/2 - (double)Player.SPRITE_HEIGHT/2) {
             if (canMoveV) {
                 this.y += this.dy;
                 // Also update NPCs' x-value to keep their relative position consistent
