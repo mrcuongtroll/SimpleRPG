@@ -27,6 +27,14 @@
     -fx-background-position: center;
 
 }
+
+.button:disabled {
+    -fx-background-image: url("/smallDisabled.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+
+}
+
 .button Text {
     -fx-fill: white;
     -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );

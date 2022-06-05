@@ -41,6 +41,16 @@ public class GameButton extends Button {
 
     }
 
+    public void disableButton(){
+        setStyle("disabled");
+        setDisable(true);
+    }
+
+    public void enableButton(){
+        setStyle("");
+        setDisable(false);
+    }
+
     private void setButtonFont(int size) {
         setFont(Font.loadFont("file:src/main/resources/arcade.ttf", size));
         setTextFill(Color.BROWN);
