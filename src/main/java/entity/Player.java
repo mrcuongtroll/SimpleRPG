@@ -139,7 +139,7 @@ public class Player extends Character {
     @Override
     public void stopMoving(String direction) {
         super.stopMoving(direction);
-        ((World) this.getMaster().getWorld()).setDx(0);
-        ((World) this.getMaster().getWorld()).setDy(0);
+        ((World) this.getMaster().getWorld()).setDx(-this.getDx());
+        ((World) this.getMaster().getWorld()).setDy(-this.getDy());
     }
 }
