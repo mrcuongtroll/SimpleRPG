@@ -83,20 +83,20 @@ public class World extends Map {
         this.gcShading = this.getMaster().canvasShading.getGraphicsContext2D();
         this.overlayImage = new Image(overlayImagePath);
         this.shadingImage = new Image(shadingImagePath);
-//        this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
-//                (new File("./assets/test/enemy")).getAbsolutePath(),
-//                1, 5, 100, 100, 100, 100, 100, 10));
-//        this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/7-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
-//                (new File("./assets/test/enemy")).getAbsolutePath(),
-//                1, 5, 100, 100, 100, 100, 100, 10));
-//        this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/9-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
-//                (new File("./assets/test/enemy")).getAbsolutePath(),
-//                1, 5, 100, 100, 100, 100, 100, 10));
-//        for (NPC npc: this.npcList) {
-//            Event enemyEvent = new BattleEvent(this, Event.TRIGGER_TYPE_TOUCH, npc);
-//            npc.setEvent(enemyEvent);
-//            this.eventList.add(enemyEvent);
-//        }
+        this.npcList.add(new Enemy(this, master, 1000, 400, "Enemy",
+                (new File("./assets/test/enemy")).getAbsolutePath(),
+                1, 5, 100, 100, 100, 100, 20, 10));
+        this.npcList.add(new Enemy(this, master, 1500, 400, "Enemy",
+                (new File("./assets/test/enemy")).getAbsolutePath(),
+                1, 5, 100, 100, 100, 100, 20, 10));
+        this.npcList.add(new Enemy(this, master, 1300, 600, "Enemy",
+                (new File("./assets/test/enemy")).getAbsolutePath(),
+                1, 5, 100, 100, 100, 100, 20, 10));
+        for (NPC npc: this.npcList) {
+            Event enemyEvent = new BattleEvent(this, Event.TRIGGER_TYPE_TOUCH, npc);
+            npc.setEvent(enemyEvent);
+            this.eventList.add(enemyEvent);
+        }
 
         // Load collision mask
         try {
