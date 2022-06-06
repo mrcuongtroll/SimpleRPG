@@ -7,10 +7,12 @@ import main.SimpleRPG;
 import world.World;
 
 public class Player extends Character {
+    public static final int SPRITE_HEIGHT = 48;
+    public static final int SPRITE_WIDTH = 48;
     public static final double MOVEMENT_SPEED = 2;
     public static final double SPRINT_SPEED = 6;
-    public static final int X = 1280/2-16;
-    public static final int Y = 720/2-40;
+    public static final int X = 1280/2-SPRITE_WIDTH/2;
+    public static final int Y = 720/2-SPRITE_HEIGHT/2;
     public static final int MAX_STAMINA = 200;
     private Weapon weapon;
     private Armor armor;
@@ -19,29 +21,31 @@ public class Player extends Character {
 
     @Override
     public double getRelativeX() {
-        double xPos = Player.X;
-        // Now check if the map scrolls or not
-        World world = ((World) this.getMaster().getWorld());
-        // Check x-axis:
-        if (this.getX() - world.getX() <= SimpleRPG.SCREEN_WIDTH) {
-            xPos = this.getX() - world.getX();
-        } else if (this.getX() - world.getX() >= world.getBg().getWidth() - SimpleRPG.SCREEN_WIDTH) {
-            xPos = this.getX() - world.getX() - (world.getBg().getWidth() - SimpleRPG.SCREEN_WIDTH);
-        }
-        return xPos - world.getX();
+//        double xPos = this.getX();
+//        // Now check if the map scrolls or not
+//        World world = ((World) this.getMaster().getWorld());
+//        // Check x-axis:
+//        if (this.getX() - world.getX() <= (double)SimpleRPG.SCREEN_WIDTH/2) {
+//            xPos = this.getX() - world.getX();
+//        } else if (this.getX() - world.getX() >= world.getBg().getWidth() - (double)SimpleRPG.SCREEN_WIDTH/2) {
+//            xPos = this.getX() - world.getX() - (world.getBg().getWidth() - SimpleRPG.SCREEN_WIDTH);
+//        }
+//        return xPos - world.getX();
+        return this.getX();
     }
     @Override
     public double getRelativeY() {
-        double yPos = Player.Y;
-        // Now check if the map scrolls or not
-        World world = ((World) this.getMaster().getWorld());
-        // Check y-axis:
-        if (this.getY() - world.getY() <= SimpleRPG.SCREEN_HEIGHT) {
-            yPos = this.getY() - world.getY();
-        } else if (this.getY() - world.getY() >= world.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT) {
-            yPos = this.getY() - world.getY() - (world.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT);
-        }
-        return yPos - world.getY();
+//        double yPos = this.getY();
+//        // Now check if the map scrolls or not
+//        World world = ((World) this.getMaster().getWorld());
+//        // Check y-axis:
+//        if (this.getY() - world.getY() <= (double)SimpleRPG.SCREEN_HEIGHT/2) {
+//            yPos = this.getY() - world.getY();
+//        } else if (this.getY() - world.getY() >= world.getBg().getHeight() - (double)SimpleRPG.SCREEN_HEIGHT/2) {
+//            yPos = this.getY() - world.getY() - (world.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT);
+//        }
+//        return yPos - world.getY();
+        return this.getY();
     }
     @Override
     public int getAttackPoint() {
@@ -112,15 +116,15 @@ public class Player extends Character {
         // Now check if the map scrolls or not
         World world = ((World) this.getMaster().getWorld());
         // Check x-axis:
-        if (this.getRelativeX() <= SimpleRPG.SCREEN_WIDTH) {
+        if (this.getRelativeX() <= (double)SimpleRPG.SCREEN_WIDTH/2 - (double)SPRITE_WIDTH/2) {
             xPos = (int) this.getRelativeX();
-        } else if (this.getRelativeX() >= world.getBg().getWidth() - SimpleRPG.SCREEN_WIDTH) {
+        } else if (this.getRelativeX() >= world.getBg().getWidth() - (double)SimpleRPG.SCREEN_WIDTH/2 - (double)SPRITE_WIDTH/2) {
             xPos = (int) this.getRelativeX() - (int) (world.getBg().getWidth() - SimpleRPG.SCREEN_WIDTH);
         }
         // Check y-axis:
-        if (this.getRelativeY() <= SimpleRPG.SCREEN_HEIGHT) {
+        if (this.getRelativeY() <= (double)SimpleRPG.SCREEN_HEIGHT/2 - (double)SPRITE_HEIGHT/2) {
             yPos = (int) this.getRelativeY();
-        } else if (this.getRelativeY() >= world.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT) {
+        } else if (this.getRelativeY() >= world.getBg().getHeight() - (double)SimpleRPG.SCREEN_HEIGHT/2 - (double)SPRITE_HEIGHT/2) {
             yPos = (int) this.getRelativeY() - (int) (world.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT);
         }
         this.getGraphicContext().drawImage(this.getImage(), xPos, yPos);

@@ -41,10 +41,10 @@ public class SimpleRPG extends Application {
             new Weapon("Wooden sword",50, 0, "example_armor.png"),
             new Armor("Wooden armor", 0, 10, "example_armor.png"));
     private Map world = new World(this, 300, 300,
-            (new File("./assets/Map/Home/home_bottom.png")).getAbsolutePath(),
-            (new File("./assets/Map/Home/home_overlay.png")).getAbsolutePath(),
-            (new File("./assets/Map/Home/home_shading.png")).getAbsolutePath(),
-            (new File("./assets/Map/Home/home_mask.png")).getAbsolutePath());
+            (new File("./assets/Map/Outside/outside_bottom.png")).getAbsolutePath(),
+            (new File("./assets/Map/Outside/outside_overlay.png")).getAbsolutePath(),
+            (new File("./assets/Map/Outside/outside_shading.png")).getAbsolutePath(),
+            (new File("./assets/Map/Outside/outside_mask.png")).getAbsolutePath());
 
     //    public Map world = BattleMap(this, (new File("./assets/test/battle_map.png")).getAbsolutePath());
 

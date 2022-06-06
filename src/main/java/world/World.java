@@ -83,20 +83,20 @@ public class World extends Map {
         this.gcShading = this.getMaster().canvasShading.getGraphicsContext2D();
         this.overlayImage = new Image(overlayImagePath);
         this.shadingImage = new Image(shadingImagePath);
-//        this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
-//                (new File("./assets/test/enemy")).getAbsolutePath(),
-//                1, 5, 100, 100, 100, 100, 100, 10));
-//        this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/7-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
-//                (new File("./assets/test/enemy")).getAbsolutePath(),
-//                1, 5, 100, 100, 100, 100, 100, 10));
-//        this.npcList.add(new Enemy(this, master, SimpleRPG.SCREEN_WIDTH/9-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
-//                (new File("./assets/test/enemy")).getAbsolutePath(),
-//                1, 5, 100, 100, 100, 100, 100, 10));
-//        for (NPC npc: this.npcList) {
-//            Event enemyEvent = new BattleEvent(this, Event.TRIGGER_TYPE_TOUCH, npc);
-//            npc.setEvent(enemyEvent);
-//            this.eventList.add(enemyEvent);
-//        }
+        this.npcList.add(new Enemy(this, master, 1000, 400, "Enemy",
+                (new File("./assets/test/enemy")).getAbsolutePath(),
+                1, 5, 100, 100, 100, 100, 20, 10));
+        this.npcList.add(new Enemy(this, master, 1500, 400, "Enemy",
+                (new File("./assets/test/enemy")).getAbsolutePath(),
+                1, 5, 100, 100, 100, 100, 20, 10));
+        this.npcList.add(new Enemy(this, master, 1300, 600, "Enemy",
+                (new File("./assets/test/enemy")).getAbsolutePath(),
+                1, 5, 100, 100, 100, 100, 20, 10));
+        for (NPC npc: this.npcList) {
+            Event enemyEvent = new BattleEvent(this, Event.TRIGGER_TYPE_TOUCH, npc);
+            npc.setEvent(enemyEvent);
+            this.eventList.add(enemyEvent);
+        }
 
         // Load collision mask
         try {
@@ -174,7 +174,7 @@ public class World extends Map {
         // Check when not to scroll the map
         // Idea: The map will not scroll if the player is near the side of the map
         // Check the x-axis:
-        if (player.getRelativeX() >= SimpleRPG.SCREEN_WIDTH || player.getRelativeX() <= this.getBg().getWidth() - SimpleRPG.SCREEN_WIDTH) {
+        if (player.getRelativeX() >= (double)SimpleRPG.SCREEN_WIDTH/2 - (double)Player.SPRITE_WIDTH/2 && player.getRelativeX() <= this.getBg().getWidth() - (double)SimpleRPG.SCREEN_WIDTH/2 - (double)Player.SPRITE_WIDTH/2) {
             if (canMoveH) {
                 this.x += this.dx;
                 // Also update NPCs' x-value to keep their relative position consistent
@@ -182,7 +182,7 @@ public class World extends Map {
             }
         }
         // Check the y-axis
-        if (player.getRelativeY() >= SimpleRPG.SCREEN_HEIGHT || player.getRelativeY() <= this.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT) {
+        if (player.getRelativeY() >= (double)SimpleRPG.SCREEN_HEIGHT/2 - (double)Player.SPRITE_HEIGHT/2 && player.getRelativeY() <= this.getBg().getHeight() - (double)SimpleRPG.SCREEN_HEIGHT/2 - (double)Player.SPRITE_HEIGHT/2) {
             if (canMoveV) {
                 this.y += this.dy;
                 // Also update NPCs' x-value to keep their relative position consistent
