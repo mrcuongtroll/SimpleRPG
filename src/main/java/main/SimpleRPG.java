@@ -35,12 +35,12 @@ public class SimpleRPG extends Application {
     public AnchorPane popupPane = new AnchorPane();
     public Canvas canvasBattle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    private Player player = new Player(this, Player.X, Player.Y, "Player",
+    private Player player = new Player(this, 620, 820, "Player",
             (new File("./assets/test/player")).getAbsolutePath(), 1, 10,
             80, 100, 100, 100,
             new Weapon("Wooden sword",50, 0, "example_armor.png"),
             new Armor("Wooden armor", 0, 10, "example_armor.png"));
-    private Map world = new World(this, 300, 300,
+    private Map world = new World(this, 620, 820,
             (new File("./assets/Map/Outside/outside_bottom.png")).getAbsolutePath(),
             (new File("./assets/Map/Outside/outside_overlay.png")).getAbsolutePath(),
             (new File("./assets/Map/Outside/outside_shading.png")).getAbsolutePath(),

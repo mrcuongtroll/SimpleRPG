@@ -35,7 +35,7 @@ public class GameLoopManager extends AnimationTimer {
             this.player.render();
             this.hud.render();
         } else if (currentWorld instanceof BattleMap) {
-
+//            System.out.println("Yeah we battling");
         }
     }
 }
