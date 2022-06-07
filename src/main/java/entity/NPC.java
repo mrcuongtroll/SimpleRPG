@@ -41,6 +41,12 @@ public abstract class NPC extends Character {
                int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid) {
         this(worldMaster, master, x, y, name, imagePath, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, isSolid, NPC.MODE_IDLE);
     }
+    public NPC(World worldMaster, SimpleRPG master, int x, int y, int xDisplay, int yDisplay, String name, String imagePath,
+               int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid, String mode) {
+        this(worldMaster, master, x, y, name, imagePath, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, isSolid, mode);
+        this.setXDisplay(xDisplay);
+        this.setYDisplay(yDisplay);
+    }
 
     @Override
     protected void tick() {

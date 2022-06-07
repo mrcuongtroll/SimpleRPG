@@ -25,6 +25,8 @@ public abstract class Character {
     private String name;
     private double x;
     private double y;
+    private double xDisplay;
+    private double yDisplay;
     private double dx;
     private double dy;
     private Rectangle rect;
@@ -63,6 +65,12 @@ public abstract class Character {
     public double getY(){
         return this.y;
     }
+    public double getXDisplay() {
+        return this.xDisplay;
+    }
+    public double getYDisplay() {
+        return this.yDisplay;
+    }
     public double getDx() {
         return this.dx;
     }
@@ -70,10 +78,12 @@ public abstract class Character {
         return this.dy;
     }
     public double getRelativeX() {
-        return this.x - ((World) this.master.getWorld()).getX();
+//        return this.x - ((World) this.master.getWorld()).getX();
+        return this.x;
     }
     public double getRelativeY() {
-        return this.y - ((World) this.master.getWorld()).getY();
+//        return this.y - ((World) this.master.getWorld()).getY();
+        return this.y;
     }
     public double getMovementSpeed() {
         return this.movementSpeed;
@@ -102,6 +112,12 @@ public abstract class Character {
     }
     public void setY(double y){
         this.y = y;
+    }
+    public void setXDisplay(double xDisplay) {
+        this.xDisplay = xDisplay;
+    }
+    public void setYDisplay(double yDisplay) {
+        this.yDisplay = yDisplay;
     }
     public void setDx(double dx) {
         this.dx = dx;
@@ -183,10 +199,11 @@ public abstract class Character {
 
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
                      int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid) {
-
         this.master = master;
         this.x = x;
         this.y = y;
+        this.xDisplay = x;
+        this.yDisplay = y;
         this.dx = 0;
         this.dy = 0;
         this.lastRelativeX = x;
@@ -215,12 +232,18 @@ public abstract class Character {
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
                      int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint) {
         this(master, x, y, name, imagePath, width, height, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true);
+    }
 
+    public Character(SimpleRPG master, int x, int y, int xDisplay, int yDisplay, String name, String imagePath,
+                     int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid) {
+        this(master, x, y, name, imagePath, width, height, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true);
+        this.yDisplay = yDisplay;
+        this.xDisplay = xDisplay;
     }
 
     public void render() {
         this.tick();
-        this.gc.drawImage(this.image, this.x, this.y);
+        this.gc.drawImage(this.image, this.xDisplay, this.yDisplay);
     }
     protected void tick() {
         boolean canMoveH = true;
@@ -253,9 +276,11 @@ public abstract class Character {
         }
         if (canMoveH) {
             this.x += this.dx;
+            this.xDisplay += this.dx;
         }
         if (canMoveV) {
             this.y += this.dy;
+            this.yDisplay += dy;
         }
         this.rect.setBounds((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), (int)this.rect.getWidth(), (int)this.rect.getHeight());
         // TODO: Refine relative position for checking collision and stuff
