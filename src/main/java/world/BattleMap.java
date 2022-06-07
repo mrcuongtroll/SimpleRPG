@@ -43,7 +43,7 @@ public class BattleMap extends Map {
     private int currentFrame = 2;
     private int lastFrameStep = 0;
     private Group groupContainer;
-    private static final int BAR_WIDTH = 100;
+    private static final int BAR_WIDTH = 125;
     private static Player player;
     private static Enemy enemy;
     private static CombatManager combatManager;
@@ -72,15 +72,19 @@ public class BattleMap extends Map {
         player = master.getPlayer();
         enemy = enemyFighter;
 
-        this.playerHealthBar = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4 - 100, BAR_WIDTH, 30);
-        this.playerManaBar = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4 - 50, BAR_WIDTH, 30);
-        this.playerHealthBarContainer = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4 - 100, BAR_WIDTH, 30);
-        this.playerManaBarContainer = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4 - 50, BAR_WIDTH, 30);
+        this.playerHealthBar = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4, BAR_WIDTH, 30);
+        this.playerManaBar = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4 + 50, BAR_WIDTH, 30);
+        this.playerHealthBarContainer = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4, BAR_WIDTH, 30);
+        this.playerManaBarContainer = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4 + 50, BAR_WIDTH, 30);
+        this.playerHealthPoint = new Text(100, SimpleRPG.SCREEN_HEIGHT/4 + 25, "");
+        this.playerManaPoint = new Text(100, SimpleRPG.SCREEN_HEIGHT/4 + 75, "");
 
-        this.enemyHealthBar = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 - 100, BAR_WIDTH, 30);
-        this.enemyManaBar = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 - 50, BAR_WIDTH, 30);
-        this.enemyHealthBarContainer = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 - 100, BAR_WIDTH, 30);
-        this.enemyManaBarContainer = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 - 50, BAR_WIDTH, 30);
+        this.enemyHealthBar = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4, BAR_WIDTH, 30);
+        this.enemyManaBar = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 + 50, BAR_WIDTH, 30);
+        this.enemyHealthBarContainer = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4, BAR_WIDTH, 30);
+        this.enemyManaBarContainer = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 + 50, BAR_WIDTH, 30);
+        this.enemyHealthPoint = new Text(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 + 25, "100");
+        this.enemyManaPoint = new Text(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 + 75, "100");
 
         playerFrame = new ImageView(this.player.getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png");
 
@@ -89,13 +93,13 @@ public class BattleMap extends Map {
 
         enemyFrame = new ImageView(this.enemy.getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png");
         playerFrame.setX(100);
-        playerFrame.setY(SimpleRPG.SCREEN_HEIGHT/4);
+        playerFrame.setY(SimpleRPG.SCREEN_HEIGHT/4 + 100);
 
         playerFrame.setFitWidth(80);
         playerFrame.setFitHeight(150);
 
         enemyFrame.setX(SimpleRPG.SCREEN_WIDTH - 200);
-        enemyFrame.setY(SimpleRPG.SCREEN_HEIGHT/4);
+        enemyFrame.setY(SimpleRPG.SCREEN_HEIGHT/4 + 100);
 
         enemyFrame.setFitWidth(80);
         enemyFrame.setFitHeight(150);
@@ -107,12 +111,12 @@ public class BattleMap extends Map {
 
         enemyHitBox = new ImageView();
         playerHitBox.setX(0);
-        playerHitBox.setY(SimpleRPG.SCREEN_HEIGHT/6);
+        playerHitBox.setY(SimpleRPG.SCREEN_HEIGHT/6 + 100);
         playerHitBox.setFitWidth(300);
         playerHitBox.setFitHeight(300);
 
         enemyHitBox.setX(SimpleRPG.SCREEN_WIDTH - 300);
-        enemyHitBox.setY(SimpleRPG.SCREEN_HEIGHT/6);
+        enemyHitBox.setY(SimpleRPG.SCREEN_HEIGHT/6 + 100);
         enemyHitBox.setFitWidth(300);
         enemyHitBox.setFitHeight(300);
 
@@ -135,8 +139,12 @@ public class BattleMap extends Map {
 
         this.groupContainer.getChildren().add(this.playerHealthBar);
         this.groupContainer.getChildren().add(this.playerManaBar);
+        this.groupContainer.getChildren().add(this.playerHealthPoint);
+        this.groupContainer.getChildren().add(this.playerManaPoint);
         this.groupContainer.getChildren().add(this.enemyHealthBar);
         this.groupContainer.getChildren().add(this.enemyManaBar);
+        this.groupContainer.getChildren().add(this.enemyHealthPoint);
+        this.groupContainer.getChildren().add(this.enemyManaPoint);
 
         this.groupContainer.getChildren().add(playerFrame);
         this.groupContainer.getChildren().add(enemyFrame);
@@ -193,8 +201,12 @@ public class BattleMap extends Map {
     public void tick() {
         this.playerHealthBar.setWidth(BAR_WIDTH * player.getHealthPoint() / 100);
         this.playerManaBar.setWidth(BAR_WIDTH * player.getManaPoint() / 100);
+        this.playerHealthPoint.setText("" + player.getHealthPoint() + " / 100");
+        this.playerManaPoint.setText("" + player.getManaPoint() + " / 100");
         this.enemyHealthBar.setWidth(BAR_WIDTH * enemy.getHealthPoint() / 100);
         this.enemyManaBar.setWidth(BAR_WIDTH * enemy.getManaPoint() / 100);
+        this.enemyHealthPoint.setText("" + enemy.getHealthPoint() + " / 100");
+        this.enemyManaPoint.setText("" + enemy.getManaPoint() + " / 100");
 
         this.playerHealthBar.setFill(Color.CRIMSON);
         this.playerManaBar.setFill(Color.CORNFLOWERBLUE);
@@ -208,6 +220,7 @@ public class BattleMap extends Map {
     }
 
     public void changeFrame() {
+        this.getMaster().canvasBattle.getGraphicsContext2D().drawImage(this.getBg(), 0, 0);
         this.lastFrameStep += Player.MOVEMENT_SPEED;
         if (this.lastFrameStep > 6 * Player.MOVEMENT_SPEED) {
             this.lastFrameStep = 0;
