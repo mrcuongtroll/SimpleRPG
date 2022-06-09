@@ -1,5 +1,6 @@
 package world;
 
+import entity.Player;
 import javafx.scene.canvas.GraphicsContext;
 import main.SimpleRPG;
 import javafx.scene.image.Image;
@@ -23,8 +24,10 @@ public abstract class Map {
 
     public abstract void render();
 
-    public Map(SimpleRPG gameInstance, String imagePath) {
+    public Map(SimpleRPG gameInstance, double playerX, double playerY, String imagePath) {
         master = gameInstance;
+        master.getPlayer().setX(playerX);
+        master.getPlayer().setY(playerY);
         this.gc = master.canvasBackground.getGraphicsContext2D();
         this.bg = new Image(imagePath);
     }

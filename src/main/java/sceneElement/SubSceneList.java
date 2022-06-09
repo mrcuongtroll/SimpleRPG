@@ -151,8 +151,8 @@ public class SubSceneList {
         });
 
         btnDoNothing.setOnAction(event -> {
-            simpleRPG.player.increaseHealthPoint(10);
-            simpleRPG.player.increaseManaPoint(10);
+            simpleRPG.getPlayer().increaseHealthPoint(10);
+            simpleRPG.getPlayer().increaseManaPoint(10);
             new Heal().activate(simpleRPG.getPlayer(), simpleRPG.getPlayer());
 
         });
@@ -168,7 +168,7 @@ public class SubSceneList {
         GameButton btnSkill1= new GameButton("Skill 1", 100, 50);
         GameButton btnSkill2 = new GameButton("Skill 2", 100, 50);
         GameButton btnSkill3 = new GameButton("Skill 3", 100, 50);
-        GameButton btnSkill4 = new GameButton("Skill 4", 100, 50);
+        GameButton btnSkill4 = new GameButton("Unlock button", 100, 50);
         GameButton btnNormalAttack = new GameButton("Normal Attack", 100, 50);
         GameButton btnBack = new GameButton("Go back", 100, 50);
 
@@ -180,6 +180,16 @@ public class SubSceneList {
             view.cleanUpScene();
             currentShowingView.showSubScene(openBattleOption);
         });
+
+        btnSkill1.setOnAction(event -> btnSkill1.disableButton());
+        btnSkill2.setOnAction(event -> btnSkill2.disableButton());
+        btnSkill3.setOnAction(event -> btnSkill3.disableButton());
+        btnSkill4.setOnAction(event -> {
+            btnSkill1.enableButton();
+            btnSkill2.enableButton();
+            btnSkill3.enableButton();
+        });
+
 
         addButtonGrid(openSkill, 25, 25, 2, 3, 10, btnSkill1, btnSkill2, btnSkill3, btnSkill4, btnNormalAttack, btnBack);
         return openSkill;
