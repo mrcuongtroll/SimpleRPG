@@ -34,8 +34,8 @@ public class SubSceneList {
     public static GameSubScene openSkill;
     public static GameSubScene openGameOver;
     public static GameSubScene openDialog;
-    public static Action[] actionList =  simpleRPG.getPlayer().getActionList();
-    public static GameButton[] gameButtonList = new GameButton[actionList.length];
+    public static Action[] actionList;
+    public static GameButton[] gameButtonList ;
 
     public SubSceneList(SimpleRPG simpleRPG) {
         SubSceneList.simpleRPG = simpleRPG;
@@ -164,6 +164,9 @@ public class SubSceneList {
     }
 
     private GameSubScene createSkillOptionScene(){
+        actionList =  simpleRPG.getPlayer().getActionList();
+        gameButtonList = new GameButton[actionList.length];
+
         GameSubScene openSkill = new GameSubScene(400, 200, (SCREEN_WIDTH - 400)/2, 470, "Vertical", (new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath());
 
         for (int i = 0;i<actionList.length ;i++){
@@ -185,7 +188,6 @@ public class SubSceneList {
             currentShowingView.showSubScene(openBattleOption);
         });
 
-
         addButtonGrid(openSkill, 25, 25, 2, 3, 10, gameButtonList[0] ,gameButtonList[1], gameButtonList[2], gameButtonList[3], btnNormalAttack, btnBack);
         return openSkill;
     }
@@ -193,10 +195,14 @@ public class SubSceneList {
         for (int i = 0;i<actionList.length ;i++){
             Action action = actionList[i];
             if (simpleRPG.getPlayer().getManaPoint() < action.getCost()){
-                gameButtonList[i].disableButton();
+                gameButtonList[i].setOpacity(0.3);
+                gameButtonList[i].setOnAction(event -> {});
             }
             else{
-                gameButtonList[i].enableButton();
+                gameButtonList[i].setOpacity(1);
+                gameButtonList[i].setOnAction(event -> {
+                    action.activate(simpleRPG.getPlayer(), ((BattleMap) simpleRPG.getWorld()).getEnemy());
+                });
             }
         }
     }
