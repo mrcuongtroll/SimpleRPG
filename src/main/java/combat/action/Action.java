@@ -8,8 +8,9 @@ import entity.Player;
 public abstract class Action {
     String name;
     Effect[] effectList;
-    public static int Cost;
+
     abstract public String getName();
+    abstract public int getCost();
     /*
     Since we only have 2 "Characters" interact with each other in combat
     char1 is the initiator of the action, char2 is affected by the action
@@ -26,7 +27,5 @@ public abstract class Action {
     the enemy method takes in both Player array and Enemy array
     */
     abstract public void randomActivate(Character currentTurnChar, Player player, Enemy enemy);
-    protected boolean checkCost(Character attacker){ //handle mana here
-        return (attacker.getManaPoint()>this.Cost);
-    }
+    abstract public void activate(Character player, Character enemy);
 }

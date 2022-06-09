@@ -9,7 +9,10 @@ import world.BattleMap;
 public class Rest extends Action{
     public static final String NAME = "Rest";
     public static final int HEAL_POINTS = 10;
-
+    public static int COST = 0;
+    public int getCost(){
+        return COST;
+    }
     public String getName(){
         return NAME;
     }
