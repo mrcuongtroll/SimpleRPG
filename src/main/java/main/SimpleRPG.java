@@ -32,6 +32,7 @@ public class SimpleRPG extends Application {
     public Canvas canvasOverlay = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
     public Canvas canvasShading = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+
     public AnchorPane popupPane = new AnchorPane();
     public Canvas canvasBattle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
