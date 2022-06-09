@@ -1,5 +1,6 @@
 package world;
 
+import entity.Player;
 import javafx.scene.canvas.GraphicsContext;
 import main.SimpleRPG;
 import javafx.scene.image.Image;
