@@ -7,6 +7,8 @@ import javafx.scene.layout.AnchorPane;
 import loop.GameLoopManager;
 import main.HUD;
 import main.SimpleRPG;
+import popup.PopupChoice;
+import popup.PopupRender;
 import world.Map;
 
 import static sceneElement.SubSceneList.openSetting;
@@ -22,6 +24,8 @@ public class GameView extends View{
     private Canvas canvasBattle;
     private GameLoopManager gameLoopManager;
     private KeyHandler keyHandler;
+    private AnchorPane popupPane = new AnchorPane();
+
     private HUD mainHUD;
     private Map world;
 
@@ -36,6 +40,7 @@ public class GameView extends View{
         this.canvasOverlay = simpleRPG.canvasOverlay;
         this.canvasShading = simpleRPG.canvasShading;
         this.canvasBattle = simpleRPG.canvasBattle;
+        this.popupPane = simpleRPG.popupPane;
         this.mainHUD = simpleRPG.mainHUD;
         mainHUD.showHUD();
         this.world = simpleRPG.getWorld();
@@ -50,6 +55,7 @@ public class GameView extends View{
         mainPane.getChildren().add(canvasShading);
         mainPane.getChildren().add(canvasBattle);
         mainPane.getChildren().add(mainHUD.getHUD());
+        mainPane.getChildren().add(popupPane);
 
         simpleRPG.getGameLoopManager().stop();
 //        simpleRPG.setArchiveWorld(world);
@@ -59,6 +65,12 @@ public class GameView extends View{
         CreateScreenElements();
         canvasMiddle.requestFocus();
         this.gameLoopManager.start();
+
+        String[] choices = {"Yes", "No"};
+        PopupChoice popup = new PopupChoice("Choose an option", choices);
+        PopupRender popupRender = new PopupRender(simpleRPG,popup);
+        popupRender.render();
+
     }
 
     private void CreateScreenElements(){

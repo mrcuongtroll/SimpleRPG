@@ -36,23 +36,6 @@ public class Dialogue {
         this.inputDialogue = inputDialogue;
     }
 
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public List<String> getOptionList() {
-//        return optionList;
-//    }
-//
-//    public String getPotraitPath() {
-//        return potraitPath;
-    }
-
-//    public Dialogue(String inputDialogue, String name, String potraitPath) {
-//        this.inputDialogue = inputDialogue;
-//        this.name = name;
-//        this.potraitPath = potraitPath;
-//    }
 
 
 

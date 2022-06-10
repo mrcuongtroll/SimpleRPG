@@ -6,23 +6,24 @@ import entity.Enemy;
 import entity.Player;
 import world.BattleMap;
 
-public class Heal extends Action{
-    public static final String NAME = "Heal";
-    public static final int COST = 50;
-
-
+public class StrongSlash  extends Action{
+    public static final String NAME = "Strong Slash";
     public String getName(){
         return NAME;
     }
+    public static int COST = 25;
     public int getCost(){
         return COST;
     }
-    static Effect effect = new combat.effect.Heal();
+    static Effect effect = new combat.effect.NormalAttack();
 
     public void activate(Character attacker, Character defender){
         attacker.setManaPoint(attacker.getManaPoint()-COST);
-        attacker.setHealthPoint((int) Math.round(attacker.getMaxHealthPoint()*0.15)+attacker.getHealthPoint());
-        BattleMap.showSkillEffect(attacker, effect, attacker.getName() + " heals " + Math.round(attacker.getMaxHealthPoint()*0.15) + " health points ");
+        int damage = (attacker.getAttackPoint() - defender.getDefensePoint())*2;
+        if (damage > 0) {
+            defender.setHealthPoint(defender.getHealthPoint() - damage);
+        }
+        BattleMap.showSkillEffect(defender, effect, attacker.getName() + " deals " + damage + " damage to " + defender.getName());
     }
     @Override
     public void randomActivate(Character currentTurnChar, Player player, Enemy enemy) {

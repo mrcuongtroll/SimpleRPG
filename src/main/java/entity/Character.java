@@ -1,12 +1,12 @@
 package entity;
 
 import combat.action.Action;
+import event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import main.SimpleRPG;
 import world.Tile;
 import world.World;
-import event.Event;
 
 import java.awt.*;
 
@@ -157,6 +157,7 @@ public abstract class Character {
     public void setActionList(Action[] actionList) {
         this.combatActionList = actionList;
     }
+
     public void increaseHealthPoint(int amount){
         healthPoint += amount;
         if (healthPoint >= maxHealthPoint) {
@@ -170,10 +171,34 @@ public abstract class Character {
         }
     }
     public void setHealthPoint(int healthPoint){
-        this.healthPoint = healthPoint;
+        if (healthPoint>maxHealthPoint){
+            this.healthPoint = maxHealthPoint;
+        } else if (healthPoint<0) {
+            this.healthPoint = 0;
+        } else {
+            this.healthPoint = healthPoint;
+        }
     }
     public void setManaPoint(int manaPoint){
-        this.manaPoint = manaPoint;
+        if (manaPoint>maxManaPoint){
+            this.manaPoint = maxManaPoint;
+        } else if (manaPoint<0) {
+            this.manaPoint = 0;
+        } else {
+            this.manaPoint = manaPoint;
+        }
+    }
+    public void setMaxHealthPoint(int maxHealthPoint){
+        this.maxHealthPoint = maxHealthPoint;
+    }
+    public void setMaxManaPoint(int maxManaPoint){
+        this.maxManaPoint = maxManaPoint;
+    }
+    public int getMaxHealthPoint(){
+        return this.maxHealthPoint;
+    }
+    public int getMaxManaPoint(){
+        return this.maxManaPoint;
     }
     public String getName() {
         return this.name;

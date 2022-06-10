@@ -178,6 +178,7 @@ public class BattleMap extends Map {
                 (new NormalAttack()).activate(currentTurnChar, player);
             }
         }
+        SubSceneList.checkManaRequirement();
     }
 
     public static void showSkillEffect(Character character, Effect effect, String dialogText) {
@@ -194,7 +195,6 @@ public class BattleMap extends Map {
         view.addSubSceneToPane(dialogScene);
         view.showSubScene(dialogScene);
 //        view.showSubScene(SubSceneList.openDialog);
-
     }
 
     @Override

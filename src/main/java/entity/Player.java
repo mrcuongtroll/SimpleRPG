@@ -1,8 +1,8 @@
 package entity;
 
+import combat.action.*;
 import entity.equipment.Armor;
 import entity.equipment.Weapon;
-import javafx.scene.image.Image;
 import main.SimpleRPG;
 import world.World;
 
@@ -85,6 +85,7 @@ public class Player extends Character {
         this.stamina = MAX_STAMINA;
         this.setMovementSpeed(Player.MOVEMENT_SPEED);
         this.defaultFrame(Character.DOWN);
+        this.setActionList(new Action[] {new Cyclone(), new Heal(), new StrongSlash(), new Spark()});
     }
 
     @Override
