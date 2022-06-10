@@ -1,5 +1,6 @@
 package popup;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -30,6 +31,7 @@ public class PopupRender {
         this.root.setVisible(true);
 
         VBox popup = new VBox(20);
+        popup.setAlignment(Pos.CENTER);
 //        popup.setMinSize(100);
 
 //        popup.setTranslateX(1280);

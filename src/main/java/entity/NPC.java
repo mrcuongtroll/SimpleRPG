@@ -9,8 +9,8 @@ public abstract class NPC extends Character {
     public static final String MODE_IDLE = "IDLE";
     public static final String MODE_WANDER = "WANDER";
     public static final String MODE_CHASE = "CHASE";
-    public static final double MOVEMENT_SPEED = 1.5;
-    public static final double SPRINT_SPEED = 5;
+    public static final int MOVEMENT_SPEED = 2;
+    public static final int SPRINT_SPEED = 5;
 
     private String mode;
     private double xDistanceFromPlayer;
