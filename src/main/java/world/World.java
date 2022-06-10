@@ -33,8 +33,8 @@ public class World extends Map {
     private BufferedImage mask;
     private int[][] maskArray;
     private ArrayList<Tile> tileList = new ArrayList<Tile>();
-    public ArrayList<NPC> npcList = new ArrayList<NPC>();
-    public ArrayList<Event> eventList = new ArrayList<Event>();
+    private ArrayList<NPC> npcList = new ArrayList<NPC>();
+    private ArrayList<Event> eventList = new ArrayList<Event>();
 
     private boolean isPlayerSprinting = false;
     public double getX(){
@@ -78,6 +78,12 @@ public class World extends Map {
     public ArrayList<Tile> getTileList() {
         return this.tileList;
     }
+    public ArrayList<NPC> getNpcList() {
+        return this.npcList;
+    }
+    public ArrayList<Event> getEventList() {
+        return this.eventList;
+    }
 
     public World(SimpleRPG master, double playerX, double playerY, String bgImagePath, String overlayImagePath, String shadingImagePath, String maskPath) {
         super(master, playerX, playerY, bgImagePath);
@@ -102,22 +108,6 @@ public class World extends Map {
         this.gcShading = this.getMaster().canvasShading.getGraphicsContext2D();
         this.overlayImage = new Image(overlayImagePath);
         this.shadingImage = new Image(shadingImagePath);
-
-        // Create NPCs (this should be move to subclasses)
-        this.npcList.add(new Enemy(this, master, 1000, 400, 1000+(int)this.x, 400+(int)this.y, "Enemy",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 100, 100, 20, 10));
-        this.npcList.add(new Enemy(this, master, 1500, 400, 1500+(int)this.x, 400+(int)this.y, "Enemy",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 100, 100, 20, 10));
-        this.npcList.add(new Enemy(this, master, 1300, 600, 1300+(int)this.x, 600+(int)this.y, "Enemy",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 100, 100, 20, 10));
-        for (NPC npc: this.npcList) {
-            Event enemyEvent = new BattleEvent(this, Event.TRIGGER_TYPE_TOUCH, npc);
-            npc.setEvent(enemyEvent);
-            this.eventList.add(enemyEvent);
-        }
 
         // Load collision mask
         try {
@@ -195,7 +185,7 @@ public class World extends Map {
         // Check when not to scroll the map
         // Idea: The map will not scroll if the player is near the side of the map
         // Check the x-axis:
-        if (player.getRelativeX() > (double)SimpleRPG.SCREEN_WIDTH/2 - (double)Player.SPRITE_WIDTH/2 && player.getRelativeX() < this.getBg().getWidth() - (double)SimpleRPG.SCREEN_WIDTH/2 - (double)Player.SPRITE_WIDTH/2) {
+        if (player.getRelativeX() >= (double)SimpleRPG.SCREEN_WIDTH/2 - (double)Player.SPRITE_WIDTH/2 && player.getRelativeX() <= this.getBg().getWidth() - (double)SimpleRPG.SCREEN_WIDTH/2 - (double)Player.SPRITE_WIDTH/2) {
             if (canMoveH) {
                 this.x += this.dx;
                 // Also update NPCs' x-value to keep their relative position consistent
@@ -203,7 +193,7 @@ public class World extends Map {
             }
         }
         // Check the y-axis
-        if (player.getRelativeY() > (double)SimpleRPG.SCREEN_HEIGHT/2 - (double)Player.SPRITE_HEIGHT/2 && player.getRelativeY() < this.getBg().getHeight() - (double)SimpleRPG.SCREEN_HEIGHT/2 - (double)Player.SPRITE_HEIGHT/2) {
+        if (player.getRelativeY() >= (double)SimpleRPG.SCREEN_HEIGHT/2 - (double)Player.SPRITE_HEIGHT/2 && player.getRelativeY() <= this.getBg().getHeight() - (double)SimpleRPG.SCREEN_HEIGHT/2 - (double)Player.SPRITE_HEIGHT/2) {
             if (canMoveV) {
                 this.y += this.dy;
                 // Also update NPCs' x-value to keep their relative position consistent

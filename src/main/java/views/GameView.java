@@ -66,10 +66,10 @@ public class GameView extends View{
         canvasMiddle.requestFocus();
         this.gameLoopManager.start();
 
-        String[] choices = {"Yes", "No"};
-        PopupChoice popup = new PopupChoice("Choose an option", choices);
-        PopupRender popupRender = new PopupRender(simpleRPG,popup);
-        popupRender.render();
+//        String[] choices = {"Yes", "No"};
+//        PopupChoice popup = new PopupChoice("Choose an option", choices);
+//        PopupRender popupRender = new PopupRender(simpleRPG,popup);
+//        popupRender.render();
 
     }
 

@@ -27,12 +27,12 @@ public abstract class Character {
     private double y;
     private double xDisplay;
     private double yDisplay;
-    private double dx;
-    private double dy;
+    private int dx;
+    private int dy;
     private Rectangle rect;
     private boolean isSolid;
     private Tile tile;
-    private double movementSpeed;
+    private int movementSpeed;
     private int lastMove;
     private int level;
     private int attackSpeed;
@@ -119,13 +119,13 @@ public abstract class Character {
     public void setYDisplay(double yDisplay) {
         this.yDisplay = yDisplay;
     }
-    public void setDx(double dx) {
+    public void setDx(int dx) {
         this.dx = dx;
     }
-    public void setDy(double dy) {
+    public void setDy(int dy) {
         this.dy = dy;
     }
-    public void setMovementSpeed(double movementSpeed) {
+    public void setMovementSpeed(int movementSpeed) {
         this.movementSpeed = movementSpeed;
     }
     public void setEvent(Event e) {
@@ -334,7 +334,7 @@ public abstract class Character {
 
     public void changeFrame(String direction) {
         this.lastMove += this.getMovementSpeed()*this.getMovementSpeed();
-        if (this.lastMove > 12 * this.getMovementSpeed()) {
+        if (this.lastMove > 15 * this.getMovementSpeed()) {
             this.lastMove = 0;
             if (direction.equals(DEFAULT_IMAGE_PATH)) {
                 this.setCurrentFrame(1);
@@ -354,7 +354,7 @@ public abstract class Character {
     public void defaultFrame(String direction) {
         this.currentFrame = NUM_IMAGE_FRAME;
         this.image = new Image(this.imagePath + direction + currentFrame + ".png");
-        this.lastMove = (int) (12 * this.getMovementSpeed()) + 1;
+        this.lastMove = (int) (15 * this.getMovementSpeed()) + 1;
     }
 
     public void move(String direction) {

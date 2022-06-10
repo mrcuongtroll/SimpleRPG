@@ -24,7 +24,7 @@ public class Dialogue {
     }
 
     public String getImagePath() {
-        return this.character.getImagePath() +  this.character.DEFAULT_IMAGE_PATH + "1.png";
+        return this.character.getImagePath() + this.character.DEFAULT_IMAGE_PATH + "1.png";
     }
 
     public Dialogue(String inputDialogue, Character character) {
@@ -35,7 +35,7 @@ public class Dialogue {
     public Dialogue(String inputDialogue) {
         this.inputDialogue = inputDialogue;
     }
-
+}
 
 
 

@@ -16,6 +16,7 @@ public abstract class Event {
     private final World world;
     private final SimpleRPG gameInstance;
     private final String triggerType;
+    private boolean enabled = true;
     private Character character;
     private Rectangle rect;
     private boolean triggered = false;
@@ -34,6 +35,13 @@ public abstract class Event {
 
     public World getWorld() {
         return this.world;
+    }
+
+    public void enable() {
+        this.enabled = true;
+    }
+    public void disable() {
+        this.enabled = false;
     }
 
     public Event(World world, String triggerType) {
@@ -56,32 +64,34 @@ public abstract class Event {
     }
 
     public void tick() {
-        switch (this.triggerType) {
-            case Event.TRIGGER_TYPE_TOUCH:
-                // This should trigger only once each time the player steps on the event's rectangle
-                if (this.rect.intersects(this.gameInstance.getPlayer().getRect())) {
+        if (this.enabled) {
+            switch (this.triggerType) {
+                case Event.TRIGGER_TYPE_TOUCH:
+                    // This should trigger only once each time the player steps on the event's rectangle
+                    if (this.rect.intersects(this.gameInstance.getPlayer().getRect())) {
+                        if (!this.triggered) {
+                            this.trigger();
+                            this.triggered = true;
+                        }
+                    } else {
+                        this.triggered = false;
+                    }
+                    break;
+                case Event.TRIGGER_TYPE_AUTO_SINGLE:
+                    // This can only be triggered once
                     if (!this.triggered) {
                         this.trigger();
                         this.triggered = true;
                     }
-                } else {
-                    this.triggered = false;
-                }
-                break;
-            case Event.TRIGGER_TYPE_AUTO_SINGLE:
-                // This can only be triggered once
-                if (!this.triggered) {
+                    break;
+                case Event.TRIGGER_TYPE_AUTO_MULTI:
+                    // This can trigger multiple times, but make sure to implement auto-multi trigger events to trigger
+                    // only once at a time window.
                     this.trigger();
-                    this.triggered = true;
-                }
-                break;
-            case Event.TRIGGER_TYPE_AUTO_MULTI:
-                // This can trigger multiple times, but make sure to implement auto-multi trigger events to trigger
-                // only once at a time window.
-                this.trigger();
-                break;
+                    break;
+            }
+            // Interactive trigger type needs to be triggered manually
         }
-        // Interactive trigger type needs to be triggered manually
     }
 
     public abstract void trigger();
