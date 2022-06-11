@@ -218,7 +218,7 @@ public class SubSceneList {
         return openDialog;
     }
 
-    private void addButtonGrid(GameSubScene gameSubScene, int x, int y, int rows, int columns, int padding, Button... buttons){
+    private void addButtonGrid(GameSubScene gameSubScene, int x, int y, int rows, int columns, int padding, GameButton... buttons){
         GridPane gridPane = new GridPane();
 
         for (int i = 0; i < columns; i ++){
@@ -232,6 +232,10 @@ public class SubSceneList {
                 }
             }
         }
+        for (GameButton gameButton:buttons){
+            gameSubScene.getButtons().add(gameButton);
+        }
+
         gameSubScene.addGrid(gridPane, x, y);
     }
 

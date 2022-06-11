@@ -9,6 +9,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+
 import static main.SimpleRPG.SCREEN_HEIGHT;
 import static main.SimpleRPG.SCREEN_WIDTH;
 
@@ -20,6 +22,7 @@ public class GameSubScene extends AnchorPane {
     private int x;
     private int y;
     private String transitionStyle;
+    private ArrayList<GameButton> buttons = new ArrayList<GameButton>();
 
     public GameSubScene(int width, int height, int x, int y, String transitionStyle, String background) {
         super(new AnchorPane());
@@ -60,6 +63,11 @@ public class GameSubScene extends AnchorPane {
         button.setLayoutX(x);
         button.setLayoutY(y);
         getChildren().add(button);
+        buttons.add((GameButton) button);
+    }
+
+    public ArrayList<GameButton> getButtons(){
+        return this.buttons;
     }
 
     public void addGrid(GridPane grid, int x, int y){

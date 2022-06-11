@@ -90,21 +90,30 @@ public abstract class View {
         }
     }
 
-    public void showSubScene(GameSubScene subScene) {
+    public void showSubScene(GameSubScene toSubScene) {
+        if (currentShowingScene!=null){
+            for (GameButton gameButton:this.currentShowingScene.getButtons()){
+                gameButton.disableButton();
+            }
+        }
+
         //Cần ai đó làm đơn giản lại cái if else này
         if (currentShowingScene == null) {
-            subScene.moveSubScene();
-            currentShowingScene = subScene;
+            toSubScene.moveSubScene();
+            currentShowingScene = toSubScene;
         } else {
-            if(currentShowingScene == subScene){
-                subScene.moveSubScene();
+            if(currentShowingScene == toSubScene){
+                toSubScene.moveSubScene();
             } else {
                 if(!currentShowingScene.isHidden){
                     currentShowingScene.moveSubScene();
                 }
-                subScene.moveSubScene();
-                currentShowingScene = subScene;
+                toSubScene.moveSubScene();
+                currentShowingScene = toSubScene;
             }
+        }
+        for (GameButton gameButton:toSubScene.getButtons()){
+            gameButton.enableButton();
         }
     }
 

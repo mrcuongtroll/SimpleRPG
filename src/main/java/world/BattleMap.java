@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import main.SimpleRPG;
+import sceneElement.GameButton;
 import sceneElement.GameSubScene;
 import sceneElement.SubSceneList;
 import views.BattleView;
@@ -182,6 +183,9 @@ public class BattleMap extends Map {
     }
 
     public static void showSkillEffect(Character character, Effect effect, String dialogText) {
+        for (GameButton gameButton:view.currentShowingScene.getButtons()){
+            gameButton.disableButton();
+        }
         if (character instanceof Player) {
             new EffectAnimationTimer(effect, playerHitBox, character, dialogText, getMaster());
         } else if (character instanceof Enemy) {
