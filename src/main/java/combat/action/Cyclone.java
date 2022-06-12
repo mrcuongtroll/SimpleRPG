@@ -11,7 +11,7 @@ public class Cyclone  extends Action{
     public String getName(){
         return NAME;
     }
-    static Effect effect = new combat.effect.NormalAttack();
+    static Effect effect = new combat.effect.Cyclone();
     public static int COST = 35;
     public int getCost(){
         return COST;

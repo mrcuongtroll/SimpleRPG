@@ -11,7 +11,7 @@ public class Spark extends Action{
     public String getName(){
         return NAME;
     }
-    static Effect effect = new combat.effect.NormalAttack();
+    static Effect effect = new combat.effect.Spark();
     public static int COST = 15;
     public int getCost(){
         return COST;
