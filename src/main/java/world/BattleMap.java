@@ -1,7 +1,6 @@
 package world;
 
 import combat.CombatManager;
-import combat.action.NormalAttack;
 import combat.effect.Effect;
 import combat.effect.EffectAnimationTimer;
 import entity.Character;
@@ -178,7 +177,7 @@ public class BattleMap extends Map {
             } else if (currentTurnChar instanceof Enemy) {
                 view.cleanUpScene();
                 System.out.println("Enemy turn");
-                (new NormalAttack()).activate(currentTurnChar, player);
+                enemy.randomAttack(player);
             }
         }
         SubSceneList.checkManaRequirement();
