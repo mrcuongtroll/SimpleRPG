@@ -184,6 +184,7 @@ public class BattleMap extends Map {
     }
 
     public static void showSkillEffect(Character character, Effect effect, String... dialogTexts) {
+        view.currentShowingScene.disableButtons();
         if (character instanceof Player) {
             effectAnimationList.add(new EffectAnimationTimer(effect, playerHitBox, character, getMaster(), dialogTexts));
         } else if (character instanceof Enemy) {
