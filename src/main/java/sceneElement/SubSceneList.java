@@ -18,6 +18,7 @@ import world.BattleMap;
 import world.World;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import static javafx.scene.paint.Color.BROWN;
 import static main.SimpleRPG.SCREEN_WIDTH;
@@ -45,7 +46,7 @@ public class SubSceneList {
         openCredit = createCreditScene();
         openSkill = createSkillOptionScene();
         openGameOver = createGameOverScene();
-        openDialog = createDialogScene("Test dialog");
+//        openDialog = createDialogScene("Test dialog");
     }
 
     public static void openView(View newView){
@@ -139,9 +140,9 @@ public class SubSceneList {
         GameSubScene openBattleOption = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
 
 //        openBattleOption.addText("Choose your action", 200, 50);
-        GameButton btnFight= new GameButton("Lets fuck", 100, 50);
-        GameButton btnSurrender = new GameButton("Why are you running?", 100, 50);
-        GameButton btnDoNothing = new GameButton("Do nothing", 100, 50);
+        GameButton btnFight= new GameButton("Fight", 100, 50);
+        GameButton btnSurrender = new GameButton("Run", 100, 50);
+        GameButton btnDoNothing = new GameButton("Rest", 100, 50);
         GameButton btnItems = new GameButton("Inventory", 100, 50);
 
         btnSurrender.setOnAction(event -> {view.cleanUpScene();
@@ -211,7 +212,33 @@ public class SubSceneList {
             }
         }
     }
-    public static GameSubScene createDialogScene(String text){
+    public static GameSubScene createDialogScene(String... texts){
+        ArrayList<GameSubScene> dialogScenes = new ArrayList<GameSubScene>();
+        ArrayList<GameButton> dialogButtons = new ArrayList<GameButton>();
+
+        for (int i = 0; i<texts.length; i++) {
+            dialogScenes.add(new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath()));
+            dialogButtons.add(new GameButton("Continue", 100, 50));
+            dialogScenes.get(i).addButton(dialogButtons.get(i), 900, 100);
+            dialogScenes.get(i).addText(texts[i], BROWN, 20, 1100, 200, 0, 0);
+            view.addSubSceneToPane(dialogScenes.get(dialogScenes.size() - 1));
+        }
+        for (int i = 0; i<texts.length; i++) {
+            if (i == texts.length - 1) {
+                dialogButtons.get(i).setOnAction(event -> {
+                    BattleMap.turnDecide();
+                });
+            } else{
+                GameSubScene nextDialog = dialogScenes.get(i + 1);
+                dialogButtons.get(i).setOnAction(event -> {
+                    view.cleanUpScene();
+                    currentShowingView.showSubScene(nextDialog);
+                });
+            }
+        }
+        return dialogScenes.get(0);
+    }
+    public static GameSubScene createDialogScene(String text, GameSubScene toDialog){
         openDialog = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
         GameButton btnBack = new GameButton("Continue", 100, 50);
         openDialog.addButton(btnBack, 900, 100);

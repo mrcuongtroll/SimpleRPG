@@ -62,7 +62,7 @@ public class BattleView extends View{
     }
 
     public void createScreenElements(){
-        addSubSceneToPane(openDialog);
+//        addSubSceneToPane(openDialog);
         addSubSceneToPane(openBattleOption);
         addSubSceneToPane(openInventory);
         addSubSceneToPane(openSkill);

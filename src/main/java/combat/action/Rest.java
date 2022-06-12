@@ -22,8 +22,9 @@ public class Rest extends Action{
         attacker.increaseHealthPoint(HEAL_POINTS);
         attacker.increaseManaPoint(HEAL_POINTS);
 
-        BattleMap.showSkillEffect(defender, effect, attacker.getName() + " heals " + HEAL_POINTS + " health points ");
-        BattleMap.showSkillEffect(defender, effect, attacker.getName() + " recovers " + HEAL_POINTS + " mana points ");
+        BattleMap.showSkillEffect(defender, effect,
+                attacker.getName() + " heals " + HEAL_POINTS + " health points ",
+                attacker.getName() + " recovers " + HEAL_POINTS + " mana points ");
     }
     @Override
     public void randomActivate(Character currentTurnChar, Player player, Enemy enemy) {
