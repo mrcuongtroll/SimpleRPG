@@ -17,7 +17,7 @@ public class Enemy extends NPC{
     private int defense;
     private double distanceFromPlayer;
     private boolean isChasing = false;
-    private List<Action> actionList = Arrays.asList(new Action[] {new Cyclone(), new Heal(), new StrongSlash(), new Spark(),new Rest(), new NormalAttack()});
+    private List<Action> actionList = Arrays.asList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark(),new Rest(), new NormalAttack()});
     @Override
     public int getAttackPoint() {
         return this.attack;
@@ -31,7 +31,7 @@ public class Enemy extends NPC{
         super(worldMaster, master, x, y, name, imagePath, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, false, NPC.MODE_WANDER);
         this.attack = attack;
         this.defense = defense;
-        this.setActionList(new Action[] {new Cyclone(), new Heal(), new StrongSlash(), new Spark(),new Rest(), new NormalAttack()});
+        this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark(),new Rest(), new NormalAttack()});
 
     }
     public Enemy(World worldMaster, SimpleRPG master, int x, int y, int xDisplay, int yDisplay, String name, String imagePath,
@@ -39,7 +39,7 @@ public class Enemy extends NPC{
         super(worldMaster, master, x, y, xDisplay, yDisplay, name, imagePath, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, false, NPC.MODE_WANDER);
         this.attack = attack;
         this.defense = defense;
-        this.setActionList(new Action[] {new Cyclone(), new Heal(), new StrongSlash(), new Spark()});
+        this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark()});
     }
 
     @Override
