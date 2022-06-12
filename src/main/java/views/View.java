@@ -92,9 +92,7 @@ public abstract class View {
 
     public void showSubScene(GameSubScene toSubScene) {
         if (currentShowingScene!=null){
-            for (GameButton gameButton:this.currentShowingScene.getButtons()){
-                gameButton.disableButton();
-            }
+            currentShowingScene.disableButtons();
         }
 
         //Cần ai đó làm đơn giản lại cái if else này
@@ -112,9 +110,7 @@ public abstract class View {
                 currentShowingScene = toSubScene;
             }
         }
-        for (GameButton gameButton:toSubScene.getButtons()){
-            gameButton.enableButton();
-        }
+        currentShowingScene.enableButtons();
     }
 
     // Check if any scene is opened before starting a new view

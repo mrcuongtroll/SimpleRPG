@@ -49,8 +49,13 @@ public class SubSceneList {
     }
 
     public static void openView(View newView){
+        if (view.currentShowingScene!=null){
+            view.currentShowingScene.disableButtons();
+        }
+
         view = newView;
     }
+
 
     private GameSubScene createCreditScene() {
         openCredit = new GameSubScene(600, 300, 340, 210, "Horizontal", (new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath());

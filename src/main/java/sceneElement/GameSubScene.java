@@ -122,5 +122,14 @@ public class GameSubScene extends AnchorPane {
         });
 
     }
-
+    public void disableButtons(){
+        for (GameButton gameButton:this.getButtons()){
+            gameButton.disableButton();
+        }
+    }
+    public void enableButtons(){
+        for (GameButton gameButton:this.getButtons()){
+            gameButton.enableButton();
+        }
+    }
 }
