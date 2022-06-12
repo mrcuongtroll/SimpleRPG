@@ -85,7 +85,7 @@ public class Player extends Character {
         this.stamina = MAX_STAMINA;
         this.setMovementSpeed(Player.MOVEMENT_SPEED);
         this.defaultFrame(Character.DOWN);
-        this.setActionList(new Action[] {new Cyclone(), new Heal(), new StrongSlash(), new Spark()});
+        this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark()});
     }
 
     @Override

@@ -6,8 +6,8 @@ import entity.Enemy;
 import entity.Player;
 import world.BattleMap;
 
-public class StrongSlash  extends Action{
-    public static final String NAME = "Strong Slash";
+public class DoubleSlash extends Action{
+    public static final String NAME = "Double Slash";
     public String getName(){
         return NAME;
     }
@@ -15,7 +15,7 @@ public class StrongSlash  extends Action{
     public int getCost(){
         return COST;
     }
-    static Effect effect = new combat.effect.NormalAttack();
+    static Effect effect = new combat.effect.DoubleSlash();
 
     public void activate(Character attacker, Character defender){
         attacker.setManaPoint(attacker.getManaPoint()-COST);
