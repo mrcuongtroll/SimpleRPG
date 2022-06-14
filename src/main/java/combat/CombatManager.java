@@ -134,4 +134,8 @@ public class CombatManager {
         return toPop;
 
     }
+
+    private void gameResult(){
+
+    }
 }

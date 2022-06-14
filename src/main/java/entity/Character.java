@@ -20,6 +20,8 @@ public abstract class Character {
     public static final String LEFT = "/move_left/";
     public static final String RIGHT = "/move_right/";
     public static final int MINIMUM_SPEED = 0;
+    public static final int[] EXP_THRESHOLD = {50, 100, 200, 350};
+
 
     private SimpleRPG master;
     private String name;
@@ -34,7 +36,8 @@ public abstract class Character {
     private Tile tile;
     private int movementSpeed;
     private int lastMove;
-    private int level;
+    private int level = 1;
+    private int exp = 0;
     private int attackSpeed;
     private Action[] combatActionList;
     private int turnProgress = 0;
@@ -395,5 +398,33 @@ public abstract class Character {
             default -> {}
         }
     }
-    
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void updateLevel(){
+
+        for  (int i = EXP_THRESHOLD.length; true; i--){
+            if (exp > EXP_THRESHOLD[i]){
+                level = i+2;
+                break;
+            } else {
+                level = 1;
+            }
+        }
+    }
+
+    public int getExp(){
+        return exp;
+    }
+
+    public void increaseExp(int amount){
+        if (exp + amount > 350){
+            exp = 350;
+        } else {
+            exp += amount;
+        }
+        updateLevel();
+    }
 }
