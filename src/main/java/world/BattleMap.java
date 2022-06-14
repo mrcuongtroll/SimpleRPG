@@ -162,6 +162,7 @@ public class BattleMap extends Map {
 
     public static void turnDecide() {
         if (enemy.getHealthPoint() <= 0) {
+            player.increaseExp(enemy.getAward());
             view.cleanUpScene();
             new GameView(getMaster());
             ((World) getMaster().getWorld()).removeNPC(enemy);
