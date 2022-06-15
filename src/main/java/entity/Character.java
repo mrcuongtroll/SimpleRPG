@@ -1,7 +1,6 @@
 package entity;
 
 import combat.action.Action;
-import combat.status_effect.StatusEffect;
 import event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -10,7 +9,6 @@ import world.Tile;
 import world.World;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public abstract class Character {
     public static final String DEFAULT_IMAGE_PATH = "/default/";
@@ -29,12 +27,12 @@ public abstract class Character {
     private double y;
     private double xDisplay;
     private double yDisplay;
-    private double dx;
-    private double dy;
+    private int dx;
+    private int dy;
     private Rectangle rect;
     private boolean isSolid;
     private Tile tile;
-    private double movementSpeed;
+    private int movementSpeed;
     private int lastMove;
     private int level;
     private int attackSpeed;
@@ -44,7 +42,6 @@ public abstract class Character {
     private int healthPoint;
     private int maxHealthPoint;
     private int maxManaPoint;
-    private ArrayList<StatusEffect> statusEffects;
     private String imagePath;
     private int currentFrame;
     private String lastDirection;
@@ -122,13 +119,13 @@ public abstract class Character {
     public void setYDisplay(double yDisplay) {
         this.yDisplay = yDisplay;
     }
-    public void setDx(double dx) {
+    public void setDx(int dx) {
         this.dx = dx;
     }
-    public void setDy(double dy) {
+    public void setDy(int dy) {
         this.dy = dy;
     }
-    public void setMovementSpeed(double movementSpeed) {
+    public void setMovementSpeed(int movementSpeed) {
         this.movementSpeed = movementSpeed;
     }
     public void setEvent(Event e) {
@@ -142,9 +139,6 @@ public abstract class Character {
     }
     public int getAttackSpeed(){
         return this.attackSpeed;
-    }
-    public void setAttackSpeed(int attackSpeed){
-        this.attackSpeed = attackSpeed;
     }
     public abstract int getAttackPoint();
     public abstract int getDefensePoint();
@@ -163,6 +157,7 @@ public abstract class Character {
     public void setActionList(Action[] actionList) {
         this.combatActionList = actionList;
     }
+
     public void increaseHealthPoint(int amount){
         healthPoint += amount;
         if (healthPoint >= maxHealthPoint) {
@@ -176,13 +171,35 @@ public abstract class Character {
         }
     }
     public void setHealthPoint(int healthPoint){
-        this.healthPoint = healthPoint;
+        if (healthPoint>maxHealthPoint){
+            this.healthPoint = maxHealthPoint;
+        } else if (healthPoint<0) {
+            this.healthPoint = 0;
+        } else {
+            this.healthPoint = healthPoint;
+        }
     }
     public void setManaPoint(int manaPoint){
-        this.manaPoint = manaPoint;
+        if (manaPoint>maxManaPoint){
+            this.manaPoint = maxManaPoint;
+        } else if (manaPoint<0) {
+            this.manaPoint = 0;
+        } else {
+            this.manaPoint = manaPoint;
+        }
     }
-
-
+    public void setMaxHealthPoint(int maxHealthPoint){
+        this.maxHealthPoint = maxHealthPoint;
+    }
+    public void setMaxManaPoint(int maxManaPoint){
+        this.maxManaPoint = maxManaPoint;
+    }
+    public int getMaxHealthPoint(){
+        return this.maxHealthPoint;
+    }
+    public int getMaxManaPoint(){
+        return this.maxManaPoint;
+    }
     public String getName() {
         return this.name;
     }
@@ -203,15 +220,6 @@ public abstract class Character {
     }
     public void setImage(Image image) {
         this.image = image;
-    }
-    public void advanceStatusEffect(){
-        for (StatusEffect statusEffect:this.getStatusEffects()){
-            statusEffect.setNumTurn(statusEffect.getNumTurn()-1);
-            statusEffect.applyEffect(this);
-            if (statusEffect.getNumTurn()==0){
-                statusEffect.unApplyEffect(this);
-            }
-        }
     }
 
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
@@ -326,7 +334,7 @@ public abstract class Character {
 
     public void changeFrame(String direction) {
         this.lastMove += this.getMovementSpeed()*this.getMovementSpeed();
-        if (this.lastMove > 12 * this.getMovementSpeed()) {
+        if (this.lastMove > 15 * this.getMovementSpeed()) {
             this.lastMove = 0;
             if (direction.equals(DEFAULT_IMAGE_PATH)) {
                 this.setCurrentFrame(1);
@@ -346,7 +354,7 @@ public abstract class Character {
     public void defaultFrame(String direction) {
         this.currentFrame = NUM_IMAGE_FRAME;
         this.image = new Image(this.imagePath + direction + currentFrame + ".png");
-        this.lastMove = (int) (12 * this.getMovementSpeed()) + 1;
+        this.lastMove = (int) (15 * this.getMovementSpeed()) + 1;
     }
 
     public void move(String direction) {
@@ -387,8 +395,5 @@ public abstract class Character {
             default -> {}
         }
     }
-
-    public ArrayList<StatusEffect> getStatusEffects() {
-        return statusEffects;
-    }
+    
 }

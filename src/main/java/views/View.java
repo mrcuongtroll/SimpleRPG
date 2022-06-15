@@ -90,22 +90,27 @@ public abstract class View {
         }
     }
 
-    public void showSubScene(GameSubScene subScene) {
+    public void showSubScene(GameSubScene toSubScene) {
+        if (currentShowingScene!=null){
+            currentShowingScene.disableButtons();
+        }
+
         //Cần ai đó làm đơn giản lại cái if else này
         if (currentShowingScene == null) {
-            subScene.moveSubScene();
-            currentShowingScene = subScene;
+            toSubScene.moveSubScene();
+            currentShowingScene = toSubScene;
         } else {
-            if(currentShowingScene == subScene){
-                subScene.moveSubScene();
+            if(currentShowingScene == toSubScene){
+                toSubScene.moveSubScene();
             } else {
                 if(!currentShowingScene.isHidden){
                     currentShowingScene.moveSubScene();
                 }
-                subScene.moveSubScene();
-                currentShowingScene = subScene;
+                toSubScene.moveSubScene();
+                currentShowingScene = toSubScene;
             }
         }
+        currentShowingScene.enableButtons();
     }
 
     // Check if any scene is opened before starting a new view

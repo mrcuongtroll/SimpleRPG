@@ -14,6 +14,8 @@ import sceneElement.SubSceneList;
 import views.StartScreenView;
 import world.Map;
 import world.World;
+import world.WorldHome;
+import world.WorldOutside;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +34,7 @@ public class SimpleRPG extends Application {
     public Canvas canvasOverlay = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
     public Canvas canvasShading = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+
     public AnchorPane popupPane = new AnchorPane();
     public Canvas canvasBattle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -40,11 +43,12 @@ public class SimpleRPG extends Application {
             80, 100, 100, 100,
             new Weapon("Wooden sword",50, 0, "example_armor.png"),
             new Armor("Wooden armor", 0, 10, "example_armor.png"));
-    private Map world = new World(this, 620, 820,
-            (new File("./assets/Map/Outside/outside_bottom.png")).getAbsolutePath(),
-            (new File("./assets/Map/Outside/outside_overlay.png")).getAbsolutePath(),
-            (new File("./assets/Map/Outside/outside_shading.png")).getAbsolutePath(),
-            (new File("./assets/Map/Outside/outside_mask.png")).getAbsolutePath());
+//    private Map world = new World(this, 620, 820,
+//            (new File("./assets/Map/Outside/outside_bottom.png")).getAbsolutePath(),
+//            (new File("./assets/Map/Outside/outside_overlay.png")).getAbsolutePath(),
+//            (new File("./assets/Map/Outside/outside_shading.png")).getAbsolutePath(),
+//            (new File("./assets/Map/Outside/outside_mask.png")).getAbsolutePath());
+    private Map world = new WorldHome(this, 570, 230);
 
     //    public Map world = BattleMap(this, (new File("./assets/test/battle_map.png")).getAbsolutePath());
 

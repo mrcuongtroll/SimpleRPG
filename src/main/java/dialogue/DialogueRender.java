@@ -29,7 +29,7 @@ public class DialogueRender {
     private AnchorPane root;
 
     private double height = 175.0;
-    private Canvas canvasDialogue = new Canvas(1280, 720 - height);
+//    private Canvas canvasDialogue = new Canvas(1280, 720 - height);
 
     private static final String DIALOG_NEXT_BUTTON = "file:./assets/test/dialogue/arrow.png";
 

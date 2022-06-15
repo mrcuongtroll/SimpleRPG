@@ -11,6 +11,10 @@ public class NormalAttack  extends Action{
     public String getName(){
         return NAME;
     }
+    public static int COST=0;
+    public int getCost(){
+        return COST;
+    }
     static Effect effect = new combat.effect.NormalAttack();
 
     public void activate(Character attacker, Character defender){

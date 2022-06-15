@@ -1,16 +1,16 @@
 package entity;
 
+import combat.action.*;
 import entity.equipment.Armor;
 import entity.equipment.Weapon;
-import javafx.scene.image.Image;
 import main.SimpleRPG;
 import world.World;
 
 public class Player extends Character {
     public static final int SPRITE_HEIGHT = 48;
     public static final int SPRITE_WIDTH = 48;
-    public static final double MOVEMENT_SPEED = 2;
-    public static final double SPRINT_SPEED = 6;
+    public static final int MOVEMENT_SPEED = 3;
+    public static final int SPRINT_SPEED = 6;
     public static final int X = 1280/2-SPRITE_WIDTH/2;
     public static final int Y = 720/2-SPRITE_HEIGHT/2;
     public static final int MAX_STAMINA = 200;
@@ -43,16 +43,16 @@ public class Player extends Character {
     }
     public void sprint() {
         this.isSprinting = true;
-        this.setDx(this.getDx() / this.getMovementSpeed() * Player.SPRINT_SPEED);
-        this.setDy(this.getDy() / this.getMovementSpeed() * Player.SPRINT_SPEED);
+        this.setDx((int)(this.getDx() / this.getMovementSpeed() * Player.SPRINT_SPEED));
+        this.setDy((int)(this.getDy() / this.getMovementSpeed() * Player.SPRINT_SPEED));
         ((World) this.getMaster().getWorld()).setDy(-this.getDy());
         ((World) this.getMaster().getWorld()).setDx(-this.getDx());
         this.setMovementSpeed(Player.SPRINT_SPEED);
     }
     public void unSprint() {
         this.isSprinting = false;
-        this.setDx(this.getDx() * Player.MOVEMENT_SPEED / this.getMovementSpeed());
-        this.setDy(this.getDy() * Player.MOVEMENT_SPEED / this.getMovementSpeed());
+        this.setDx((int)(this.getDx() * Player.MOVEMENT_SPEED / this.getMovementSpeed()));
+        this.setDy((int)(this.getDy() * Player.MOVEMENT_SPEED / this.getMovementSpeed()));
         ((World) this.getMaster().getWorld()).setDy(-this.getDy());
         ((World) this.getMaster().getWorld()).setDx(-this.getDx());
         this.setMovementSpeed(Player.MOVEMENT_SPEED);
@@ -85,6 +85,7 @@ public class Player extends Character {
         this.stamina = MAX_STAMINA;
         this.setMovementSpeed(Player.MOVEMENT_SPEED);
         this.defaultFrame(Character.DOWN);
+        this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark()});
     }
 
     @Override
@@ -116,6 +117,7 @@ public class Player extends Character {
             this.setYDisplay(Player.Y);
         }
 //        this.getGraphicContext().drawImage(this.getImage(), xPos, yPos);
+//        System.out.println("X = " + this.getX() + "; Y = " + this.getY());
     }
 
     @Override

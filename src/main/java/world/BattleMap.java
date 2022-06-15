@@ -1,7 +1,6 @@
 package world;
 
 import combat.CombatManager;
-import combat.action.NormalAttack;
 import combat.effect.Effect;
 import combat.effect.EffectAnimationTimer;
 import entity.Character;
@@ -18,6 +17,8 @@ import sceneElement.GameSubScene;
 import sceneElement.SubSceneList;
 import views.BattleView;
 import views.GameView;
+
+import java.util.ArrayList;
 
 public class BattleMap extends Map {
 
@@ -67,6 +68,7 @@ public class BattleMap extends Map {
         return view;
     }
 
+    public static ArrayList<EffectAnimationTimer> effectAnimationList = new ArrayList<>();
     public BattleMap(SimpleRPG master, BattleView battleView, String imagePath, Enemy enemyFighter) {
         super(master, 0, 0, imagePath);
         player = master.getPlayer();
@@ -175,26 +177,27 @@ public class BattleMap extends Map {
             } else if (currentTurnChar instanceof Enemy) {
                 view.cleanUpScene();
                 System.out.println("Enemy turn");
-                (new NormalAttack()).activate(currentTurnChar, player);
+                enemy.randomAttack(player);
             }
         }
+        SubSceneList.checkManaRequirement();
     }
 
-    public static void showSkillEffect(Character character, Effect effect, String dialogText) {
+    public static void showSkillEffect(Character character, Effect effect, String... dialogTexts) {
+        view.currentShowingScene.disableButtons();
         if (character instanceof Player) {
-            new EffectAnimationTimer(effect, playerHitBox, character, dialogText, getMaster());
+            effectAnimationList.add(new EffectAnimationTimer(effect, playerHitBox, character, getMaster(), dialogTexts));
         } else if (character instanceof Enemy) {
-            new EffectAnimationTimer(effect, enemyHitBox, character, dialogText, getMaster());
+            effectAnimationList.add(new EffectAnimationTimer(effect, enemyHitBox, character, getMaster(), dialogTexts));
         }
     }
 
-    public static void showDialog(String text) {
+    public static void showDialog(String[] texts) {
         view.cleanUpScene();
-        GameSubScene dialogScene = SubSceneList.createDialogScene(text);
-        view.addSubSceneToPane(dialogScene);
+        GameSubScene dialogScene = SubSceneList.createDialogScene(texts);
+//        view.addSubSceneToPane(dialogScene);
         view.showSubScene(dialogScene);
 //        view.showSubScene(SubSceneList.openDialog);
-
     }
 
     @Override
