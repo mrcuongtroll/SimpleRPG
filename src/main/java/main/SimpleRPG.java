@@ -1,7 +1,7 @@
 package main;
 
-import entity.equipment.Armor;
 import entity.Player;
+import entity.equipment.Armor;
 import entity.equipment.Weapon;
 import handler.KeyHandler;
 import javafx.application.Application;
@@ -13,9 +13,7 @@ import loop.GameLoopManager;
 import sceneElement.SubSceneList;
 import views.StartScreenView;
 import world.Map;
-import world.World;
 import world.WorldHome;
-import world.WorldOutside;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,9 +38,13 @@ public class SimpleRPG extends Application {
 
     private Player player = new Player(this, 620, 820, "Player",
             (new File("./assets/test/player")).getAbsolutePath(), 1, 10,
-            80, 100, 100, 100,
-            new Weapon("Wooden sword",50, 0, "example_armor.png"),
-            new Armor("Wooden armor", 0, 10, "example_armor.png"));
+            25, 10, 80, 100, 100, 100,
+            new Weapon("Wooden sword",
+                    0, 25,0,0,0,
+                    "example_armor.png"),
+            new Armor("Wooden armor",
+                    0, 0, 5,0,0,
+                    "example_armor.png"));
 //    private Map world = new World(this, 620, 820,
 //            (new File("./assets/Map/Outside/outside_bottom.png")).getAbsolutePath(),
 //            (new File("./assets/Map/Outside/outside_overlay.png")).getAbsolutePath(),

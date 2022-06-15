@@ -74,7 +74,7 @@ public class SubSceneList {
             view.cleanUpScene();
             simpleRPG.mainPane.getChildren().clear(); openView(new BattleView(simpleRPG, new Enemy((World) simpleRPG.getWorld(), simpleRPG, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 100, 100, 15, 0)));
+                1, 5, 15, 0, 100, 100, 100, 100)));
         });
         openGameOver.addButton(btnGoHome, 150, 150);
         openGameOver.addButton(btnRetry, 350, 150);

@@ -1,10 +1,10 @@
 package combat;
 
 import combat.effect.Effect;
+import combat.entity.TestChar;
 import entity.Character;
 import entity.Enemy;
 import entity.Player;
-import combat.entity.TestChar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,6 +76,12 @@ public class CombatManager {
                 }
             }
         }
+        for (Player player : players){
+            player.advanceStatusEffect();
+            }
+        for (Enemy enemy : enemies){
+            enemy.advanceStatusEffect();
+            }
         Collections.shuffle(turnQueue);
         turnQueue.sort(turnProgressComparator);
         Character toPop = turnQueue.get(0);

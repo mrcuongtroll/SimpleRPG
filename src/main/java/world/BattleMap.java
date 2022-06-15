@@ -164,6 +164,7 @@ public class BattleMap extends Map {
         if (enemy.getHealthPoint() <= 0) {
             player.increaseExp(enemy.getAward());
             view.cleanUpScene();
+            player.getStatusEffects().clear();
             new GameView(getMaster());
             ((World) getMaster().getWorld()).removeNPC(enemy);
         } else if (player.getHealthPoint() <= 0) {
@@ -181,6 +182,7 @@ public class BattleMap extends Map {
                 enemy.randomAttack(player);
             }
         }
+
         SubSceneList.checkManaRequirement();
     }
 
