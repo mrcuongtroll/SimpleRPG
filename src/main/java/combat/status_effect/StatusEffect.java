@@ -4,12 +4,22 @@ import entity.Character;
 public abstract class StatusEffect {
     private int numTurn;
     private String iconPath;
-    public void checkEffect(Character character, StatusEffect newStatusEffect){
+
+    public StatusEffect(Character character){
+        boolean duplicate = false;
         for (StatusEffect statusEffect:character.getStatusEffects()){
             if (statusEffect.getClass()==this.getClass()){
-                statusEffect.setNumTurn(statusEffect.getNumTurn()+newStatusEffect.getNumTurn());
+                duplicate = true;
+                statusEffect.setNumTurn(Math.max(statusEffect.getNumTurn(), this.getNumTurn()));
+                break;
             }
         }
+        if (!duplicate){
+            character.getStatusEffects().add(this);
+        }
+    };
+    public void checkEffect(Character character, StatusEffect newStatusEffect){
+
     }
     public abstract void applyEffect(Character character);
     public abstract void unApplyEffect(Character character);

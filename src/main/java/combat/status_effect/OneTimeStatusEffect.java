@@ -4,6 +4,11 @@ import entity.Character;
 
 public abstract class OneTimeStatusEffect extends StatusEffect{
     private boolean applied = false;
+
+    public OneTimeStatusEffect(Character character) {
+        super(character);
+    }
+
     @Override
     public void applyEffect(Character character){
         if (!this.applied){
