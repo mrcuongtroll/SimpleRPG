@@ -22,7 +22,7 @@ public class Rest extends Action{
         attacker.increaseHealthPoint(HEAL_POINTS);
         attacker.increaseManaPoint(HEAL_POINTS);
 
-        BattleMap.showSkillEffect(defender, effect,
+        BattleMap.showSkillEffect(attacker, effect,
                 attacker.getName() + " heals " + HEAL_POINTS + " health points ",
                 attacker.getName() + " recovers " + HEAL_POINTS + " mana points ");
     }
