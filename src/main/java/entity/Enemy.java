@@ -15,6 +15,7 @@ public class Enemy extends NPC{
     public static final int START_COMBAT_DISTANCE = 30;
     private int attack;
     private int defense;
+    private int award;
     private double distanceFromPlayer;
     private boolean isChasing = false;
     private List<Action> actionList = Arrays.asList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark(),new Rest(), new NormalAttack()});
@@ -31,13 +32,16 @@ public class Enemy extends NPC{
         super(worldMaster, master, x, y, name, imagePath, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, false, NPC.MODE_WANDER);
         this.attack = attack;
         this.defense = defense;
-
+        this.award = 20*level;
+        this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark(),new Rest(), new NormalAttack()});
     }
     public Enemy(World worldMaster, SimpleRPG master, int x, int y, int xDisplay, int yDisplay, String name, String imagePath,
                  int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, int attack, int defense) {
         super(worldMaster, master, x, y, xDisplay, yDisplay, name, imagePath, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, false, NPC.MODE_WANDER);
         this.attack = attack;
         this.defense = defense;
+        this.award = 20*level;
+        this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark()});
     }
 
     @Override
@@ -58,9 +62,14 @@ public class Enemy extends NPC{
         //trigger combat
         System.out.println("Encountered");
     }
+
     public void randomAttack(Player player){
         List<Action> possibleActions = actionList.stream().filter(action -> action.getCost() < this.getManaPoint()).collect(Collectors.toList()); ;
         int randomNum = ThreadLocalRandom.current().nextInt(0, possibleActions.size());
         possibleActions.get(randomNum).activate(this, player);
+    }
+
+    public int getAward(){
+        return award;
     }
 }

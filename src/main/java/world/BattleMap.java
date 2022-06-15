@@ -162,6 +162,7 @@ public class BattleMap extends Map {
 
     public static void turnDecide() {
         if (enemy.getHealthPoint() <= 0) {
+            player.increaseExp(enemy.getAward());
             view.cleanUpScene();
             new GameView(getMaster());
             ((World) getMaster().getWorld()).removeNPC(enemy);
@@ -184,6 +185,7 @@ public class BattleMap extends Map {
     }
 
     public static void showSkillEffect(Character character, Effect effect, String... dialogTexts) {
+        view.currentShowingScene.disableButtons();
         if (character instanceof Player) {
             effectAnimationList.add(new EffectAnimationTimer(effect, playerHitBox, character, getMaster(), dialogTexts));
         } else if (character instanceof Enemy) {
