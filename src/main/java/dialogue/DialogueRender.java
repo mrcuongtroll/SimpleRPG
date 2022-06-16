@@ -1,78 +1,85 @@
 package dialogue;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import main.SimpleRPG;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 
-import java.util.List;
+import static main.SimpleRPG.SCREEN_HEIGHT;
+import static main.SimpleRPG.SCREEN_WIDTH;
 
 public class DialogueRender {
     private Dialogue dialogue;
+    private ChoicesList choices = null;
     private SimpleRPG master;
-
-    private GraphicsContext gc;
-
     private AnchorPane root;
-
+    private boolean showing = false;
     private double height = 175.0;
 //    private Canvas canvasDialogue = new Canvas(1280, 720 - height);
-
     private static final String DIALOG_NEXT_BUTTON = "file:./assets/test/dialogue/arrow.png";
-
     private static final String DIALOGUE_BACKGROUND = "file:./assets/test/dialogue/dialogue_background.png";
-
-
     private static final String DIALOG_FONT  = "file:./assets/test/font/ARCADE_N.ttf";
 
-    private boolean inputCharacter;
+    public boolean isShowing() {
+        return this.showing;
+    }
 
-    public DialogueRender(Dialogue dialogue, SimpleRPG master) {
+    private boolean inputCharacter;
+    public void setDialogue(Dialogue dialogue) {
         this.dialogue = dialogue;
+    }
+    public DialogueRender(SimpleRPG master) {
         this.master = master;
         this.root = this.master.popupPane;
     }
+    public DialogueRender(SimpleRPG master, Dialogue dialogue) {
+        this(master);
+        this.dialogue = dialogue;
+    }
 
     public void renderWithCharacter(){
-        Image img = new Image(DIALOG_NEXT_BUTTON);
-        ImageView buttonView = new ImageView(img);
-        buttonView.setFitHeight(50);
-        buttonView.setPreserveRatio(true);
-        Button nextButton = new Button();
-        nextButton.setAlignment(Pos.CENTER);
-        nextButton.setGraphic(buttonView);
-        nextButton.setPickOnBounds(false);
-        nextButton.setStyle("-fx-background-color: transparent");
+//        Image img = new Image(DIALOG_NEXT_BUTTON);
+//        ImageView buttonView = new ImageView(img);
+//        buttonView.setFitHeight(50);
+//        buttonView.setPreserveRatio(true);
+//        Button nextButton = new Button();
+//        nextButton.setAlignment(Pos.CENTER);
+//        nextButton.setGraphic(buttonView);
+//        nextButton.setPickOnBounds(false);
+//        nextButton.setStyle("-fx-background-color: transparent");
+//
+//        nextButton.setTranslateX(1280 - height - 10 - 100);
+//        nextButton.setTranslateY(height/2 - 70);
 
-        nextButton.setTranslateX(1280 - height - 10 - 100);
-        nextButton.setTranslateY(height/2 - 70);
-
-        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e)
-            {
-                clear();
-            }
-
-        };
+//        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent e)
+//            {
+//                clear();
+//            }
+//
+//        };
 
         // when button is pressed
-        nextButton.setOnAction(event);
+//        nextButton.setOnAction(event);
 
         Font dialogFont = Font.loadFont(DIALOG_FONT, 15.0);
-        String dialogueString = this.dialogue.getInputDialogue();
+        String dialogueString = this.dialogue.getText();
         Label dialogueContent = new Label(dialogueString);
         dialogueContent.setFont(dialogFont);
         dialogueContent.setStyle("-fx-line-spacing: 0.2em;");
@@ -84,14 +91,14 @@ public class DialogueRender {
         dialogueContent.setTextFill(Color.WHITE);
         dialogueContent.setTranslateY(10);
 
-        if (this.dialogue.getCharacter() != null){
-
-        }
+//        if (this.dialogue.getCharacter() != null){
+//
+//        }
         Canvas imageBox = new Canvas(height, height);
-        Image potrait = new Image(this.dialogue.getImagePath() , 100, 100, false, false);
+        Image portrait = new Image(this.dialogue.getImagePath() , 100, 100, false, false);
         imageBox.setStyle("-fx-background-color: rgba(20, 20, 100, 0.8); -fx-background-radius: 10;");
 
-        imageBox.getGraphicsContext2D().drawImage(potrait, (height - 100) / 2, (height - 100) / 2);
+        imageBox.getGraphicsContext2D().drawImage(portrait, (height - 100) / 2, (height - 100) / 2);
         imageBox.setStyle("-fx-background-color: rgba(200, 200,200, 0.8); -fx-background-radius: 10;");
 
 
@@ -109,7 +116,8 @@ public class DialogueRender {
         VBox contentPane = new VBox();
         contentPane.setMinSize(1280 - height - 10, height);
         contentPane.getChildren().add(namePane);
-        contentPane.getChildren().addAll(dialogueContent, nextButton);
+//        contentPane.getChildren().addAll(dialogueContent, nextButton);
+        contentPane.getChildren().add(dialogueContent);
 
         HBox dialogArea = new HBox(10);
         dialogArea.setMaxHeight(height);
@@ -117,51 +125,115 @@ public class DialogueRender {
         dialogArea.getChildren().addAll(imageBox, contentPane);
         dialogArea.setStyle("-fx-background-color: rgba(200, 200,200, 0.8); -fx-background-radius: 10;");
 
-        this.root.setBottomAnchor(dialogArea, 0.0);
-        this.root.setTopAnchor(dialogArea, 720.0 - height);
-        this.root.setLeftAnchor(dialogArea, 0.0);
-        this.root.setRightAnchor(dialogArea, 0.0);
+        VBox popupContent = new VBox(10);
+        // Add choices if needed
+        if (this.choices != null) {
+            // TODO: focus on choices
+            VBox choiceBox = new VBox(2);
+            choiceBox.setAlignment(Pos.CENTER);
+            for (Choice choice: this.choices.getChoices()) {
+                Button button = new Button(choice.getText());
+                button.setMinSize(100, 30);
+                button.setStyle("-fx-background-image: null;" +
+                        "-fx-background-color: rgba(200, 200,200, 0.8);");
+                button.setOnKeyPressed(e -> {
+                    if ((e.getCode() == KeyCode.Z) || (e.getCode() == KeyCode.ENTER)) {
+                        this.root.setVisible(false);
+                        this.master.mainPane.requestFocus();
+                        this.showing = false;
+                        this.dialogue = (Dialogue) choice.getNext();
+                        this.choices = null;
+                        this.showing = false;
+                        choice.trigger();
+                    }
+                });
+                button.setOnAction(e -> {
+                    this.root.setVisible(false);
+                    this.master.mainPane.requestFocus();
+                    this.showing = false;
+                    this.dialogue = (Dialogue) choice.getNext();
+                    this.choices = null;
+                    this.showing = false;
+                    choice.trigger();
+                });
+                choiceBox.getChildren().add(button);
+//                button.requestFocus();
+            }
+            popupContent.getChildren().add(choiceBox);
+            choiceBox.setFocusTraversable(true);
+            choiceBox.requestFocus();
+        }
 
-        this.root.getChildren().addAll(dialogArea);
+        // Put things inside a VBox
+        popupContent.getChildren().add(dialogArea);
+
+        this.root.setBottomAnchor(popupContent, 0.0);
+        if (this.choices == null) {
+            this.root.setTopAnchor(popupContent, 720.0 - height);
+        } else {
+            this.root.setTopAnchor(popupContent, 720 - (height + 32*this.choices.getLength() + 10));
+        }
+        this.root.setLeftAnchor(popupContent, 0.0);
+        this.root.setRightAnchor(popupContent, 0.0);
+
+        this.root.getChildren().add(popupContent);
 //        this.master.dialoguePane.getChildren().clear();
         this.root.setFocusTraversable(true);
+        if (this.choices == null) {
+            this.root.requestFocus();
+        }
 
         this.root.setOnKeyPressed(e -> {
             if ( (e.getCode() == KeyCode.Z) || (e.getCode() == KeyCode.ENTER))  {
-                this.clear();
+//                this.clear();
+                this.root.setVisible(false);
+                this.master.mainPane.requestFocus();
+                this.showing = false;
+//                this.dialogue = this.dialogueQueue.poll();
+                if (this.dialogue != null) {
+                    if (this.dialogue.getNext() instanceof Dialogue) {
+                        this.dialogue = (Dialogue) this.dialogue.getNext();
+                    } else if (this.dialogue.getNext() instanceof ChoicesList) {
+                        this.choices = (ChoicesList) this.dialogue.getNext();
+                    } else {
+                        this.dialogue = null;
+                        this.choices = null;
+                    }
+                    assert this.dialogue != null;
+                    this.dialogue.trigger();
+                }
             }
         });
-
     }
 
     public void renderWithNoCharacter(){
         height = height * 0.75;
-        Image img = new Image(DIALOG_NEXT_BUTTON);
-        ImageView buttonView = new ImageView(img);
-        buttonView.setFitHeight(50);
-        buttonView.setPreserveRatio(true);
-        Button nextButton = new Button();
-        nextButton.setAlignment(Pos.CENTER);
-        nextButton.setGraphic(buttonView);
-        nextButton.setPickOnBounds(false);
-        nextButton.setStyle("-fx-background-color: transparent");
-
-        nextButton.setTranslateX(1280 * 0.925);
-        nextButton.setTranslateY(height/2 - 50);
-
-        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e)
-            {
-                clear();
-            }
-
-        };
-
-        // when button is pressed
-        nextButton.setOnAction(event);
+//        Image img = new Image(DIALOG_NEXT_BUTTON);
+//        ImageView buttonView = new ImageView(img);
+//        buttonView.setFitHeight(50);
+//        buttonView.setPreserveRatio(true);
+//        Button nextButton = new Button();
+//        nextButton.setAlignment(Pos.CENTER);
+//        nextButton.setGraphic(buttonView);
+//        nextButton.setPickOnBounds(false);
+//        nextButton.setStyle("-fx-background-color: transparent");
+//
+//        nextButton.setTranslateX(1280 * 0.925);
+//        nextButton.setTranslateY(height/2 - 50);
+//
+//        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent e)
+//            {
+//                clear();
+//            }
+//
+//        };
+//
+//        // when button is pressed
+//        nextButton.setOnAction(event);
 
         Font dialogFont = Font.loadFont(DIALOG_FONT, 15.0);
-        String dialogueString = this.dialogue.getInputDialogue();
+        String dialogueString = this.dialogue.getText();
         Label dialogueContent = new Label(dialogueString);
         dialogueContent.setFont(dialogFont);
         dialogueContent.setStyle("-fx-line-spacing: 0.2em;");
@@ -178,7 +250,8 @@ public class DialogueRender {
         VBox contentPane = new VBox();
         contentPane.setMinSize(1280 - 10, height);
 //        contentPane.getChildren().add(namePane);
-        contentPane.getChildren().addAll(dialogueContent, nextButton);
+//        contentPane.getChildren().addAll(dialogueContent, nextButton);
+        contentPane.getChildren().add(dialogueContent);
 
         HBox dialogArea = new HBox(10);
         dialogArea.setMaxHeight(height);
@@ -203,20 +276,33 @@ public class DialogueRender {
         this.root.setFocusTraversable(true);
 
         this.root.setOnKeyPressed(e -> {
-            if ( (e.getCode() == KeyCode.Z) || (e.getCode() == KeyCode.ENTER))  {
-                this.clear();
+            if ((e.getCode() == KeyCode.Z) || (e.getCode() == KeyCode.ENTER))  {
+//                this.clear();
+                this.root.setVisible(false);
+                this.master.mainPane.requestFocus();
+//                this.showing = false;
+//                this.dialogue = this.dialogueQueue.poll();
+                this.dialogue = (Dialogue)this.dialogue.getNext();
             }
         });
-
     }
 
-    public void render(){
-        this.root.getChildren().clear();
-
-        if (this.dialogue.getCharacter() == null){
-            this.renderWithNoCharacter();
-        } else {
-            this.renderWithCharacter();
+    public void render() {
+        if (!this.showing) {
+            if (this.dialogue == null) {
+//            this.dialogue = this.dialogueQueue.poll();
+            }
+            if (this.dialogue != null) {
+                this.showing = true;
+                this.root.setVisible(true);
+                this.root.getChildren().clear();
+                this.root.requestFocus();
+                if (this.dialogue.getCharacter() == null) {
+                    this.renderWithNoCharacter();
+                } else {
+                    this.renderWithCharacter();
+                }
+            }
         }
     }
     public void clear(){
@@ -253,7 +339,6 @@ public class DialogueRender {
         }
         return slicesList;
     }
-
-    }
+}
 
 

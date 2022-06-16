@@ -26,11 +26,11 @@ public abstract class View {
         currentShowingView = this;
     }
 
-    protected void createSubSceneButton(String Title, GameSubScene Scene, int height, int width, int x, int y){
+    protected void createSubSceneButton(String Title, GameSubScene scene, int height, int width, int x, int y){
         GameButton newButton = new GameButton(Title, height, width);
         AddMenuButtons(newButton, x, y);
         newButton.setOnAction(event -> {
-            showSubScene(Scene);
+            showSubScene(scene);
         });
     }
 

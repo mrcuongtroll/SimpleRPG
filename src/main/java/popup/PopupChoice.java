@@ -15,9 +15,11 @@ public class PopupChoice {
         return message;
     }
 
+    public PopupChoice(String[] choices) {
+        this.choices = choices;
+    }
     public PopupChoice(String message, String[] choices) {
         this.choices = choices;
         this.message = message;
     }
-
 }
