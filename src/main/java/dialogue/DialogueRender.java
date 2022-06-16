@@ -1,28 +1,16 @@
 package dialogue;
-import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 import main.SimpleRPG;
-
 import java.util.*;
-
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
-
-import static main.SimpleRPG.SCREEN_HEIGHT;
-import static main.SimpleRPG.SCREEN_WIDTH;
 
 public class DialogueRender {
     private Dialogue dialogue;
@@ -91,34 +79,31 @@ public class DialogueRender {
         dialogueContent.setTextFill(Color.WHITE);
         dialogueContent.setTranslateY(10);
 
-//        if (this.dialogue.getCharacter() != null){
-//
-//        }
         Canvas imageBox = new Canvas(height, height);
-        Image portrait = new Image(this.dialogue.getImagePath() , 100, 100, false, false);
-        imageBox.setStyle("-fx-background-color: rgba(20, 20, 100, 0.8); -fx-background-radius: 10;");
-
-        imageBox.getGraphicsContext2D().drawImage(portrait, (height - 100) / 2, (height - 100) / 2);
-        imageBox.setStyle("-fx-background-color: rgba(200, 200,200, 0.8); -fx-background-radius: 10;");
-
-
-        Font nameFont = Font.loadFont("file:./assets/font/dialog-font.ttf", 20.0);
-        Label characterName = new Label(this.dialogue.getName());
-        characterName.setTranslateY(5);
-        characterName.setFont(nameFont);
-        characterName.setTextFill(Color.TEAL);
-        characterName.setStyle("-fx-font-weight: bold");
-
-        Pane namePane = new Pane(characterName);
-        namePane.setMinSize(70, 30);
-
-
         VBox contentPane = new VBox();
-        contentPane.setMinSize(1280 - height - 10, height);
-        contentPane.getChildren().add(namePane);
-//        contentPane.getChildren().addAll(dialogueContent, nextButton);
-        contentPane.getChildren().add(dialogueContent);
+        if (this.dialogue.getCharacter() != null){
+            Image portrait = new Image(this.dialogue.getImagePath() , 100, 100, false, false);
+            imageBox.setStyle("-fx-background-color: rgba(20, 20, 100, 0.8); -fx-background-radius: 10;");
 
+            imageBox.getGraphicsContext2D().drawImage(portrait, (height - 100) / 2, (height - 100) / 2);
+            imageBox.setStyle("-fx-background-color: rgba(200, 200,200, 0.8); -fx-background-radius: 10;");
+
+
+            Font nameFont = Font.loadFont("file:./assets/font/dialog-font.ttf", 20.0);
+            Label characterName = new Label(this.dialogue.getName());
+            characterName.setTranslateY(5);
+            characterName.setFont(nameFont);
+            characterName.setTextFill(Color.TEAL);
+            characterName.setStyle("-fx-font-weight: bold");
+
+            Pane namePane = new Pane(characterName);
+            namePane.setMinSize(70, 30);
+            contentPane.getChildren().add(namePane);
+        }
+
+        contentPane.setMinSize(1280 - height - 10, height);
+//            contentPane.getChildren().addAll(dialogueContent, nextButton);
+        contentPane.getChildren().add(dialogueContent);
         HBox dialogArea = new HBox(10);
         dialogArea.setMaxHeight(height);
         dialogArea.setMaxWidth(300);
@@ -126,11 +111,11 @@ public class DialogueRender {
         dialogArea.setStyle("-fx-background-color: rgba(200, 200,200, 0.8); -fx-background-radius: 10;");
 
         VBox popupContent = new VBox(10);
+        VBox choiceBox = new VBox(2);
+        choiceBox.setAlignment(Pos.CENTER);
         // Add choices if needed
         if (this.choices != null) {
             // TODO: focus on choices
-            VBox choiceBox = new VBox(2);
-            choiceBox.setAlignment(Pos.CENTER);
             for (Choice choice: this.choices.getChoices()) {
                 Button button = new Button(choice.getText());
                 button.setMinSize(100, 30);
@@ -157,11 +142,11 @@ public class DialogueRender {
                     choice.trigger();
                 });
                 choiceBox.getChildren().add(button);
-//                button.requestFocus();
+                button.requestFocus();
             }
             popupContent.getChildren().add(choiceBox);
             choiceBox.setFocusTraversable(true);
-            choiceBox.requestFocus();
+//            choiceBox.requestFocus();
         }
 
         // Put things inside a VBox
@@ -181,6 +166,11 @@ public class DialogueRender {
         this.root.setFocusTraversable(true);
         if (this.choices == null) {
             this.root.requestFocus();
+        } else {
+            for (Node button: choiceBox.getChildren()) {
+                button.requestFocus();
+                break;
+            }
         }
 
         this.root.setOnKeyPressed(e -> {
@@ -296,12 +286,13 @@ public class DialogueRender {
                 this.showing = true;
                 this.root.setVisible(true);
                 this.root.getChildren().clear();
-                this.root.requestFocus();
-                if (this.dialogue.getCharacter() == null) {
-                    this.renderWithNoCharacter();
-                } else {
-                    this.renderWithCharacter();
-                }
+//                this.root.requestFocus();
+//                if (this.dialogue.getCharacter() == null) {
+//                    this.renderWithNoCharacter();
+//                } else {
+//                    this.renderWithCharacter();
+//                }
+                this.renderWithCharacter();
             }
         }
     }
