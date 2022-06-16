@@ -40,13 +40,21 @@ public class KeyHandler implements EventHandler<KeyEvent> {
                 // Handle things that happen when keys on the keyboard are released
                 KeyCode code = event.getCode();
                 if (code.equals(KeyCode.DOWN)) {
-                    this.gameInstance.getPlayer().stopMoving(Character.DOWN);
+                    if (this.gameInstance.getPlayer().getDy() > 0) {
+                        this.gameInstance.getPlayer().stopMoving(Character.DOWN);
+                    }
                 } else if (code.equals(KeyCode.UP)) {
-                    this.gameInstance.getPlayer().stopMoving(Character.UP);
+                    if (this.gameInstance.getPlayer().getDy() < 0) {
+                        this.gameInstance.getPlayer().stopMoving(Character.UP);
+                    }
                 } else if (code.equals(KeyCode.LEFT)) {
-                    this.gameInstance.getPlayer().stopMoving(Character.LEFT);
+                    if (this.gameInstance.getPlayer().getDx() < 0) {
+                        this.gameInstance.getPlayer().stopMoving(Character.LEFT);
+                    }
                 } else if (code.equals(KeyCode.RIGHT)) {
-                    this.gameInstance.getPlayer().stopMoving(Character.RIGHT);
+                    if (this.gameInstance.getPlayer().getDx() > 0) {
+                        this.gameInstance.getPlayer().stopMoving(Character.RIGHT);
+                    }
                 }
                 if (code.equals(KeyCode.SHIFT)) {
                     this.gameInstance.getPlayer().unSprint();

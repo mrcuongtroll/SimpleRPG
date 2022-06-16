@@ -1,39 +1,39 @@
 package dialogue;
 
+import event.Event;
 import main.SimpleRPG;
 import entity.Character;
+import popup.PopupChoice;
 
-public class Dialogue {
-    private SimpleRPG master;
+import java.util.ArrayList;
 
-    private String inputDialogue;
+public class Dialogue extends Popup {
 
     private Character character;
-
-
-    public String getInputDialogue() {
-        return this.inputDialogue;
-    }
 
     public Character getCharacter() {
         return this.character;
     }
-
     public String getName() {
         return this.character.getName();
     }
-
     public String getImagePath() {
         return this.character.getImagePath() + this.character.DEFAULT_IMAGE_PATH + "1.png";
     }
 
-    public Dialogue(String inputDialogue, Character character) {
-        this.inputDialogue = inputDialogue;
+    public Dialogue(String text) {
+        super(text);
+    }
+    public Dialogue(String text, Character character) {
+        super(text);
         this.character = character;
     }
-
-    public Dialogue(String inputDialogue) {
-        this.inputDialogue = inputDialogue;
+    public Dialogue(String text, Event e) {
+        super(text, e);
+    }
+    public Dialogue(String text, Character character, Event e) {
+        super(text, e);
+        this.character = character;
     }
 }
 

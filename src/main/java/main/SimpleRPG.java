@@ -1,5 +1,6 @@
 package main;
 
+import dialogue.DialogueRender;
 import entity.equipment.Armor;
 import entity.Player;
 import entity.equipment.Weapon;
@@ -51,6 +52,7 @@ public class SimpleRPG extends Application {
     private Map world = new WorldHome(this, 570, 230);
 
     //    public Map world = BattleMap(this, (new File("./assets/test/battle_map.png")).getAbsolutePath());
+    private DialogueRender dialogueRender = new DialogueRender(this);
 
     public KeyHandler keyHandler = new KeyHandler(this);
     public AnchorPane mainPane = new AnchorPane();
@@ -79,6 +81,10 @@ public class SimpleRPG extends Application {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    public DialogueRender getDialogueRender() {
+        return this.dialogueRender;
     }
 
     public HUD getMainHUD() {

@@ -43,6 +43,7 @@ public abstract class Character {
     private int maxHealthPoint;
     private int maxManaPoint;
     private String imagePath;
+    private String battleImagePath;
     private int currentFrame;
     private String lastDirection;
     private double lastRelativeX;
@@ -218,6 +219,7 @@ public abstract class Character {
     public String getImagePath() {
         return this.imagePath;
     }
+    public String getBattleImagePath() {return this.battleImagePath;}
     public void setImage(Image image) {
         this.image = image;
     }

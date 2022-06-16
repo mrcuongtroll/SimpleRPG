@@ -1,5 +1,6 @@
 package views;
 
+import dialogue.*;
 import handler.KeyHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -10,6 +11,8 @@ import main.SimpleRPG;
 import popup.PopupChoice;
 import popup.PopupRender;
 import world.Map;
+
+import java.util.ArrayList;
 
 import static sceneElement.SubSceneList.openSetting;
 
@@ -49,6 +52,9 @@ public class GameView extends View{
 
         theScene.setOnKeyPressed(keyHandler);
         theScene.setOnKeyReleased(keyHandler);
+        theScene.setOnMouseClicked(event -> {
+            mainPane.requestFocus();
+        });
         mainPane.getChildren().add(canvasBackground);
         mainPane.getChildren().add(canvasMiddle);
         mainPane.getChildren().add(canvasOverlay);
@@ -65,12 +71,6 @@ public class GameView extends View{
         CreateScreenElements();
         canvasMiddle.requestFocus();
         this.gameLoopManager.start();
-
-//        String[] choices = {"Yes", "No"};
-//        PopupChoice popup = new PopupChoice("Choose an option", choices);
-//        PopupRender popupRender = new PopupRender(simpleRPG,popup);
-//        popupRender.render();
-
     }
 
     private void CreateScreenElements(){
