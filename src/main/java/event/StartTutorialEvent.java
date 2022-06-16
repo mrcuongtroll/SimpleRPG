@@ -27,10 +27,8 @@ public class StartTutorialEvent extends Event {
     @Override
     public void trigger() {
         // Test
-        Dialogue d1 = new Dialogue("Hello there! Welcome to SimpleRPG! Press Z on your keyboard to get to the next dialogue.",
-                this.getGameInstance().getPlayer());
-        Dialogue d2 = new Dialogue("You can use arrow keys on your keyboard to move the character around",
-                this.getGameInstance().getPlayer());
+        Dialogue d1 = new Dialogue("Hello there! Welcome to SimpleRPG! Press Z on your keyboard to get to the next dialogue.");
+        Dialogue d2 = new Dialogue("You can use arrow keys on your keyboard to move the character around");
         d1.setNext(d2);
         Choice choice1 = new Choice("Understood");
         choice1.setEvent(new Event(this.getWorld(), Event.TRIGGER_TYPE_INTERACT) {

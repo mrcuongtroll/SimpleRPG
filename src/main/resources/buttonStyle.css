@@ -25,7 +25,8 @@
     -fx-background-image: url("/smallPressed.png");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
-
+    -fx-text-fill: black;
+    -fx-font-size: 9;
 }
 
 .button:disabled {
