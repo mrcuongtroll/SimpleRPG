@@ -7,7 +7,7 @@ import world.BattleMap;
 import java.io.File;
 
 public class Burned extends OvertimeStatusEffect{
-    private String iconPath = (new File("./assets/test/status-effects/burned.png")).getAbsolutePath();
+    public static final String ICON_PATH = (new File("./assets/test/status-effects/burned.png")).getAbsolutePath();
     private Effect  effect = new combat.effect.Burned();
     public Burned(Character character) {
         super(character);
@@ -23,10 +23,5 @@ public class Burned extends OvertimeStatusEffect{
 
     public Effect getEffect() {
         return effect;
-    }
-
-    @Override
-    public String getIconPath() {
-        return iconPath;
     }
 }

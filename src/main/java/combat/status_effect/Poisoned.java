@@ -5,7 +5,7 @@ import entity.Character;
 import java.io.File;
 
 public class Poisoned extends OneTimeStatusEffect{
-    private static final String iconPath = (new File("./assets/test/status-effects/poisoned.png")).getAbsolutePath();
+    public static final String ICON_PATH = (new File("./assets/test/status-effects/poisoned.png")).getAbsolutePath();
     private int oldValue;
     public Poisoned(Character character) {
         super(character);
@@ -19,8 +19,5 @@ public class Poisoned extends OneTimeStatusEffect{
     @Override
     public void unApplyEffect(Character character) {
         character.setAttackPoint(oldValue);
-    }
-    public String getIconPath() {
-        return iconPath;
     }
 }

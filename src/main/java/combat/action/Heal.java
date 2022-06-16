@@ -8,6 +8,7 @@ import world.BattleMap;
 
 public class Heal extends Action{
     public static final String NAME = "Heal";
+    public static final String DESC = "Heals 15% health.";
     public static final int COST = 50;
 
 

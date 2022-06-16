@@ -5,7 +5,7 @@ import entity.Character;
 import java.io.File;
 
 public class Paralyze extends OneTimeStatusEffect{
-    private String iconPath = (new File("./assets/test/status-effects/paralyzed.png")).getAbsolutePath();
+    public static final String ICON_PATH = (new File("./assets/test/status-effects/paralyzed.png")).getAbsolutePath();
     private int oldValue;
     public Paralyze(Character character) {
         super(character);
@@ -19,8 +19,5 @@ public class Paralyze extends OneTimeStatusEffect{
     @Override
     public void unApplyEffect(Character character) {
         character.setDefensePoint(oldValue);
-    }
-    public String getIconPath() {
-        return iconPath;
     }
 }

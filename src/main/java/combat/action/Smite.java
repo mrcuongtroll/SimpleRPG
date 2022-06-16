@@ -6,20 +6,20 @@ import entity.Enemy;
 import entity.Player;
 import world.BattleMap;
 
-public class NormalAttack  extends Action{
-    public static final String NAME = "Normal Attack";
-    public static final String DESC = "Slash at the enemy, Deals 1*Effective Dmg.";
+public class Smite  extends Action{
+    public static final String NAME = "Smite";
+    public static final String DESC = "Summon a righteous ray of light that Deals 5*Effective Dmg.";
     public String getName(){
         return NAME;
     }
-    public static int COST=0;
+    static Effect effect = new combat.effect.Smite();
+    public static int COST = 70;
     public int getCost(){
         return COST;
     }
-    static Effect effect = new combat.effect.NormalAttack();
-
     public void activate(Character attacker, Character defender){
-        int damage = attacker.getAttackPoint() - defender.getDefensePoint();
+        attacker.setManaPoint(attacker.getManaPoint()-COST);
+        int damage = (attacker.getAttackPoint() - defender.getDefensePoint())*5;
         if (damage > 0) {
             defender.setHealthPoint(defender.getHealthPoint() - damage);
         }
