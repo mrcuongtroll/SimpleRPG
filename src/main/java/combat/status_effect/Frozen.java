@@ -2,7 +2,10 @@ package combat.status_effect;
 
 import entity.Character;
 
+import java.io.File;
+
 public class Frozen extends OneTimeStatusEffect{
+    public static final String ICON_PATH = (new File("./assets/test/status-effects/frozen.png")).getAbsolutePath();
     private int oldValue;
     public Frozen(Character character) {
         super(character);

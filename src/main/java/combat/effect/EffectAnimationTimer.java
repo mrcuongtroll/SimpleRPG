@@ -24,6 +24,7 @@ public class EffectAnimationTimer extends AnimationTimer {
     private Character character;
     private String[] dialogTexts;
     private SimpleRPG gameInstance;
+    private boolean showDialog = true;
 
     public EffectAnimationTimer(Effect effect, ImageView hitBox, Character character, SimpleRPG gameInstance, String[] dialogTexts) {
         this.effect = effect;
@@ -35,7 +36,10 @@ public class EffectAnimationTimer extends AnimationTimer {
         this.dialogTexts = dialogTexts;
         this.start();
     }
-
+    public EffectAnimationTimer(Effect effect, ImageView hitBox, Character character, SimpleRPG gameInstance, String[] dialogTexts, boolean showDialog) {
+        this( effect,  hitBox,  character,  gameInstance,  dialogTexts);
+        this.showDialog = showDialog;
+    }
     @Override
     public void handle(long now) {
         if (now - lastUpdate >= 40_000_000) {
@@ -83,9 +87,11 @@ public class EffectAnimationTimer extends AnimationTimer {
             }
             lastUpdate = now;
             currentFrame++;
-            if (currentFrame > effect.getNumEffectFrame()) {
+            if ((currentFrame > effect.getNumEffectFrame()) ) {
                 this.stop();
-                BattleMap.showDialog(this.dialogTexts);
+                if (this.showDialog){
+                    BattleMap.showDialog(this.dialogTexts);
+                }
             }
         }
     }

@@ -2,7 +2,10 @@ package combat.status_effect;
 
 import entity.Character;
 
+import java.io.File;
+
 public class Poisoned extends OneTimeStatusEffect{
+    public static final String ICON_PATH = (new File("./assets/test/status-effects/poisoned.png")).getAbsolutePath();
     private int oldValue;
     public Poisoned(Character character) {
         super(character);

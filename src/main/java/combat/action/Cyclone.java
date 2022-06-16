@@ -8,6 +8,7 @@ import world.BattleMap;
 
 public class Cyclone  extends Action{
     public static final String NAME = "Cyclone";
+    public static final String DESC = "Summon a cyclone that Deals 3*Effective Dmg. to the enemy";
     public String getName(){
         return NAME;
     }

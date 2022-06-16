@@ -8,6 +8,7 @@ import world.BattleMap;
 
 public class DoubleSlash extends Action{
     public static final String NAME = "Double Slash";
+    public static final String DESC = "Attack 2 times, Deals 2*Effective Dmg. to the enemy";
     public String getName(){
         return NAME;
     }

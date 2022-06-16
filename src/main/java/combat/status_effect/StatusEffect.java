@@ -3,7 +3,6 @@ package combat.status_effect;
 import entity.Character;
 public abstract class StatusEffect {
     private int numTurn;
-    private String iconPath;
 
     public StatusEffect(Character character){
         boolean duplicate = false;
@@ -29,9 +28,5 @@ public abstract class StatusEffect {
 
     public void setNumTurn(int numTurn) {
         this.numTurn = numTurn;
-    }
-
-    public String getIconPath() {
-        return iconPath;
     }
 }
