@@ -4,7 +4,6 @@ import entity.Enemy;
 import entity.NPC;
 import event.BattleEvent;
 import event.Event;
-import event.HomeToOutsideEvent;
 import event.OutsideToHomeEvent;
 import main.SimpleRPG;
 
@@ -24,13 +23,13 @@ public class WorldOutside extends World {
         // Create NPCs (this should be move to subclasses)
         this.getNpcList().add(new Enemy(this, master, 1000, 400, 1000+(int)this.getX(), 400+(int)this.getY(), "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 100, 100, 20, 10));
+                1, 5, 20, 10, 100, 100, 100, 100));
         this.getNpcList().add(new Enemy(this, master, 1500, 400, 1500+(int)this.getX(), 400+(int)this.getY(), "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 100, 100, 20, 10));
+                1, 5, 20, 10, 100, 100, 100, 100));
         this.getNpcList().add(new Enemy(this, master, 1300, 600, 1300+(int)this.getX(), 600+(int)this.getY(), "Enemy",
                 (new File("./assets/test/enemy")).getAbsolutePath(),
-                1, 5, 100, 100, 100, 100, 20, 10));
+                1, 5, 20, 10, 100, 100, 100, 100));
         for (NPC npc: this.getNpcList()) {
             Event enemyEvent = new BattleEvent(this, Event.TRIGGER_TYPE_TOUCH, npc);
             npc.setEvent(enemyEvent);

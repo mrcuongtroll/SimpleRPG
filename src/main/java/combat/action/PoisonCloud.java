@@ -21,7 +21,7 @@ public class PoisonCloud extends Action{
     public void activate(Character attacker, Character defender){
 
         attacker.setManaPoint(attacker.getManaPoint()-COST);
-        int damage = (int) (attacker.getAttackPoint() - defender.getDefensePoint())/2;
+        int damage = Math.max((int) (attacker.getAttackPoint() - defender.getDefensePoint())/2, 0);
         if (damage > 0) {
             defender.setHealthPoint((int) Math.round(defender.getHealthPoint() - damage));
         }
