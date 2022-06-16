@@ -19,7 +19,7 @@ public class NormalAttack  extends Action{
     static Effect effect = new combat.effect.NormalAttack();
 
     public void activate(Character attacker, Character defender){
-        int damage = attacker.getAttackPoint() - defender.getDefensePoint();
+        int damage = Math.max((attacker.getAttackPoint() - defender.getDefensePoint()),0);
         if (damage > 0) {
             defender.setHealthPoint(defender.getHealthPoint() - damage);
         }

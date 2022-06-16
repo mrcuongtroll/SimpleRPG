@@ -19,7 +19,7 @@ public class Cyclone  extends Action{
     }
     public void activate(Character attacker, Character defender){
         attacker.setManaPoint(attacker.getManaPoint()-COST);
-        int damage = (attacker.getAttackPoint() - defender.getDefensePoint())*3;
+        int damage = Math.max((attacker.getAttackPoint() - defender.getDefensePoint())*3,0);
         if (damage > 0) {
             defender.setHealthPoint(defender.getHealthPoint() - damage);
         }
