@@ -76,12 +76,6 @@ public class CombatManager {
                 }
             }
         }
-        for (Player player : players){
-            player.advanceStatusEffect();
-            }
-        for (Enemy enemy : enemies){
-            enemy.advanceStatusEffect();
-            }
         Collections.shuffle(turnQueue);
         turnQueue.sort(turnProgressComparator);
         Character toPop = turnQueue.get(0);

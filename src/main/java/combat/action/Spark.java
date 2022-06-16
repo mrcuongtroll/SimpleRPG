@@ -1,6 +1,7 @@
 package combat.action;
 
 import combat.effect.Effect;
+import combat.status_effect.Burned;
 import entity.Character;
 import entity.Enemy;
 import entity.Player;
@@ -17,12 +18,15 @@ public class Spark extends Action{
         return COST;
     }
     public void activate(Character attacker, Character defender){
+
         attacker.setManaPoint(attacker.getManaPoint()-COST);
         int damage = (int) (attacker.getAttackPoint() - defender.getDefensePoint())*3/2;
         if (damage > 0) {
             defender.setHealthPoint((int) Math.round(defender.getHealthPoint() - damage));
         }
-        BattleMap.showSkillEffect(defender, effect, attacker.getName() + " deals " + (int) Math.round(defender.getHealthPoint() - damage*1.5) + " damage to " + defender.getName());
+        new Burned(defender);
+        BattleMap.showSkillEffect(defender, effect, attacker.getName() + " deals " + damage + " damage to " + defender.getName(),
+                defender.getName() + " is now Burned ");
     }
     @Override
     public void randomActivate(Character currentTurnChar, Player player, Enemy enemy) {
