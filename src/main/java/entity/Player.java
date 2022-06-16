@@ -3,7 +3,9 @@ package entity;
 import combat.action.*;
 import entity.equipment.Armor;
 import entity.equipment.Weapon;
+import event.Event;
 import main.SimpleRPG;
+import world.Tile;
 import world.World;
 
 public class Player extends Character {
@@ -125,4 +127,51 @@ public class Player extends Character {
         ((World) this.getMaster().getWorld()).setDx(-this.getDx());
         ((World) this.getMaster().getWorld()).setDy(-this.getDy());
     }
+
+    public void interact() {
+        World world = (World) this.getMaster().getWorld();
+        for (Event event: world.getEventList()) {
+            // Make sure that we don't interact with ourselves
+//            if (!(this.getTile() == tile)) {
+//            }
+            if (event.getRect() != null && event.getTriggerType().equals(Event.TRIGGER_TYPE_INTERACT)) {
+                switch (this.getLastDirection()) {
+                    case Character.UP: {
+                        if (event.getRect().intersects(this.getX() - Player.MOVEMENT_SPEED,
+                                this.getY() + this.getImage().getHeight() - Tile.TILE_SIZE,
+                                this.getRect().getWidth(),
+                                this.getRect().getHeight())) {
+                            event.trigger();
+                        }
+                    }
+                    case Character.DOWN: {
+                        if (event.getRect().intersects(this.getX() + Player.MOVEMENT_SPEED,
+                                this.getY() + this.getImage().getHeight() - Tile.TILE_SIZE,
+                                this.getRect().getWidth(),
+                                this.getRect().getHeight())) {
+                            event.trigger();
+                        }
+                    }
+                    case Character.LEFT: {
+                        if (event.getRect().intersects(this.getX(),
+                                this.getY() + this.getImage().getHeight() - Tile.TILE_SIZE - Player.MOVEMENT_SPEED,
+                                this.getRect().getWidth(),
+                                this.getRect().getHeight())) {
+                            event.trigger();
+                        }
+                    }
+                    case Character.RIGHT: {
+                        if (event.getRect().intersects(this.getX(),
+                                this.getY() + this.getImage().getHeight() - Tile.TILE_SIZE + Player.MOVEMENT_SPEED,
+                                this.getRect().getWidth(),
+                                this.getRect().getHeight())) {
+                            event.trigger();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // This class ends here
 }
