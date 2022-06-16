@@ -1,6 +1,9 @@
 package entity;
 
 import combat.action.Action;
+import combat.status_effect.StatusEffect;
+import entity.equipment.Armor;
+import entity.equipment.Weapon;
 import event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -9,6 +12,7 @@ import world.Tile;
 import world.World;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public abstract class Character {
     public static final String DEFAULT_IMAGE_PATH = "/default/";
@@ -20,6 +24,8 @@ public abstract class Character {
     public static final String LEFT = "/move_left/";
     public static final String RIGHT = "/move_right/";
     public static final int MINIMUM_SPEED = 0;
+    public static final int[] EXP_THRESHOLD = {50, 100, 200, 350};
+
 
     private SimpleRPG master;
     private String name;
@@ -34,14 +40,18 @@ public abstract class Character {
     private Tile tile;
     private int movementSpeed;
     private int lastMove;
-    private int level;
+    private int level = 1;
+    private int exp = 0;
     private int attackSpeed;
+    private int attackPoint;
+    private int defensePoint;
     private Action[] combatActionList;
     private int turnProgress = 0;
     private int manaPoint;
     private int healthPoint;
     private int maxHealthPoint;
     private int maxManaPoint;
+    private ArrayList<StatusEffect> statusEffects = new ArrayList<StatusEffect>();
     private String imagePath;
     private String battleImagePath;
     private int currentFrame;
@@ -141,10 +151,33 @@ public abstract class Character {
     public int getAttackSpeed(){
         return this.attackSpeed;
     }
-    public abstract int getAttackPoint();
-    public abstract int getDefensePoint();
+    public void setAttackSpeed(int attackSpeed) { this.attackSpeed = attackSpeed; }
+    public ArrayList<StatusEffect> getStatusEffects() {
+        return statusEffects;
+    }
+    public int getAttackPoint(){
+        return attackPoint;
+    }
+    public void setAttackPoint(int attackPoint){
+        this.attackPoint = attackPoint;
+    }
+    public int getDefensePoint(){
+        return defensePoint;
+    }
+    public void setDefensePoint(int defensePoint){
+        this.defensePoint = defensePoint;
+    }
     public void advanceTurn(){
         this.turnProgress += this.attackSpeed;
+    }
+    public void advanceStatusEffect(){
+        for (StatusEffect statusEffect:this.getStatusEffects()){
+            statusEffect.setNumTurn(statusEffect.getNumTurn()-1);
+            statusEffect.applyEffect(this);
+            if (statusEffect.getNumTurn()==0){
+                statusEffect.unApplyEffect(this);
+            }
+        }
     }
     public int getTurnProgress() {
         return turnProgress;
@@ -225,7 +258,8 @@ public abstract class Character {
     }
 
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
-                     int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid) {
+                     int width, int height, int level,
+                     int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid) {
         this.master = master;
         this.x = x;
         this.y = y;
@@ -243,6 +277,8 @@ public abstract class Character {
         this.gc = this.master.canvasMiddle.getGraphicsContext2D();
         this.level = level;
         this.attackSpeed = attackSpeed;
+        this.attackPoint = attackPoint;
+        this.defensePoint = defensePoint;
         this.healthPoint = healthPoint;
         this.manaPoint = manaPoint;
 
@@ -256,14 +292,19 @@ public abstract class Character {
             ((World)master.getWorld()).getTileList().add(this.tile);
         }
     }
-    public Character(SimpleRPG master, int x, int y, String name, String imagePath,
-                     int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint) {
-        this(master, x, y, name, imagePath, width, height, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true);
+    public Character(SimpleRPG master, int x, int y, String name, String imagePath, int width, int height, int level,
+                     int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, Weapon weapon, Armor armor) {
+        this(master, x, y, name, imagePath, width, height, level, attackSpeed,  attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true);
+        this.attackSpeed += weapon.getAttackSpeed() + armor.getAttackSpeed();
+        this.attackPoint += weapon.getAttackPoint() + armor.getAttackPoint();
+        this.defensePoint += weapon.getDefensePoint() + armor.getDefensePoint();
+        this.maxHealthPoint += weapon.getMaxHealthPoint() + armor.getMaxHealthPoint();
+        this.maxManaPoint += weapon.getMaxManaPoint() + armor.getMaxManaPoint();
     }
 
     public Character(SimpleRPG master, int x, int y, int xDisplay, int yDisplay, String name, String imagePath,
-                     int width, int height, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid) {
-        this(master, x, y, name, imagePath, width, height, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true);
+                     int width, int height, int level, int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid) {
+        this(master, x, y, name, imagePath, width, height, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true);
         this.yDisplay = yDisplay;
         this.xDisplay = xDisplay;
     }
@@ -397,5 +438,33 @@ public abstract class Character {
             default -> {}
         }
     }
-    
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void updateLevel(){
+
+        for  (int i = EXP_THRESHOLD.length; true; i--){
+            if (exp > EXP_THRESHOLD[i]){
+                level = i+2;
+                break;
+            } else {
+                level = 1;
+            }
+        }
+    }
+
+    public int getExp(){
+        return exp;
+    }
+
+    public void increaseExp(int amount){
+        if (exp + amount > 350){
+            exp = 350;
+        } else {
+            exp += amount;
+        }
+        updateLevel();
+    }
 }

@@ -27,14 +27,6 @@ public class Player extends Character {
     public double getRelativeY() {
         return this.getY();
     }
-    @Override
-    public int getAttackPoint() {
-        return this.weapon.getAttackPoint() + this.armor.getAttackPoint();
-    }
-    @Override
-    public int getDefensePoint() {
-        return this.weapon.getDefensePoint() + this.armor.getDefensePoint();
-    }
     public int getStamina() {
         return this.stamina;
     }
@@ -78,8 +70,9 @@ public class Player extends Character {
         }
     }
 
-    public Player(SimpleRPG master, int x, int y, String name, String imagePath, int level, int attackSpeed, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, Weapon weapon, Armor armor) {
-        super(master, x, y, name, imagePath, 32, 80, level, attackSpeed, healthPoint, manaPoint, maxHealthPoint, maxManaPoint);
+    public Player(SimpleRPG master, int x, int y, String name, String imagePath, int level,
+                  int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, Weapon weapon, Armor armor) {
+        super(master, x, y, name, imagePath, 32, 80, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, weapon, armor);
         this.weapon = weapon;
         this.armor = armor;
         this.stamina = MAX_STAMINA;
