@@ -37,6 +37,10 @@ public abstract class Event {
         return this.world;
     }
 
+    public String getTriggerType() {
+        return this.triggerType;
+    }
+
     public void enable() {
         this.enabled = true;
     }

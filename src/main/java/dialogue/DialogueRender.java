@@ -29,6 +29,9 @@ public class DialogueRender {
     }
 
     private boolean inputCharacter;
+    public Dialogue getDialogue() {
+        return this.dialogue;
+    }
     public void setDialogue(Dialogue dialogue) {
         this.dialogue = dialogue;
     }
@@ -163,7 +166,7 @@ public class DialogueRender {
 
         this.root.getChildren().add(popupContent);
 //        this.master.dialoguePane.getChildren().clear();
-        this.root.setFocusTraversable(true);
+//        this.root.setFocusTraversable(true);
         if (this.choices == null) {
             this.root.requestFocus();
         } else {
@@ -174,13 +177,13 @@ public class DialogueRender {
         }
 
         this.root.setOnKeyPressed(e -> {
-            if ( (e.getCode() == KeyCode.Z) || (e.getCode() == KeyCode.ENTER))  {
+            if ((e.getCode() == KeyCode.X) || (e.getCode() == KeyCode.ENTER))  {
 //                this.clear();
                 this.root.setVisible(false);
                 this.master.mainPane.requestFocus();
                 this.showing = false;
-//                this.dialogue = this.dialogueQueue.poll();
                 if (this.dialogue != null) {
+                    this.dialogue.trigger();
                     if (this.dialogue.getNext() instanceof Dialogue) {
                         this.dialogue = (Dialogue) this.dialogue.getNext();
                     } else if (this.dialogue.getNext() instanceof ChoicesList) {
@@ -189,8 +192,6 @@ public class DialogueRender {
                         this.dialogue = null;
                         this.choices = null;
                     }
-                    assert this.dialogue != null;
-                    this.dialogue.trigger();
                 }
             }
         });

@@ -1,9 +1,6 @@
 package handler;
 
 import entity.Character;
-import entity.Player;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -36,6 +33,11 @@ public class KeyHandler implements EventHandler<KeyEvent> {
                     }
                     if (code.equals(KeyCode.SHIFT)) {
                         this.gameInstance.getPlayer().sprint();
+                    }
+                    if (code.equals(KeyCode.Z)) {
+                        if (!this.gameInstance.getDialogueRender().isShowing()) {
+                            this.gameInstance.getPlayer().interact();
+                        }
                     }
                 } else if (event.getEventType().equals(KeyEvent.KEY_RELEASED)) {
                     // Handle things that happen when keys on the keyboard are released

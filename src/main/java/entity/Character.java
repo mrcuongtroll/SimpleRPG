@@ -439,6 +439,14 @@ public abstract class Character {
         }
     }
 
+    public void trigger() {
+        if (this.event != null) {
+            if (this.event.getTriggerType().equals(Event.TRIGGER_TYPE_INTERACT)) {
+                this.event.trigger();
+            }
+        }
+    }
+
     public int getLevel() {
         return level;
     }
