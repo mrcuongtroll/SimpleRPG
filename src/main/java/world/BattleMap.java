@@ -183,6 +183,9 @@ public class BattleMap extends Map {
             }
         }
 
+        player.advanceStatusEffect();
+        enemy.advanceStatusEffect();
+
         SubSceneList.checkManaRequirement();
     }
 
@@ -194,7 +197,13 @@ public class BattleMap extends Map {
             effectAnimationList.add(new EffectAnimationTimer(effect, enemyHitBox, character, getMaster(), dialogTexts));
         }
     }
-
+    public static void showSkillEffect(Character character, Effect effect, boolean showDialog, String... dialogTexts ) {
+        if (character instanceof Player) {
+            effectAnimationList.add(new EffectAnimationTimer(effect, playerHitBox, character, getMaster(), dialogTexts, showDialog));
+        } else if (character instanceof Enemy) {
+            effectAnimationList.add(new EffectAnimationTimer(effect, enemyHitBox, character, getMaster(), dialogTexts, showDialog));
+        }
+    }
     public static void showDialog(String[] texts) {
         view.cleanUpScene();
         GameSubScene dialogScene = SubSceneList.createDialogScene(texts);
