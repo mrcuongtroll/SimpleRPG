@@ -55,7 +55,7 @@ public abstract class Event {
     }
     public Event(World world, String triggerType, double x, double y) {
         this(world, triggerType);
-        this.rect = new Rectangle((int)x, (int)y, Tile.TILE_SIZE*2, Tile.TILE_SIZE*2);
+        this.rect = new Rectangle((int)x, (int)y, Tile.TILE_SIZE, Tile.TILE_SIZE);
     }
     public Event(World world, String triggerType, Character character) {
         this(world, triggerType);

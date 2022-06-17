@@ -6,6 +6,7 @@ import dialogue.Dialogue;
 import entity.Character;
 import world.Tile;
 import world.World;
+import world.WorldHome;
 
 public class StartTutorialEvent extends Event {
     public StartTutorialEvent(World world) {
@@ -27,10 +28,12 @@ public class StartTutorialEvent extends Event {
     @Override
     public void trigger() {
         // Test
-        Dialogue d1 = new Dialogue("Hello there! Welcome to SimpleRPG! Press X on your keyboard to get to the next dialogue.");
-        Dialogue d2 = new Dialogue("You can use arrow keys on your keyboard to move the character around. To select a choice when prompted, press Z on the keyboard.");
+        Dialogue d1 = new Dialogue("Hello there! Welcome to SimpleRPG!" +
+                " Press Z on your keyboard to get to the next dialogue.");
+        Dialogue d2 = new Dialogue("You can use arrow keys on your keyboard to move the character around." +
+                " To select a choice when prompted, press Z on the keyboard.");
         d1.setNext(d2);
-        Dialogue d3 = new Dialogue("You can also interact with some of the stuff around you by pressing Z on your keyboard.");
+        Dialogue d3 = new Dialogue("You can also interact with some of the stuff around you by pressing X on your keyboard.");
         d2.setNext(d3);
         Dialogue d4 = new Dialogue("That concludes our tutorial.");
         d3.setNext(d4);
@@ -38,18 +41,18 @@ public class StartTutorialEvent extends Event {
         choice1.setEvent(new Event(this.getWorld(), Event.TRIGGER_TYPE_INTERACT) {
             public void trigger() {
                 System.out.println("I understood");
+                WorldHome.tutorialViewed = false;
             }
         });
         Choice choice2 = new Choice("Let me review the tutorial");
-        choice2.setEvent(new Event(this.getWorld(), Event.TRIGGER_TYPE_INTERACT) {
-            public void trigger() {
-                StartTutorialEvent.this.trigger();
-            }
-        });
+        Dialogue choiceNop = new Dialogue("...");
+        choice2.setNext(choiceNop);
+        choiceNop.setNext(d1);
         Choice choice3 = new Choice("Let's goooooooooooooooooooooooooooooooooooooooooo");
         choice3.setEvent(new Event(this.getWorld(), Event.TRIGGER_TYPE_INTERACT) {
             public void trigger() {
                 System.out.println("Let's go... I guess?");
+                WorldHome.tutorialViewed = false;
             }
         });
         ChoicesList choices = new ChoicesList();

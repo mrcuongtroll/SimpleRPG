@@ -118,7 +118,6 @@ public class DialogueRender {
         choiceBox.setAlignment(Pos.CENTER);
         // Add choices if needed
         if (this.choices != null) {
-            // TODO: focus on choices
             for (Choice choice: this.choices.getChoices()) {
                 Button button = new Button(choice.getText());
                 button.setMinSize(100, 30);
@@ -131,7 +130,6 @@ public class DialogueRender {
                         this.showing = false;
                         this.dialogue = (Dialogue) choice.getNext();
                         this.choices = null;
-                        this.showing = false;
                         choice.trigger();
                     }
                 });
@@ -141,7 +139,6 @@ public class DialogueRender {
                     this.showing = false;
                     this.dialogue = (Dialogue) choice.getNext();
                     this.choices = null;
-                    this.showing = false;
                     choice.trigger();
                 });
                 choiceBox.getChildren().add(button);
@@ -177,7 +174,7 @@ public class DialogueRender {
         }
 
         this.root.setOnKeyPressed(e -> {
-            if ((e.getCode() == KeyCode.X) || (e.getCode() == KeyCode.ENTER))  {
+            if ((e.getCode() == KeyCode.Z) || (e.getCode() == KeyCode.ENTER))  {
 //                this.clear();
                 this.root.setVisible(false);
                 this.master.mainPane.requestFocus();
