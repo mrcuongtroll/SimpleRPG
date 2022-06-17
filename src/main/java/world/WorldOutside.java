@@ -17,8 +17,10 @@ public class WorldOutside extends World {
                 (new File("./assets/Map/Outside/outside_overlay.png")).getAbsolutePath(),
                 (new File("./assets/Map/Outside/outside_shading.png")).getAbsolutePath(),
                 (new File("./assets/Map/Outside/outside_mask.png")).getAbsolutePath());
+
+        // ***Events***
         // Entrance event to Home
-        this.getEventList().add(new OutsideToHomeEvent(this, 624, 770));
+        this.getEventList().add(new OutsideToHomeEvent(this, 620, 800));
 
         // Create NPCs (this should be move to subclasses)
         this.getNpcList().add(new Enemy(this, master, 1000, 400, 1000+(int)this.getX(), 400+(int)this.getY(), "Enemy",

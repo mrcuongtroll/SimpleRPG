@@ -34,7 +34,7 @@ public class KeyHandler implements EventHandler<KeyEvent> {
                     if (code.equals(KeyCode.SHIFT)) {
                         this.gameInstance.getPlayer().sprint();
                     }
-                    if (code.equals(KeyCode.Z)) {
+                    if (code.equals(KeyCode.X)) {
                         if (!this.gameInstance.getDialogueRender().isShowing()) {
                             this.gameInstance.getPlayer().interact();
                         }
