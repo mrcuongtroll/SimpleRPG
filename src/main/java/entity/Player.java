@@ -1,8 +1,8 @@
 package entity;
 
 import combat.action.*;
-import entity.equipment.Armor;
-import entity.equipment.Weapon;
+import entity.item.equiment.Armor;
+import entity.item.equiment.Weapon;
 import event.Event;
 import main.SimpleRPG;
 import world.Tile;
@@ -82,6 +82,39 @@ public class Player extends Character {
         this.defaultFrame(Character.DOWN);
         this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark()});
     }
+    public void equip(Weapon weapon) {
+        super.setAttackSpeed(super.getAttackSpeed() - this.weapon.getAttackSpeed());
+        super.setAttackPoint(super.getAttackPoint() - this.weapon.getAttackPoint());
+        super.setDefensePoint(super.getDefensePoint() - this.weapon.getDefensePoint());
+        super.setMaxHealthPoint(super.getMaxHealthPoint() - this.weapon.getMaxHealthPoint());
+        super.setMaxManaPoint(super.getMaxManaPoint() - this.weapon.getMaxManaPoint());
+        this.weapon.setActivated(false);
+
+        super.setAttackSpeed(super.getAttackSpeed() + weapon.getAttackSpeed());
+        super.setAttackPoint(super.getAttackPoint() + weapon.getAttackPoint());
+        super.setDefensePoint(super.getDefensePoint() + weapon.getDefensePoint());
+        super.setMaxHealthPoint(super.getMaxHealthPoint() + weapon.getMaxHealthPoint());
+        super.setMaxManaPoint(super.getMaxManaPoint() + weapon.getMaxManaPoint());
+        this.weapon = weapon;
+        this.weapon.setActivated(true);
+    }
+    public void equip(Armor armor) {
+        super.setAttackSpeed(super.getAttackSpeed() - this.armor.getAttackSpeed());
+        super.setAttackPoint(super.getAttackPoint() - this.armor.getAttackPoint());
+        super.setDefensePoint(super.getDefensePoint() - this.armor.getDefensePoint());
+        super.setMaxHealthPoint(super.getMaxHealthPoint() - this.armor.getMaxHealthPoint());
+        super.setMaxManaPoint(super.getMaxManaPoint() - this.armor.getMaxManaPoint());
+        this.armor.setActivated(false);
+
+        super.setAttackSpeed(super.getAttackSpeed() + armor.getAttackSpeed());
+        super.setAttackPoint(super.getAttackPoint() + armor.getAttackPoint());
+        super.setDefensePoint(super.getDefensePoint() + armor.getDefensePoint());
+        super.setMaxHealthPoint(super.getMaxHealthPoint() + armor.getMaxHealthPoint());
+        super.setMaxManaPoint(super.getMaxManaPoint() + armor.getMaxManaPoint());
+        this.armor = armor;
+        this.armor.setActivated(true);
+    }
+
 
     @Override
     public void tick() {
@@ -127,6 +160,7 @@ public class Player extends Character {
         ((World) this.getMaster().getWorld()).setDx(-this.getDx());
         ((World) this.getMaster().getWorld()).setDy(-this.getDy());
     }
+
 
     public void interact() {
         World world = (World) this.getMaster().getWorld();

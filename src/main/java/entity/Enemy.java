@@ -43,6 +43,7 @@ public class Enemy extends NPC{
         }
     }
 
+
     @Override
     public void triggerScene() {
         //trigger combat
