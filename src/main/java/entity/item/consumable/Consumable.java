@@ -4,6 +4,7 @@ import entity.Enemy;
 import entity.Inventory;
 import entity.Player;
 import entity.item.Item;
+import sceneElement.SubSceneList;
 
 public abstract class Consumable extends Item {
     public static final String TYPE = "Consumables";
@@ -12,6 +13,7 @@ public abstract class Consumable extends Item {
         if (this.getQuantity()==0){
             Inventory.items.remove(this);
         }
+        SubSceneList.updateInventory();
     }
     public String getType(){
         return TYPE;

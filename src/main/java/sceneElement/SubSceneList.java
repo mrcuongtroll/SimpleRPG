@@ -4,10 +4,19 @@ import combat.action.Action;
 import combat.action.NormalAttack;
 import combat.action.Rest;
 import entity.Enemy;
+import entity.Inventory;
+import entity.item.Item;
+import entity.item.consumable.Consumable;
+import entity.item.consumable.HealthPotion;
+import entity.item.consumable.ManaPotion;
+import javafx.collections.transformation.FilteredList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import main.SimpleRPG;
 import views.BattleView;
@@ -39,6 +48,7 @@ public class SubSceneList {
     public static GameButton[] gameButtonList ;
 
     public SubSceneList(SimpleRPG simpleRPG) {
+        Inventory.items.addAll(new HealthPotion(1),new ManaPotion(1));
         SubSceneList.simpleRPG = simpleRPG;
         openSetting = createSettingScene();
         openBattleOption = createBattleOptionScene();
@@ -46,9 +56,58 @@ public class SubSceneList {
         openCredit = createCreditScene();
         openSkill = createSkillOptionScene();
         openGameOver = createGameOverScene();
+
 //        openDialog = createDialogScene("Test dialog");
     }
+    public static void updateInventory(){
+        openInventory.getChildren().clear();
+        openInventory.addText("Inventory", BROWN, 15, 200, 50, 100, 30);
 
+        GridPane itemGrid = new GridPane();
+
+        FilteredList<Item> consumables = Inventory.filterConsumables();
+
+        int columnSize = 3;
+
+
+        for (int i = 0; i < Math.floor(consumables.size()/3)+1; i ++) {
+            System.out.println(i);
+            if (i == Math.floor(consumables.size() / 3)) {
+                columnSize = consumables.size() % 3;
+            }
+            for (int j = 0; j < columnSize; j++) {
+                int index = j + i * 3;
+                Consumable current = (Consumable) consumables.get(index);
+                Image testImage = new Image(current.getIconPath(), 50, 50, false, true);
+                ImageView imageView = new ImageView(testImage);
+                imageView.getStyleClass().add("imageView");
+                imageView.setFocusTraversable(true);
+                imageView.setOnMouseEntered(event -> imageView.requestFocus());
+                imageView.setOnMouseExited(event -> imageView.setEffect(null));
+                imageView.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                    public void handle(KeyEvent ke) {
+                        if (ke.getCode() == KeyCode.SPACE) {
+                            current.activateInBattle(SubSceneList.simpleRPG.getPlayer(),
+                                    ((BattleMap) simpleRPG.getWorld()).getEnemy());
+                        }
+                    }
+                });
+
+
+                GridPane.setMargin(imageView, new Insets(10, 10, 10, 10));
+                itemGrid.add(imageView, j, i);
+            }
+        }
+        GameButton btnBack = new GameButton("Go back", 100, 50);
+        openInventory.addButton(btnBack, 260, 180);
+
+        btnBack.setOnAction(event -> {
+            view.cleanUpScene();
+            currentShowingView.showSubScene(openBattleOption);
+        });
+
+        openInventory.addGrid(itemGrid, 30, 90);
+    }
     public static void openView(View newView){
         if (view.currentShowingScene!=null){
             view.currentShowingScene.disableButtons();
@@ -81,27 +140,43 @@ public class SubSceneList {
         return openGameOver;
     }
 
-    private GameSubScene createInventoryScene() {
+    private static GameSubScene createInventoryScene() {
         GameSubScene openInventory = new GameSubScene(400, 400, 440, 160, "Horizontal", (new File("./assets/test/menuBackground/square.png")).getAbsolutePath());
         openInventory.addText("Inventory", BROWN, 15, 200, 50, 100, 30);
 
         GridPane itemGrid = new GridPane();
 
-        File dir = new File("./assets/test/item");
-        File[] listOfFile = dir.listFiles();
+        FilteredList<Item> consumables = Inventory.filterConsumables();
 
-        for (int i = 0; i < 3; i ++){
-            for (int j = 0; j < 3; j ++){
+        int columnSize = 3;
+
+
+        for (int i = 0; i < Math.floor(consumables.size()/3)+1; i ++){
+            System.out.println(i);
+            if (i==Math.floor(consumables.size()/3)){
+                columnSize = consumables.size()%3;
+            }
+            for (int j = 0; j < columnSize; j ++){
                 int index = j + i*3;
-                Image testImage = new Image(listOfFile != null ? listOfFile[index].getAbsolutePath() : null, 50, 50, false, true);
+                Consumable current = (Consumable) consumables.get(index);
+                Image testImage = new Image(current.getIconPath(), 50, 50, false, true);
                 ImageView imageView = new ImageView(testImage);
                 imageView.getStyleClass().add("imageView");
                 imageView.setFocusTraversable(true);
                 imageView.setOnMouseEntered(event -> imageView.requestFocus());
                 imageView.setOnMouseExited(event -> imageView.setEffect(null));
-                imageView.setOnMouseClicked(event -> System.out.println("Item " + index));
+                imageView.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                                              public void handle(KeyEvent ke) {
+                                                  if (ke.getCode()==KeyCode.SPACE){
+                                                      current.activateInBattle(SubSceneList.simpleRPG.getPlayer(),
+                                                              ((BattleMap) simpleRPG.getWorld()).getEnemy());
+                                                  }
+                                              }
+                                          });
+
+
                 GridPane.setMargin(imageView, new Insets(10, 10, 10, 10));
-                itemGrid.add(imageView, i, j);
+                itemGrid.add(imageView, j, i);
             }
         }
 

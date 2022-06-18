@@ -109,6 +109,7 @@ public class SimpleRPG extends Application {
         mainStage.setScene(theScene);
         SubSceneList sceneList = new SubSceneList(this);
         openView(new StartScreenView(this));
+
         mainStage.show();
     }
 

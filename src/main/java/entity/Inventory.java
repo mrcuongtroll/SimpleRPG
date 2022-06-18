@@ -10,7 +10,7 @@ import java.util.Comparator;
 
 public class Inventory {
     public static ObservableList<Item> items = FXCollections.observableArrayList();
-    private FilteredList<Item> filteredItems = new FilteredList<Item>(items);
+    private static FilteredList<Item> filteredItems = new FilteredList<Item>(items);
     class ItemComparator implements Comparator<Item> {
         // Method
         // Sorting in ascending order of name
@@ -26,7 +26,7 @@ public class Inventory {
     public void sort(){
         Collections.sort(items,  comparator);
     }
-    public FilteredList<Item> filterConsumables(){
+    public static FilteredList<Item> filterConsumables(){
         filteredItems.setPredicate(item -> item.getType().contains("Consumables"));
         return filteredItems;
     }
