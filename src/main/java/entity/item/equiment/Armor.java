@@ -5,9 +5,11 @@ import entity.Player;
 import java.io.File;
 
 public class Armor extends Equipment{
+    public static final String TYPE = "Armor";
     public String description;
     public int value;
     public String iconPath;
+
     public Armor(String name, int attackSpeed, int attackPoint, int defensePoint,
                  int maxHealthPoint, int maxManaPoint, String imageIconPath) {
         super( name,  attackSpeed,  attackPoint,  defensePoint, maxHealthPoint,  maxManaPoint,  imageIconPath);
@@ -37,6 +39,9 @@ public class Armor extends Equipment{
     public void activate(Player player){
         super.activate(player);
         player.equip(this);
+    }
+    public String getType(){
+        return TYPE;
     }
 
 }

@@ -15,5 +15,6 @@ public abstract class Item {
     abstract public String getDescription(); //Description just lists out the effect
     abstract public int getValue();
     abstract public String getIconPath();
+    abstract public String getType();
     abstract public void activate(Player player);
 }

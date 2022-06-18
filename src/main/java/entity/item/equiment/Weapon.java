@@ -5,6 +5,7 @@ import entity.Player;
 import java.io.File;
 
 public class Weapon extends Equipment{
+    public static final String TYPE = "Weapon";
     public String description;
     public int value;
     public String iconPath;
@@ -37,6 +38,9 @@ public class Weapon extends Equipment{
     public void activate(Player player){
         super.activate(player);
         player.equip(this);
+    }
+    public String getType(){
+        return TYPE;
     }
 
 }

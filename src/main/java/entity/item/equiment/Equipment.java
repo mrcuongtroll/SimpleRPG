@@ -11,19 +11,25 @@ public abstract class Equipment extends Item {
     private int maxManaPoint;
     private String name;
     private String imageIconPath;
-
+    private int value;
 
     private boolean activated;
 
     public Equipment(String name, int attackSpeed, int attackPoint, int defensePoint,
                      int maxHealthPoint, int maxManaPoint, String imageIconPath) {
         this.name = name;
+        this.setQuantity(1);
         this.attackSpeed = attackSpeed;
         this.attackPoint = attackPoint;
         this.defensePoint = defensePoint;
         this.maxManaPoint = maxManaPoint;
         this.maxHealthPoint = maxHealthPoint;
         this.imageIconPath = imageIconPath;
+    }
+    public Equipment(String name, int attackSpeed, int attackPoint, int defensePoint,
+                     int maxHealthPoint, int maxManaPoint, String imageIconPath, int value) {
+        this(name, attackSpeed, attackPoint, defensePoint, maxHealthPoint, maxManaPoint, imageIconPath);
+        this.value = value;
     }
     public int getAttackSpeed() {
         return attackSpeed;
@@ -86,4 +92,12 @@ public abstract class Equipment extends Item {
         this.activated = activated;
     }
 
+    @Override
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
 }
