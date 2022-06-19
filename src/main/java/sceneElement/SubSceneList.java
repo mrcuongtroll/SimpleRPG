@@ -15,7 +15,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import main.SimpleRPG;
@@ -86,7 +85,7 @@ public class SubSceneList {
                 imageView.setOnMouseExited(event -> imageView.setEffect(null));
                 imageView.setOnKeyPressed(new EventHandler<KeyEvent>() {
                     public void handle(KeyEvent ke) {
-                        if (ke.getCode() == KeyCode.SPACE) {
+                        if (ke.getCode().isWhitespaceKey()) {
                             current.activateInBattle(SubSceneList.simpleRPG.getPlayer(),
                                     ((BattleMap) simpleRPG.getWorld()).getEnemy());
                         }
@@ -167,7 +166,7 @@ public class SubSceneList {
                 imageView.setOnMouseExited(event -> imageView.setEffect(null));
                 imageView.setOnKeyPressed(new EventHandler<KeyEvent>() {
                                               public void handle(KeyEvent ke) {
-                                                  if (ke.getCode()==KeyCode.SPACE){
+                                                  if (ke.getCode().isWhitespaceKey()){
                                                       current.activateInBattle(SubSceneList.simpleRPG.getPlayer(),
                                                               ((BattleMap) simpleRPG.getWorld()).getEnemy());
                                                   }
