@@ -2,8 +2,8 @@ package entity;
 
 import combat.action.Action;
 import combat.status_effect.StatusEffect;
-import entity.equipment.Armor;
-import entity.equipment.Weapon;
+import entity.item.equiment.Armor;
+import entity.item.equiment.Weapon;
 import event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;

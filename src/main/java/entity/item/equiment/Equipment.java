@@ -1,6 +1,9 @@
-package entity.equipment;
+package entity.item.equiment;
 
-public abstract class Equipment {
+import entity.Player;
+import entity.item.Item;
+
+public abstract class Equipment extends Item {
     private int attackSpeed;
     private int attackPoint;
     private int defensePoint;
@@ -8,16 +11,25 @@ public abstract class Equipment {
     private int maxManaPoint;
     private String name;
     private String imageIconPath;
+    private int value;
+
+    private boolean activated;
 
     public Equipment(String name, int attackSpeed, int attackPoint, int defensePoint,
                      int maxHealthPoint, int maxManaPoint, String imageIconPath) {
         this.name = name;
+        this.setQuantity(1);
         this.attackSpeed = attackSpeed;
         this.attackPoint = attackPoint;
         this.defensePoint = defensePoint;
         this.maxManaPoint = maxManaPoint;
         this.maxHealthPoint = maxHealthPoint;
         this.imageIconPath = imageIconPath;
+    }
+    public Equipment(String name, int attackSpeed, int attackPoint, int defensePoint,
+                     int maxHealthPoint, int maxManaPoint, String imageIconPath, int value) {
+        this(name, attackSpeed, attackPoint, defensePoint, maxHealthPoint, maxManaPoint, imageIconPath);
+        this.value = value;
     }
     public int getAttackSpeed() {
         return attackSpeed;
@@ -70,8 +82,22 @@ public abstract class Equipment {
     public String getImageIconPath() {
         return imageIconPath;
     }
+    public void activate(Player player){
+        this.activated = true;
+    }
+    public boolean isActivated() {
+        return activated;
+    }
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
 
-    public void setImageIconPath(String imageIconPath) {
-        this.imageIconPath = imageIconPath;
+    @Override
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }

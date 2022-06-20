@@ -1,9 +1,9 @@
 package main;
 
 import dialogue.DialogueRender;
-import entity.equipment.Armor;
 import entity.Player;
-import entity.equipment.Weapon;
+import entity.item.equiment.Armor;
+import entity.item.equiment.Weapon;
 import handler.KeyHandler;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -109,6 +109,7 @@ public class SimpleRPG extends Application {
         mainStage.setScene(theScene);
         SubSceneList sceneList = new SubSceneList(this);
         openView(new StartScreenView(this));
+
         mainStage.show();
     }
 
