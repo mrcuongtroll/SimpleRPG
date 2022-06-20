@@ -1,8 +1,9 @@
 package world;
 
 import java.awt.Rectangle;
+import java.io.Serializable;
 
-public class Tile {
+public class Tile implements Serializable {
     public static final int TILE_SIZE = 24;
     private final Rectangle rect;
     private final boolean isSolid;

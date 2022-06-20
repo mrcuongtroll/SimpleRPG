@@ -5,7 +5,9 @@ import entity.Character;
 import entity.Enemy;
 import entity.Player;
 
-public abstract class Action {
+import java.io.Serializable;
+
+public abstract class Action implements Serializable {
     String name;
     Effect[] effectList;
 

@@ -1,6 +1,9 @@
 package entity.equipment;
 
-public abstract class Equipment {
+import java.awt.*;
+import java.io.Serializable;
+
+public abstract class Equipment implements Serializable {
     private int attack;
     private int defense;
     private String name;

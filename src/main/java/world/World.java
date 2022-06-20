@@ -26,11 +26,11 @@ public class World extends Map {
     private double dx;
     private double x;
     private double y;
-    private GraphicsContext gcOverlay;
-    private GraphicsContext gcShading;
-    private Image overlayImage;
-    private Image shadingImage;
-    private BufferedImage mask;
+    private transient GraphicsContext gcOverlay;
+    private transient GraphicsContext gcShading;
+    private transient Image overlayImage;
+    private transient Image shadingImage;
+    private transient BufferedImage mask;
     private int[][] maskArray;
     private ArrayList<Tile> tileList = new ArrayList<Tile>();
     private ArrayList<NPC> npcList = new ArrayList<NPC>();

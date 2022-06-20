@@ -6,6 +6,8 @@ import entity.equipment.Weapon;
 import main.SimpleRPG;
 import world.World;
 
+import java.io.Serializable;
+
 public class Player extends Character {
     public static final int SPRITE_HEIGHT = 48;
     public static final int SPRITE_WIDTH = 48;

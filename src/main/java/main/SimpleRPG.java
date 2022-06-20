@@ -19,24 +19,25 @@ import world.WorldOutside;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 import static sceneElement.SubSceneList.openView;
 
-public class SimpleRPG extends Application {
+public class SimpleRPG extends Application implements Serializable {
 
     //Variables for starting screen
-    public Stage mainStage;
-    public StartScreenView startScreenView;
+    public transient Stage mainStage;
+    public transient StartScreenView startScreenView;
     public static final int SCREEN_WIDTH = 1280;
     public static final int SCREEN_HEIGHT = 720;
-    public Canvas canvasBackground = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
-    public Canvas canvasMiddle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
-    public Canvas canvasOverlay = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
-    public Canvas canvasShading = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+    public transient Canvas canvasBackground = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+    public transient Canvas canvasMiddle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+    public transient Canvas canvasOverlay = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+    public transient Canvas canvasShading = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 
-    public AnchorPane popupPane = new AnchorPane();
-    public Canvas canvasBattle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+    public transient AnchorPane popupPane = new AnchorPane();
+    public transient Canvas canvasBattle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     private Player player = new Player(this, 620, 820, "Player",
             (new File("./assets/test/player")).getAbsolutePath(), 1, 10,
@@ -52,11 +53,11 @@ public class SimpleRPG extends Application {
 
     //    public Map world = BattleMap(this, (new File("./assets/test/battle_map.png")).getAbsolutePath());
 
-    public KeyHandler keyHandler = new KeyHandler(this);
-    public AnchorPane mainPane = new AnchorPane();
-    public Scene theScene = new Scene(mainPane, SCREEN_WIDTH, SCREEN_HEIGHT);
-    public HUD mainHUD = new HUD(this, player);
-    public GameLoopManager gameLoopManager = new GameLoopManager(this);
+    public transient KeyHandler keyHandler = new KeyHandler(this);
+    public transient AnchorPane mainPane = new AnchorPane();
+    public transient Scene theScene = new Scene(mainPane, SCREEN_WIDTH, SCREEN_HEIGHT);
+    public transient HUD mainHUD = new HUD(this, player);
+    public transient GameLoopManager gameLoopManager = new GameLoopManager(this);
 
     public Map battleMap;
     public Map archiveWorld = world;
@@ -79,6 +80,9 @@ public class SimpleRPG extends Application {
 
     public Player getPlayer() {
         return this.player;
+    }
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public HUD getMainHUD() {

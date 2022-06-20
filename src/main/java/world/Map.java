@@ -5,11 +5,13 @@ import javafx.scene.canvas.GraphicsContext;
 import main.SimpleRPG;
 import javafx.scene.image.Image;
 
-public abstract class Map {
+import java.io.Serializable;
 
-    private static SimpleRPG master;
-    private GraphicsContext gc;
-    private Image bg;
+public abstract class Map implements Serializable {
+
+    private transient static SimpleRPG master;
+    private transient GraphicsContext gc;
+    private transient Image bg;
 
     public static SimpleRPG getMaster() {
         return master;

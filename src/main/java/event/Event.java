@@ -6,8 +6,9 @@ import world.Tile;
 import world.World;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class Event {
+public abstract class Event implements Serializable {
     public static final String TRIGGER_TYPE_AUTO_SINGLE = "AUTO_SINGLE";
     public static final String TRIGGER_TYPE_AUTO_MULTI = "AUTO_MULTI";
     public static final String TRIGGER_TYPE_TOUCH = "TOUCH";

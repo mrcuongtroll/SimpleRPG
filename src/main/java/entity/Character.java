@@ -9,8 +9,9 @@ import world.Tile;
 import world.World;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class Character {
+public abstract class Character implements Serializable {
     public static final String DEFAULT_IMAGE_PATH = "/default/";
     public static final String BATTLE_IMAGE_PATH = "/battle/";
     public static final int NUM_IMAGE_FRAME = 4;
@@ -21,7 +22,7 @@ public abstract class Character {
     public static final String RIGHT = "/move_right/";
     public static final int MINIMUM_SPEED = 0;
 
-    private SimpleRPG master;
+    private transient SimpleRPG master;
     private String name;
     private double x;
     private double y;
@@ -47,9 +48,9 @@ public abstract class Character {
     private String lastDirection;
     private double lastRelativeX;
     private double lastRelativeY;
-    private Image image;
+    private transient Image image;
     private Event event;
-    private GraphicsContext gc;
+    private transient GraphicsContext gc;
     public GraphicsContext getGraphicContext() {
         return this.gc;
     }

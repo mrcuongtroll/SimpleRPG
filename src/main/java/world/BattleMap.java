@@ -132,7 +132,6 @@ public class BattleMap extends Map {
         getMaster().hideHUD();
         this.getGraphicsContext().setFill(Color.BLACK);
         this.getGraphicsContext().fillRect(0, 0, getMaster().canvasBattle.getWidth(), getMaster().canvasBattle.getHeight());
-        this.getGraphicsContext().drawImage(this.getBg(), 0, 0, SimpleRPG.SCREEN_WIDTH, SimpleRPG.SCREEN_HEIGHT);
 
         this.groupContainer.getChildren().add(this.playerHealthBarContainer);
         this.groupContainer.getChildren().add(this.enemyHealthBarContainer);
@@ -223,7 +222,7 @@ public class BattleMap extends Map {
     }
 
     public void changeFrame() {
-        this.getMaster().canvasBattle.getGraphicsContext2D().drawImage(this.getBg(), 0, 0);
+        this.getGraphicsContext().drawImage(this.getBg(), 0, 0);
         this.lastFrameStep += Player.MOVEMENT_SPEED;
         if (this.lastFrameStep > 6 * Player.MOVEMENT_SPEED) {
             this.lastFrameStep = 0;

@@ -43,7 +43,6 @@ public class GameView extends View{
         this.popupPane = simpleRPG.popupPane;
         this.mainHUD = simpleRPG.mainHUD;
         mainHUD.showHUD();
-        this.world = simpleRPG.getWorld();
         this.keyHandler = simpleRPG.keyHandler;
 
 
@@ -60,6 +59,7 @@ public class GameView extends View{
         simpleRPG.getGameLoopManager().stop();
 //        simpleRPG.setArchiveWorld(world);
         simpleRPG.setWorld(simpleRPG.archiveWorld);
+        this.world = simpleRPG.getWorld();
         simpleRPG.setGameLoopManager(new GameLoopManager(simpleRPG));
         this.gameLoopManager = simpleRPG.getGameLoopManager();
         CreateScreenElements();
