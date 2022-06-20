@@ -45,8 +45,8 @@ public class BattleMap extends Map {
     private int lastFrameStep = 0;
     private Group groupContainer;
     private static final int BAR_WIDTH = 125;
-    private static Player player;
-    private static Enemy enemy;
+    public static Player player;
+    public static Enemy enemy;
     private static CombatManager combatManager;
     private static BattleView view;
     public Player getPlayer() {
@@ -172,14 +172,29 @@ public class BattleMap extends Map {
             view.showSubScene(SubSceneList.openGameOver);
         } else {
             Character currentTurnChar = combatManager.getCurrentTurnCharacter();
-            if (currentTurnChar instanceof Player) {
-                view.cleanUpScene();
-                view.showSubScene(SubSceneList.openBattleOption);
-                System.out.println("Player turn");
-            } else if (currentTurnChar instanceof Enemy) {
-                view.cleanUpScene();
-                System.out.println("Enemy turn");
-                enemy.randomAttack(player);
+            if ((player.getOvertimeStatusEffect() == null && enemy.getOvertimeStatusEffect() == null)){
+                if (currentTurnChar instanceof Player) {
+                    view.cleanUpScene();
+                    view.showSubScene(SubSceneList.openBattleOption);
+                    System.out.println("Player turn");
+                } else if (currentTurnChar instanceof Enemy) {
+                    view.cleanUpScene();
+                    System.out.println("Enemy turn");
+                    enemy.randomAttack(player);
+                }
+            }
+            else  {
+                if (currentTurnChar instanceof Player) {
+                    view.cleanUpScene();
+                    GameSubScene dialogScene = SubSceneList.createDialogSceneStatusEffect(true,
+                            player.getOvertimeStatusEffect(), enemy.getOvertimeStatusEffect());
+                    view.showSubScene(dialogScene);
+                } else if (currentTurnChar instanceof Enemy) {
+                    view.cleanUpScene();
+                    GameSubScene dialogScene = SubSceneList.createDialogSceneStatusEffect(false,
+                            player.getOvertimeStatusEffect(), enemy.getOvertimeStatusEffect());
+                    view.showSubScene(dialogScene);
+                }
             }
         }
 
