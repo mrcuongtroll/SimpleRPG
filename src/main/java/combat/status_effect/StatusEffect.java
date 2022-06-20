@@ -3,9 +3,10 @@ package combat.status_effect;
 import entity.Character;
 public abstract class StatusEffect {
     private int numTurn;
-
+    private final Character character;
     public StatusEffect(Character character){
         boolean duplicate = false;
+        this.character = character;
         for (StatusEffect statusEffect:character.getStatusEffects()){
             if (statusEffect.getClass()==this.getClass()){
                 duplicate = true;
@@ -28,5 +29,9 @@ public abstract class StatusEffect {
 
     public void setNumTurn(int numTurn) {
         this.numTurn = numTurn;
+    }
+
+    public Character getCharacter() {
+        return character;
     }
 }

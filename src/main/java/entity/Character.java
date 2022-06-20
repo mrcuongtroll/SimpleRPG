@@ -1,6 +1,7 @@
 package entity;
 
 import combat.action.Action;
+import combat.status_effect.OvertimeStatusEffect;
 import combat.status_effect.StatusEffect;
 import entity.item.equiment.Armor;
 import entity.item.equiment.Weapon;
@@ -179,6 +180,15 @@ public abstract class Character {
             }
         }
     }
+    public OvertimeStatusEffect getOvertimeStatusEffect(){
+        for (StatusEffect statusEffect:this.getStatusEffects()){
+            if (statusEffect instanceof OvertimeStatusEffect){
+                return (OvertimeStatusEffect) statusEffect;
+            }
+        }
+        return null;
+    }
+
     public int getTurnProgress() {
         return turnProgress;
     }

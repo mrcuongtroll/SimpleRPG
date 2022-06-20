@@ -3,6 +3,7 @@ package sceneElement;
 import combat.action.Action;
 import combat.action.NormalAttack;
 import combat.action.Rest;
+import combat.status_effect.OvertimeStatusEffect;
 import entity.Enemy;
 import entity.Inventory;
 import entity.item.Item;
@@ -10,6 +11,7 @@ import entity.item.consumable.Consumable;
 import entity.item.consumable.HealthPotion;
 import entity.item.consumable.ManaPotion;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -27,6 +29,7 @@ import world.World;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static javafx.scene.paint.Color.BROWN;
 import static main.SimpleRPG.SCREEN_WIDTH;
@@ -312,16 +315,53 @@ public class SubSceneList {
         }
         return dialogScenes.get(0);
     }
-    public static GameSubScene createDialogScene(String text, GameSubScene toDialog){
-        openDialog = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
-        GameButton btnBack = new GameButton("Continue", 100, 50);
-        openDialog.addButton(btnBack, 900, 100);
-        btnBack.setOnAction(event -> {
-            BattleMap.turnDecide();
-        });
+    public static GameSubScene createDialogSceneStatusEffect(boolean isPlayerTurn, OvertimeStatusEffect... effects){
+        ArrayList<GameSubScene> dialogScenes = new ArrayList<GameSubScene>();
+        ArrayList<GameButton> dialogButtons = new ArrayList<GameButton>();
+        ArrayList<OvertimeStatusEffect> effectsList = new ArrayList<OvertimeStatusEffect> (Arrays.stream(effects).toList());
+        effectsList.removeIf(x -> x == null);
+        for (int i = 0; i<effectsList.size(); i++) {
+            dialogScenes.add(new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath()));
+            dialogButtons.add(new GameButton("Continue", 100, 50));
+            dialogScenes.get(i).addButton(dialogButtons.get(i), 900, 100);
+            dialogScenes.get(i).addText(effectsList.get(i).getText(effectsList.get(i).getCharacter()), BROWN, 20, 1100, 200, 0, 0);
+            view.addSubSceneToPane(dialogScenes.get(dialogScenes.size() - 1));
+        }
+        for (int i = 0; i<effectsList.size(); i++) {
+            if (i == effectsList.size() - 1) {
+                if (isPlayerTurn) {
+                    dialogButtons.get(i).setOnAction(new EventHandler<ActionEvent>() {
+                        public void handle(ActionEvent event) {
+                            view.cleanUpScene();
+                            view.showSubScene(SubSceneList.openBattleOption);
+                            System.out.println("Player turn");
+                        }
+                    });
+                }
+                else {
+                    dialogButtons.get(i).setOnAction(new EventHandler<ActionEvent>() {
+                        public void handle(ActionEvent event) {
+                            view.cleanUpScene();
+                            System.out.println("Enemy turn");
+                            BattleMap.enemy.randomAttack(BattleMap.player);
+                        }
+                    });
+                }
+            } else{
+                GameSubScene nextDialog = dialogScenes.get(i + 1);
+                OvertimeStatusEffect nextEffect = effectsList.get(i+1);
+                dialogButtons.get(i).setOnAction(event -> {
+                    view.cleanUpScene();
+                    nextEffect.applyOvertime(nextEffect.getCharacter());
+                    BattleMap.showSkillEffect(nextEffect.getCharacter(), nextEffect.getEffect(), false,"");
+                    currentShowingView.showSubScene(nextDialog);
+                });
+            }
+        }
+        effectsList.get(0).applyOvertime(effectsList.get(0).getCharacter());
+        BattleMap.showSkillEffect(effectsList.get(0).getCharacter(), effectsList.get(0).getEffect(), false,"");
 
-        openDialog.addText(text, BROWN, 20, 1100, 200, 0, 0);
-        return openDialog;
+        return dialogScenes.get(0);
     }
 
     private void addButtonGrid(GameSubScene gameSubScene, int x, int y, int rows, int columns, int padding, GameButton... buttons){
