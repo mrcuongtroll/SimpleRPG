@@ -18,6 +18,7 @@ public class Frozen extends OneTimeStatusEffect{
     }
     @Override
     public void unApplyEffect(Character character) {
+        super.unApplyEffect(character);
         character.setAttackSpeed(oldValue);
     }
 }

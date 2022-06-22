@@ -18,6 +18,7 @@ public class Paralyze extends OneTimeStatusEffect{
     }
     @Override
     public void unApplyEffect(Character character) {
+        super.unApplyEffect(character);
         character.setDefensePoint(oldValue);
     }
 }

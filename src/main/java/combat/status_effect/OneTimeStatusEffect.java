@@ -17,6 +17,6 @@ public abstract class OneTimeStatusEffect extends StatusEffect{
     }
     public abstract void applyEffectOneTime(Character character);
     @Override
-    public abstract void unApplyEffect(Character character);
+    public void unApplyEffect(Character character){ super.unApplyEffect(character);};
 
 }

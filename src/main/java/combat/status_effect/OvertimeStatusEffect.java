@@ -12,7 +12,7 @@ public abstract class OvertimeStatusEffect extends StatusEffect{
     public abstract void applyEffect(Character character);
 
     @Override
-    public void unApplyEffect(Character character) {}
+    public void unApplyEffect(Character character) {super.unApplyEffect(character);}
     public abstract String getText(Character character);
     public abstract Effect getEffect();
     public abstract void applyOvertime(Character character);

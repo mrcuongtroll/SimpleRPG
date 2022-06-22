@@ -22,7 +22,9 @@ public abstract class StatusEffect {
 
     }
     public abstract void applyEffect(Character character);
-    public abstract void unApplyEffect(Character character);
+    public void unApplyEffect(Character character){
+        character.getStatusEffects().remove(this);
+    };
     public int getNumTurn() {
         return numTurn;
     }
