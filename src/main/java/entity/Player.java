@@ -16,6 +16,7 @@ public class Player extends Character {
     public static final int X = 1280/2-SPRITE_WIDTH/2;
     public static final int Y = 720/2-SPRITE_HEIGHT/2;
     public static final int MAX_STAMINA = 200;
+
     private Weapon weapon;
     private Armor armor;
     private int stamina;
@@ -74,7 +75,7 @@ public class Player extends Character {
 
     public Player(SimpleRPG master, int x, int y, String name, String imagePath, int level,
                   int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, Weapon weapon, Armor armor) {
-        super(master, x, y, name, imagePath, 32, 80, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, weapon, armor);
+        super(master, x, y, name, imagePath, 32, 80, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, weapon, armor, "left");
         this.weapon = weapon;
         this.armor = armor;
         this.stamina = MAX_STAMINA;

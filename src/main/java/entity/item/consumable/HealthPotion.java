@@ -49,7 +49,7 @@ public class HealthPotion extends Consumable{
     @Override
     public void activateInBattle(Player player, Enemy enemy) {
         this.activate(player);
-        BattleMap.showSkillEffect(player, effect, player.getName() + " heals " + 15 + " health points ");
+        BattleMap.showSkillEffect(player, player, effect, player.getName() + " heals " + 15 + " health points ");
     }
 
 }

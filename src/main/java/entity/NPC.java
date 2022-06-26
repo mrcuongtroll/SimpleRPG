@@ -31,20 +31,20 @@ public abstract class NPC extends Character {
         this.mode = mode;
     }
     public NPC(World worldMaster, SimpleRPG master, int x, int y, String name, String imagePath,
-               int level, int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid, String mode) {
-        super(master, x, y, name, imagePath, 32, 80, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, isSolid);
+               int level, int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid, String mode, String battleSide) {
+        super(master, x, y, name, imagePath, 32, 80, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, isSolid, battleSide);
         this.worldMaster = worldMaster;
         this.mode = mode;
         this.frameCounter = new Random().nextInt(100);
         this.setMovementSpeed(NPC.MOVEMENT_SPEED);
     }
     public NPC(World worldMaster, SimpleRPG master, int x, int y, String name, String imagePath,
-               int level, int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid) {
-        this(worldMaster, master, x, y, name, imagePath, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, isSolid, NPC.MODE_IDLE);
+               int level, int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid, String battleSide) {
+        this(worldMaster, master, x, y, name, imagePath, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, isSolid, NPC.MODE_IDLE, battleSide);
     }
     public NPC(World worldMaster, SimpleRPG master, int x, int y, int xDisplay, int yDisplay, String name, String imagePath,
-               int level, int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid, String mode) {
-        this(worldMaster, master, x, y, name, imagePath, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, isSolid, mode);
+               int level, int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid, String mode, String battleSide) {
+        this(worldMaster, master, x, y, name, imagePath, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, isSolid, mode, battleSide);
         this.setXDisplay(xDisplay);
         this.setYDisplay(yDisplay);
     }

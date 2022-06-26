@@ -14,8 +14,8 @@ import java.util.Comparator;
 public class CombatManager {
     private static final String[] combatChoices = new String[] {"Actions", "Items", "Skip", "Run"};
     private static final int MAX_TURN_PROGRESS = 50;
-    private ArrayList<Player> players;
-    private ArrayList<Enemy> enemies;
+    private ArrayList<Character> playerTeam;
+    private ArrayList<Character> enemyTeam;
     private ArrayList<Character> turnQueue = new ArrayList<>();
     private boolean endCombat = false;
 
@@ -32,9 +32,9 @@ public class CombatManager {
 
     */
 
-    public CombatManager(Player[] players, Enemy[] enemies) {
-        this.players = new ArrayList<>(Arrays.asList(players));
-        this.enemies = new ArrayList<>(Arrays.asList(enemies));
+    public CombatManager(ArrayList<Character> playerTeam, ArrayList<Character> enemyTeam) {
+        this.playerTeam = playerTeam;
+        this.enemyTeam = enemyTeam;
 
 //        while (!this.endCombat) {
 ////            TestChar currentTurnChar = turnDecider(this.players, this.enemies);
@@ -58,21 +58,21 @@ public class CombatManager {
     }
 
     public Character getCurrentTurnCharacter() {
-        return turnDecider(this.players, this.enemies);
+        return turnDecider(this.playerTeam, this.enemyTeam);
     }
 
-    private Character turnDecider(ArrayList<Player> players, ArrayList<Enemy> enemies) {
+    private Character turnDecider(ArrayList<Character> playerTeam, ArrayList<Character> enemyTeam) {
         while (turnQueue.isEmpty()){
-            for (Player player : players){
-                player.advanceTurn();
-                if (player.getTurnProgress() >= MAX_TURN_PROGRESS){
-                    turnQueue.add(player);
+            for (Character character : playerTeam){
+                character.advanceTurn();
+                if (character.getTurnProgress() >= MAX_TURN_PROGRESS){
+                    turnQueue.add(character);
                 }
             }
-            for (Enemy enemy : enemies){
-                enemy.advanceTurn();
-                if (enemy.getTurnProgress() >= MAX_TURN_PROGRESS){
-                    turnQueue.add(enemy);
+            for (Character character : enemyTeam){
+                character.advanceTurn();
+                if (character.getTurnProgress() >= MAX_TURN_PROGRESS){
+                    turnQueue.add(character);
                 }
             }
         }

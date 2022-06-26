@@ -12,6 +12,7 @@ import javafx.util.Duration;
 import main.SimpleRPG;
 import world.BattleMap;
 
+import java.io.File;
 import java.nio.file.Paths;
 
 public class EffectAnimationTimer extends AnimationTimer {
@@ -21,23 +22,25 @@ public class EffectAnimationTimer extends AnimationTimer {
     private String currentFramePath;
     private Effect effect;
     private ImageView hitBox;
-    private Character character;
+    private Character attacker;
+    private Character defender;
     private String[] dialogTexts;
     private SimpleRPG gameInstance;
     private boolean showDialog = true;
 
-    public EffectAnimationTimer(Effect effect, ImageView hitBox, Character character, SimpleRPG gameInstance, String[] dialogTexts) {
+    public EffectAnimationTimer(Effect effect, ImageView hitBox, Character attacker, Character defender, SimpleRPG gameInstance, String[] dialogTexts) {
         this.effect = effect;
         this.hitBox = hitBox;
-        this.character = character;
+        this.attacker = attacker;
+        this.defender = defender;
         this.lastUpdate = 0;
         this.currentFrame = 1;
         this.gameInstance = gameInstance;
         this.dialogTexts = dialogTexts;
         this.start();
     }
-    public EffectAnimationTimer(Effect effect, ImageView hitBox, Character character, SimpleRPG gameInstance, String[] dialogTexts, boolean showDialog) {
-        this( effect,  hitBox,  character,  gameInstance,  dialogTexts);
+    public EffectAnimationTimer(Effect effect, ImageView hitBox, Character attacker, Character defender, SimpleRPG gameInstance, String[] dialogTexts, boolean showDialog) {
+        this( effect,  hitBox,  attacker, defender,  gameInstance,  dialogTexts);
         this.showDialog = showDialog;
     }
     @Override
@@ -52,17 +55,16 @@ public class EffectAnimationTimer extends AnimationTimer {
                 TranslateTransition transitionForward = new TranslateTransition(Duration.seconds(0.1));
                 TranslateTransition transitionBackward = new TranslateTransition(Duration.seconds(0.1));
 
-                if (character instanceof Enemy) {
-                    fadeTransitionForward.setNode(BattleMap.getEnemyFrame());
-                    fadeTransitionBackward.setNode(BattleMap.getEnemyFrame());
-                    transitionForward.setNode(BattleMap.getPlayerFrame());
-                    transitionBackward.setNode(BattleMap.getPlayerFrame());
+                fadeTransitionForward.setNode(BattleMap.getBattleFrame(defender));
+                fadeTransitionBackward.setNode(BattleMap.getBattleFrame(defender));
+
+                if (attacker.getBattleSide().equals("left")) {
+                    transitionForward.setNode(BattleMap.getBattleFrame(attacker));
+                    transitionBackward.setNode(BattleMap.getBattleFrame(attacker));
                     transitionForward.setToX(transitionForward.getNode().getScaleX() + 100);
-                } else if (character instanceof Player) {
-                    fadeTransitionForward.setNode(BattleMap.getPlayerFrame());
-                    fadeTransitionBackward.setNode(BattleMap.getPlayerFrame());
-                    transitionForward.setNode(BattleMap.getEnemyFrame());
-                    transitionBackward.setNode(BattleMap.getEnemyFrame());
+                } else if (attacker.getBattleSide().equals("right")) {
+                    transitionForward.setNode(BattleMap.getBattleFrame(attacker));
+                    transitionBackward.setNode(BattleMap.getBattleFrame(attacker));
                     transitionForward.setToX(transitionForward.getNode().getScaleX() - 100);
                 }
 

@@ -8,6 +8,9 @@ import entity.item.equiment.Weapon;
 import event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
+import javafx.scene.shape.Rectangle;
 import main.SimpleRPG;
 import world.Tile;
 import world.World;
@@ -27,7 +30,18 @@ public abstract class Character {
     public static final int MINIMUM_SPEED = 0;
     public static final int[] EXP_THRESHOLD = {50, 100, 200, 350};
 
+    private ImageView battleFrame;
+    private ImageView battleHitBox;
+    private Rectangle battleHealthBar;
+    private Rectangle battleManaBar;
+    private Rectangle battleHealthBarContainer;
+    private Rectangle battleManaBarContainer;
 
+    private Text battleHealthPoint;
+    private Text battleManaPoint;
+    private Text battleName;
+
+    private String battleSide;
     private SimpleRPG master;
     private String name;
     private double x;
@@ -36,7 +50,7 @@ public abstract class Character {
     private double yDisplay;
     private int dx;
     private int dy;
-    private Rectangle rect;
+    private java.awt.Rectangle rect;
     private boolean isSolid;
     private Tile tile;
     private int movementSpeed;
@@ -71,6 +85,64 @@ public abstract class Character {
     public Image getImage() {
         return this.image;
     }
+
+    public ImageView getBattleFrame() {
+        return battleFrame;
+    }
+    public ImageView getBattleHitBox() {
+        return battleHitBox;
+    }
+    public String getBattleSide() {
+        return battleSide;
+    }
+    public void setBattleFrame(ImageView battleFrame) {
+        this.battleFrame = battleFrame;
+    }
+    public void setBattleHitBox(ImageView battleHitBox) {
+        this.battleHitBox = battleHitBox;
+    }
+    public Rectangle getBattleHealthBar() {
+        return battleHealthBar;
+    }
+    public Rectangle getBattleManaBar() {
+        return battleManaBar;
+    }
+    public Rectangle getBattleHealthBarContainer() {
+        return battleHealthBarContainer;
+    }
+    public Rectangle getBattleManaBarContainer() {
+        return battleManaBarContainer;
+    }
+    public Text getBattleHealthPoint() {
+        return battleHealthPoint;
+    }
+    public Text getBattleManaPoint() {
+        return battleManaPoint;
+    }
+    public Text getBattleName() {
+        return battleName;
+    }
+    public void setBattleHealthBar(Rectangle battleHealthBar) {
+        this.battleHealthBar = battleHealthBar;
+    }
+    public void setBattleManaBar(Rectangle battleManaBar) {
+        this.battleManaBar = battleManaBar;
+    }
+    public void setBattleHealthBarContainer(Rectangle battleHealthBarContainer) {
+        this.battleHealthBarContainer = battleHealthBarContainer;
+    }
+    public void setBattleManaBarContainer(Rectangle battleManaBarContainer) {
+        this.battleManaBarContainer = battleManaBarContainer;
+    }
+    public void setBattleHealthPoint(Text battleHealthPoint) {
+        this.battleHealthPoint = battleHealthPoint;
+    }
+    public void setBattleManaPoint(Text battleManaPoint) {
+        this.battleManaPoint = battleManaPoint;
+    }
+    public void setBattleName(Text battleName) {
+        this.battleName = battleName;
+    }
     public double getX(){
         return this.x;
     }
@@ -100,7 +172,7 @@ public abstract class Character {
     public double getMovementSpeed() {
         return this.movementSpeed;
     }
-    public Rectangle getRect() {
+    public java.awt.Rectangle getRect() {
         return this.rect;
     }
     public Tile getTile() {return this.tile;}
@@ -269,7 +341,7 @@ public abstract class Character {
 
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
                      int width, int height, int level,
-                     int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid) {
+                     int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid, String battleSide) {
         this.master = master;
         this.x = x;
         this.y = y;
@@ -296,15 +368,17 @@ public abstract class Character {
         this.maxManaPoint = maxManaPoint;
 
         this.isSolid = isSolid;
-        this.rect = new Rectangle((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), 2*Tile.TILE_SIZE, Tile.TILE_SIZE);
+        this.rect = new java.awt.Rectangle((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), 2*Tile.TILE_SIZE, Tile.TILE_SIZE);
         this.tile = new Tile(this.rect, isSolid);
         if (this.getMaster().getWorld() instanceof World) {
             ((World)master.getWorld()).getTileList().add(this.tile);
         }
+
+        this.battleSide = battleSide;
     }
     public Character(SimpleRPG master, int x, int y, String name, String imagePath, int width, int height, int level,
-                     int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, Weapon weapon, Armor armor) {
-        this(master, x, y, name, imagePath, width, height, level, attackSpeed,  attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true);
+                     int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, Weapon weapon, Armor armor, String battleSide) {
+        this(master, x, y, name, imagePath, width, height, level, attackSpeed,  attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true, battleSide);
         this.attackSpeed += weapon.getAttackSpeed() + armor.getAttackSpeed();
         this.attackPoint += weapon.getAttackPoint() + armor.getAttackPoint();
         this.defensePoint += weapon.getDefensePoint() + armor.getDefensePoint();
@@ -313,8 +387,8 @@ public abstract class Character {
     }
 
     public Character(SimpleRPG master, int x, int y, int xDisplay, int yDisplay, String name, String imagePath,
-                     int width, int height, int level, int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid) {
-        this(master, x, y, name, imagePath, width, height, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true);
+                     int width, int height, int level, int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid, String battleSide) {
+        this(master, x, y, name, imagePath, width, height, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true, battleSide);
         this.yDisplay = yDisplay;
         this.xDisplay = xDisplay;
     }

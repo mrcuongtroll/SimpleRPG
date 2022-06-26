@@ -3,6 +3,8 @@ package world;
 import combat.CombatManager;
 import combat.effect.Effect;
 import combat.effect.EffectAnimationTimer;
+import combat.status_effect.OvertimeStatusEffect;
+import entity.Ally;
 import entity.Character;
 import entity.Enemy;
 import entity.Player;
@@ -11,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import main.SimpleRPG;
 import sceneElement.GameSubScene;
@@ -18,35 +21,40 @@ import sceneElement.SubSceneList;
 import views.BattleView;
 import views.GameView;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BattleMap extends Map {
-
-    private Rectangle playerHealthBar;
-    private Rectangle playerManaBar;
-    private Rectangle playerHealthBarContainer;
-    private Rectangle playerManaBarContainer;
-    private Rectangle enemyHealthBar;
-    private Rectangle enemyManaBar;
-    private Rectangle enemyHealthBarContainer;
-    private Rectangle enemyManaBarContainer;
-
-    private Text playerHealthPoint;
-    private Text playerManaPoint;
-
-    private Text enemyHealthPoint;
-    private Text enemyManaPoint;
-    private static ImageView playerFrame;
-    private static ImageView enemyFrame;
-    private static ImageView playerHitBox;
-    private static ImageView enemyHitBox;
 
     private int currentFrame = 2;
     private int lastFrameStep = 0;
     private Group groupContainer;
-    private static final int BAR_WIDTH = 125;
+    private static final int BAR_WIDTH = 100;
+    private static final int BAR_HEIGHT = 20;
+    private static final int FRAME_WIDTH = 60;
+    private static final int FRAME_HEIGHT = 120;
+    private static final int HIT_BOX_SIZE = 200;
+    private static final int BAR_POINT_FONT_SIZE = 8;
+
     public static Player player;
     public static Enemy enemy;
+    public static Character currentTurnChar;
+    public static ArrayList<Character> playerTeam = new ArrayList<>();
+    public static ArrayList<Character> enemyTeam = new ArrayList<>();
+
+    public static Integer[] xPlayerTeam = {300, 150, 450};
+    public static Integer[] xEnemyTeam = {SimpleRPG.SCREEN_WIDTH - 350, SimpleRPG.SCREEN_WIDTH - 500, SimpleRPG.SCREEN_WIDTH - 200};
+    public static Integer[] yManaBar = {SimpleRPG.SCREEN_HEIGHT/4 + 100, SimpleRPG.SCREEN_HEIGHT/4 - 50, SimpleRPG.SCREEN_HEIGHT/4 - 50};
+    public static Integer[] yHealthBar = {SimpleRPG.SCREEN_HEIGHT/4 + 80, SimpleRPG.SCREEN_HEIGHT/4 - 70, SimpleRPG.SCREEN_HEIGHT/4 - 70};
+    public static Integer[] yFrame = {SimpleRPG.SCREEN_HEIGHT/4 + 150, SimpleRPG.SCREEN_HEIGHT/4, SimpleRPG.SCREEN_HEIGHT/4};
+    public static Integer[] yHitBox = {SimpleRPG.SCREEN_HEIGHT/6 + 150, SimpleRPG.SCREEN_HEIGHT/6, SimpleRPG.SCREEN_HEIGHT/6};
+    public static Integer[] yManaPoint = {SimpleRPG.SCREEN_HEIGHT/4 + 115, SimpleRPG.SCREEN_HEIGHT/4 - 40, SimpleRPG.SCREEN_HEIGHT/4 - 40};
+    public static Integer[] yHealthPoint = {SimpleRPG.SCREEN_HEIGHT/4 + 95, SimpleRPG.SCREEN_HEIGHT/4 - 60, SimpleRPG.SCREEN_HEIGHT/4 - 60};
+    public static Integer[] yName = {SimpleRPG.SCREEN_HEIGHT/4 + 135, SimpleRPG.SCREEN_HEIGHT/4 - 15, SimpleRPG.SCREEN_HEIGHT/4 - 15};
+    public static Integer[] xHitBoxPlayerTeam = {225, 75, 375};
+    public static Integer[] xHitBoxEnemyTeam = {SimpleRPG.SCREEN_WIDTH - 425, SimpleRPG.SCREEN_WIDTH - 575, SimpleRPG.SCREEN_WIDTH - 275};
+
     private static CombatManager combatManager;
     private static BattleView view;
     public Player getPlayer() {
@@ -56,12 +64,12 @@ public class BattleMap extends Map {
         return enemy;
     }
 
-    public static ImageView getEnemyFrame() {
-        return enemyFrame;
+    public static ImageView getBattleFrame(Character character) {
+        return character.getBattleFrame();
     }
 
-    public static ImageView getPlayerFrame() {
-        return playerFrame;
+    public static ImageView getBattleHitBox(Character character) {
+        return character.getBattleHitBox();
     }
 
     public static BattleView getView() {
@@ -74,58 +82,80 @@ public class BattleMap extends Map {
         player = master.getPlayer();
         enemy = enemyFighter;
 
-        this.playerHealthBar = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4, BAR_WIDTH, 30);
-        this.playerManaBar = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4 + 50, BAR_WIDTH, 30);
-        this.playerHealthBarContainer = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4, BAR_WIDTH, 30);
-        this.playerManaBarContainer = new Rectangle(100, SimpleRPG.SCREEN_HEIGHT/4 + 50, BAR_WIDTH, 30);
-        this.playerHealthPoint = new Text(100, SimpleRPG.SCREEN_HEIGHT/4 + 25, "");
-        this.playerManaPoint = new Text(100, SimpleRPG.SCREEN_HEIGHT/4 + 75, "");
-
-        this.enemyHealthBar = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4, BAR_WIDTH, 30);
-        this.enemyManaBar = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 + 50, BAR_WIDTH, 30);
-        this.enemyHealthBarContainer = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4, BAR_WIDTH, 30);
-        this.enemyManaBarContainer = new Rectangle(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 + 50, BAR_WIDTH, 30);
-        this.enemyHealthPoint = new Text(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 + 25, "100");
-        this.enemyManaPoint = new Text(SimpleRPG.SCREEN_WIDTH - 200, SimpleRPG.SCREEN_HEIGHT/4 + 75, "100");
-
-        playerFrame = new ImageView(this.player.getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png");
-
-        //Flip the sprite
-        playerFrame.setScaleX(-1);
-
-        enemyFrame = new ImageView(this.enemy.getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png");
-        playerFrame.setX(100);
-        playerFrame.setY(SimpleRPG.SCREEN_HEIGHT/4 + 100);
-
-        playerFrame.setFitWidth(80);
-        playerFrame.setFitHeight(150);
-
-        enemyFrame.setX(SimpleRPG.SCREEN_WIDTH - 200);
-        enemyFrame.setY(SimpleRPG.SCREEN_HEIGHT/4 + 100);
-
-        enemyFrame.setFitWidth(80);
-        enemyFrame.setFitHeight(150);
-
-        playerHitBox = new ImageView();
-
-        //Flip the sprite
-        playerHitBox.setScaleX(-1);
-
-        enemyHitBox = new ImageView();
-        playerHitBox.setX(0);
-        playerHitBox.setY(SimpleRPG.SCREEN_HEIGHT/6 + 100);
-        playerHitBox.setFitWidth(300);
-        playerHitBox.setFitHeight(300);
-
-        enemyHitBox.setX(SimpleRPG.SCREEN_WIDTH - 300);
-        enemyHitBox.setY(SimpleRPG.SCREEN_HEIGHT/6 + 100);
-        enemyHitBox.setFitWidth(300);
-        enemyHitBox.setFitHeight(300);
+        playerTeam.add(player);
+        playerTeam.add(new Ally((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Ally 1",
+                (new File("./assets/test/enemy")).getAbsolutePath(),
+                1, 5, 15, 0, 100, 100, 100, 100));
+        playerTeam.add(new Ally((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Ally 2",
+                (new File("./assets/test/enemy")).getAbsolutePath(),
+                1, 5, 15, 0, 100, 100, 100, 100));
+        enemyTeam.add(enemy);
+        enemyTeam.add(new Enemy((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy 1",
+                (new File("./assets/test/enemy")).getAbsolutePath(),
+                1, 5, 15, 0, 100, 100, 100, 100));
+        enemyTeam.add(new Enemy((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy 2",
+                (new File("./assets/test/enemy")).getAbsolutePath(),
+                1, 5, 15, 0, 100, 100, 100, 100));
+        setCharactersPosition();
 
         this.groupContainer = new Group();
-        combatManager = new CombatManager(new Player[]{player}, new Enemy[]{enemy});
+        combatManager = new CombatManager(playerTeam, enemyTeam);
         view = battleView;
         start();
+    }
+
+    public void setCharactersPosition() {
+        for (int i = 0; i < playerTeam.size(); i++) {
+            playerTeam.get(i).setBattleHealthBar(new Rectangle(Double.valueOf(xPlayerTeam[i]), Double.valueOf(yHealthBar[i]), BAR_WIDTH, BAR_HEIGHT));
+            playerTeam.get(i).setBattleManaBar(new Rectangle(Double.valueOf(xPlayerTeam[i]), Double.valueOf(yManaBar[i]), BAR_WIDTH, BAR_HEIGHT));
+            playerTeam.get(i).setBattleHealthBarContainer(new Rectangle(Double.valueOf(xPlayerTeam[i]), Double.valueOf(yHealthBar[i]), BAR_WIDTH, BAR_HEIGHT));
+            playerTeam.get(i).setBattleManaBarContainer(new Rectangle(Double.valueOf(xPlayerTeam[i]), Double.valueOf(yManaBar[i]), BAR_WIDTH, BAR_HEIGHT));
+            playerTeam.get(i).setBattleHealthPoint(new Text(Double.valueOf(xPlayerTeam[i]), Double.valueOf(yHealthPoint[i]), ""));
+            playerTeam.get(i).setBattleManaPoint(new Text(Double.valueOf(xPlayerTeam[i]), Double.valueOf(yManaPoint[i]), ""));
+            playerTeam.get(i).getBattleHealthPoint().setFont(new Font("Arcade Normal", BAR_POINT_FONT_SIZE));
+            playerTeam.get(i).getBattleManaPoint().setFont(new Font("Arcade Normal", BAR_POINT_FONT_SIZE));
+            playerTeam.get(i).setBattleName(new Text(Double.valueOf(xPlayerTeam[i]), Double.valueOf(yName[i]), playerTeam.get(i).getName()));
+            playerTeam.get(i).getBattleName().setFont(new Font("Arcade Normal", BAR_POINT_FONT_SIZE));
+            playerTeam.get(i).getBattleName().setFill(Color.WHITE);
+
+            playerTeam.get(i).setBattleFrame(new ImageView(playerTeam.get(i).getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png"));
+            playerTeam.get(i).getBattleFrame().setX(xPlayerTeam[i]);
+            playerTeam.get(i).getBattleFrame().setY(yFrame[i]);
+            playerTeam.get(i).getBattleFrame().setFitWidth(FRAME_WIDTH);
+            playerTeam.get(i).getBattleFrame().setFitHeight(FRAME_HEIGHT);
+            playerTeam.get(i).getBattleFrame().setScaleX(-1);
+
+            playerTeam.get(i).setBattleHitBox(new ImageView());
+            playerTeam.get(i).getBattleHitBox().setX(xHitBoxPlayerTeam[i]);
+            playerTeam.get(i).getBattleHitBox().setY(yHitBox[i]);
+            playerTeam.get(i).getBattleHitBox().setFitWidth(HIT_BOX_SIZE);
+            playerTeam.get(i).getBattleHitBox().setFitHeight(HIT_BOX_SIZE);
+        }
+        for (int i = 0; i < enemyTeam.size(); i++) {
+            enemyTeam.get(i).setBattleHealthBar(new Rectangle(Double.valueOf(xEnemyTeam[i]), Double.valueOf(yHealthBar[i]), BAR_WIDTH, BAR_HEIGHT));
+            enemyTeam.get(i).setBattleManaBar(new Rectangle(Double.valueOf(xEnemyTeam[i]), Double.valueOf(yManaBar[i]), BAR_WIDTH, BAR_HEIGHT));
+            enemyTeam.get(i).setBattleHealthBarContainer(new Rectangle(Double.valueOf(xEnemyTeam[i]), Double.valueOf(yHealthBar[i]), BAR_WIDTH, BAR_HEIGHT));
+            enemyTeam.get(i).setBattleManaBarContainer(new Rectangle(Double.valueOf(xEnemyTeam[i]), Double.valueOf(yManaBar[i]), BAR_WIDTH, BAR_HEIGHT));
+            enemyTeam.get(i).setBattleHealthPoint(new Text(Double.valueOf(xEnemyTeam[i]), Double.valueOf(yHealthPoint[i]), ""));
+            enemyTeam.get(i).setBattleManaPoint(new Text(Double.valueOf(xEnemyTeam[i]), Double.valueOf(yManaPoint[i]), ""));
+            enemyTeam.get(i).getBattleHealthPoint().setFont(new Font("Arcade Normal", BAR_POINT_FONT_SIZE));
+            enemyTeam.get(i).getBattleManaPoint().setFont(new Font("Arcade Normal", BAR_POINT_FONT_SIZE));
+            enemyTeam.get(i).setBattleName(new Text(Double.valueOf(xEnemyTeam[i]), Double.valueOf(yName[i]), enemyTeam.get(i).getName()));
+            enemyTeam.get(i).getBattleName().setFont(new Font("Arcade Normal", BAR_POINT_FONT_SIZE));
+            enemyTeam.get(i).getBattleName().setFill(Color.WHITE);
+
+            enemyTeam.get(i).setBattleFrame(new ImageView(enemyTeam.get(i).getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png"));
+            enemyTeam.get(i).getBattleFrame().setX(xEnemyTeam[i]);
+            enemyTeam.get(i).getBattleFrame().setY(yFrame[i]);
+            enemyTeam.get(i).getBattleFrame().setFitWidth(FRAME_WIDTH);
+            enemyTeam.get(i).getBattleFrame().setFitHeight(FRAME_HEIGHT);
+
+            enemyTeam.get(i).setBattleHitBox(new ImageView());
+            enemyTeam.get(i).getBattleHitBox().setX(xHitBoxEnemyTeam[i]);
+            enemyTeam.get(i).getBattleHitBox().setY(yHitBox[i]);
+            enemyTeam.get(i).getBattleHitBox().setFitWidth(HIT_BOX_SIZE);
+            enemyTeam.get(i).getBattleHitBox().setFitHeight(HIT_BOX_SIZE);
+        }
     }
 
     public void start() {
@@ -134,24 +164,28 @@ public class BattleMap extends Map {
         this.getGraphicsContext().fillRect(0, 0, getMaster().canvasBattle.getWidth(), getMaster().canvasBattle.getHeight());
         this.getGraphicsContext().drawImage(this.getBg(), 0, 0, SimpleRPG.SCREEN_WIDTH, SimpleRPG.SCREEN_HEIGHT);
 
-        this.groupContainer.getChildren().add(this.playerHealthBarContainer);
-        this.groupContainer.getChildren().add(this.enemyHealthBarContainer);
-        this.groupContainer.getChildren().add(this.playerManaBarContainer);
-        this.groupContainer.getChildren().add(this.enemyManaBarContainer);
-
-        this.groupContainer.getChildren().add(this.playerHealthBar);
-        this.groupContainer.getChildren().add(this.playerManaBar);
-        this.groupContainer.getChildren().add(this.playerHealthPoint);
-        this.groupContainer.getChildren().add(this.playerManaPoint);
-        this.groupContainer.getChildren().add(this.enemyHealthBar);
-        this.groupContainer.getChildren().add(this.enemyManaBar);
-        this.groupContainer.getChildren().add(this.enemyHealthPoint);
-        this.groupContainer.getChildren().add(this.enemyManaPoint);
-
-        this.groupContainer.getChildren().add(playerFrame);
-        this.groupContainer.getChildren().add(enemyFrame);
-        this.groupContainer.getChildren().add(playerHitBox);
-        this.groupContainer.getChildren().add(enemyHitBox);
+        for (int i = 0; i < playerTeam.size(); i++) {
+            this.groupContainer.getChildren().add(playerTeam.get(i).getBattleHealthBarContainer());
+            this.groupContainer.getChildren().add(playerTeam.get(i).getBattleManaBarContainer());
+            this.groupContainer.getChildren().add(playerTeam.get(i).getBattleHealthBar());
+            this.groupContainer.getChildren().add(playerTeam.get(i).getBattleManaBar());
+            this.groupContainer.getChildren().add(playerTeam.get(i).getBattleHealthPoint());
+            this.groupContainer.getChildren().add(playerTeam.get(i).getBattleManaPoint());
+            this.groupContainer.getChildren().add(playerTeam.get(i).getBattleFrame());
+            this.groupContainer.getChildren().add(playerTeam.get(i).getBattleHitBox());
+            this.groupContainer.getChildren().add(playerTeam.get(i).getBattleName());
+        }
+        for (int i = 0; i < enemyTeam.size(); i++) {
+            this.groupContainer.getChildren().add(enemyTeam.get(i).getBattleHealthBarContainer());
+            this.groupContainer.getChildren().add(enemyTeam.get(i).getBattleManaBarContainer());
+            this.groupContainer.getChildren().add(enemyTeam.get(i).getBattleHealthBar());
+            this.groupContainer.getChildren().add(enemyTeam.get(i).getBattleManaBar());
+            this.groupContainer.getChildren().add(enemyTeam.get(i).getBattleHealthPoint());
+            this.groupContainer.getChildren().add(enemyTeam.get(i).getBattleManaPoint());
+            this.groupContainer.getChildren().add(enemyTeam.get(i).getBattleFrame());
+            this.groupContainer.getChildren().add(enemyTeam.get(i).getBattleHitBox());
+            this.groupContainer.getChildren().add(enemyTeam.get(i).getBattleName());
+        }
 
 //        playerHitBox.setVisible(false);
 //        enemyHitBox.setVisible(false);
@@ -172,27 +206,48 @@ public class BattleMap extends Map {
             view.showSubScene(SubSceneList.openGameOver);
         } else {
             Character currentTurnChar = combatManager.getCurrentTurnCharacter();
-            if ((player.getOvertimeStatusEffect() == null && enemy.getOvertimeStatusEffect() == null)){
-                if (currentTurnChar instanceof Player) {
+            BattleMap.currentTurnChar = currentTurnChar;
+            for (Character character: playerTeam) {
+                character.getBattleHitBox().setImage(null);
+            }
+            for (Character character: enemyTeam) {
+                character.getBattleHitBox().setImage(null);
+            }
+            currentTurnChar.getBattleHitBox().setImage(new Image((new File("./assets/test/effect/turn/current_turn.png")).getAbsolutePath()));
+            boolean anyStatusEffect = false;
+            ArrayList<OvertimeStatusEffect> allOvertimeStatusEffect = new ArrayList<>();
+            for (Character character: playerTeam) {
+                allOvertimeStatusEffect.add(character.getOvertimeStatusEffect());
+                if (character.getOvertimeStatusEffect() != null) {
+                    anyStatusEffect = true;
+                }
+            }
+            for (Character character: enemyTeam) {
+                allOvertimeStatusEffect.add(character.getOvertimeStatusEffect());
+                if (character.getOvertimeStatusEffect() != null) {
+                    anyStatusEffect = true;
+                }
+            }
+            if (!anyStatusEffect){
+                System.out.println(currentTurnChar.getName() + " turn");
+                if (currentTurnChar.getBattleSide().equals("left")) {
                     view.cleanUpScene();
                     view.showSubScene(SubSceneList.openBattleOption);
-                    System.out.println("Player turn");
-                } else if (currentTurnChar instanceof Enemy) {
+                } else if (currentTurnChar.getBattleSide().equals("right")) {
                     view.cleanUpScene();
-                    System.out.println("Enemy turn");
-                    enemy.randomAttack(player);
+                    ((Enemy) currentTurnChar).randomAttack(playerTeam);
                 }
             }
             else  {
-                if (currentTurnChar instanceof Player) {
+                if (currentTurnChar.getBattleSide().equals("left")) {
                     view.cleanUpScene();
                     GameSubScene dialogScene = SubSceneList.createDialogSceneStatusEffect(true,
-                            player.getOvertimeStatusEffect(), enemy.getOvertimeStatusEffect());
+                            allOvertimeStatusEffect);
                     view.showSubScene(dialogScene);
-                } else if (currentTurnChar instanceof Enemy) {
+                } else if (currentTurnChar.getBattleSide().equals("right")) {
                     view.cleanUpScene();
                     GameSubScene dialogScene = SubSceneList.createDialogSceneStatusEffect(false,
-                            player.getOvertimeStatusEffect(), enemy.getOvertimeStatusEffect());
+                            allOvertimeStatusEffect);
                     view.showSubScene(dialogScene);
                 }
             }
@@ -200,24 +255,17 @@ public class BattleMap extends Map {
 
         player.advanceStatusEffect();
         enemy.advanceStatusEffect();
-
-        SubSceneList.checkManaRequirement();
+//        SubSceneList.checkManaRequirement();
     }
 
-    public static void showSkillEffect(Character character, Effect effect, String... dialogTexts) {
-        view.currentShowingScene.disableButtons();
-        if (character instanceof Player) {
-            effectAnimationList.add(new EffectAnimationTimer(effect, playerHitBox, character, getMaster(), dialogTexts));
-        } else if (character instanceof Enemy) {
-            effectAnimationList.add(new EffectAnimationTimer(effect, enemyHitBox, character, getMaster(), dialogTexts));
+    public static void showSkillEffect(Character attacker, Character defender, Effect effect, String... dialogTexts) {
+        if (view.currentShowingScene != null) {
+            view.currentShowingScene.disableButtons();
         }
+        effectAnimationList.add(new EffectAnimationTimer(effect, getBattleHitBox(defender), attacker, defender, getMaster(), dialogTexts));
     }
-    public static void showSkillEffect(Character character, Effect effect, boolean showDialog, String... dialogTexts ) {
-        if (character instanceof Player) {
-            effectAnimationList.add(new EffectAnimationTimer(effect, playerHitBox, character, getMaster(), dialogTexts, showDialog));
-        } else if (character instanceof Enemy) {
-            effectAnimationList.add(new EffectAnimationTimer(effect, enemyHitBox, character, getMaster(), dialogTexts, showDialog));
-        }
+    public static void showSkillEffect(Character attacker, Character defender, Effect effect, boolean showDialog, String... dialogTexts ) {
+        effectAnimationList.add(new EffectAnimationTimer(effect, getBattleHitBox(defender), attacker, defender, getMaster(), dialogTexts, showDialog));
     }
     public static void showDialog(String[] texts) {
         view.cleanUpScene();
@@ -229,24 +277,26 @@ public class BattleMap extends Map {
 
     @Override
     public void tick() {
-        this.playerHealthBar.setWidth(BAR_WIDTH * player.getHealthPoint() / 100);
-        this.playerManaBar.setWidth(BAR_WIDTH * player.getManaPoint() / 100);
-        this.playerHealthPoint.setText("" + player.getHealthPoint() + " / 100");
-        this.playerManaPoint.setText("" + player.getManaPoint() + " / 100");
-        this.enemyHealthBar.setWidth(BAR_WIDTH * enemy.getHealthPoint() / 100);
-        this.enemyManaBar.setWidth(BAR_WIDTH * enemy.getManaPoint() / 100);
-        this.enemyHealthPoint.setText("" + enemy.getHealthPoint() + " / 100");
-        this.enemyManaPoint.setText("" + enemy.getManaPoint() + " / 100");
-
-        this.playerHealthBar.setFill(Color.CRIMSON);
-        this.playerManaBar.setFill(Color.CORNFLOWERBLUE);
-        this.enemyHealthBar.setFill(Color.CRIMSON);
-        this.enemyManaBar.setFill(Color.CORNFLOWERBLUE);
-
-        this.playerHealthBarContainer.setFill(Color.DIMGRAY);
-        this.playerManaBarContainer.setFill(Color.DIMGRAY);
-        this.enemyHealthBarContainer.setFill(Color.DIMGRAY);
-        this.enemyManaBarContainer.setFill(Color.DIMGRAY);
+        for (int i = 0; i < playerTeam.size(); i++) {
+            playerTeam.get(i).getBattleHealthBar().setWidth(BAR_WIDTH * playerTeam.get(i).getHealthPoint() / 100);
+            playerTeam.get(i).getBattleManaBar().setWidth(BAR_WIDTH * playerTeam.get(i).getManaPoint() / 100);
+            playerTeam.get(i).getBattleHealthPoint().setText("" + playerTeam.get(i).getHealthPoint() + " / 100");
+            playerTeam.get(i).getBattleManaPoint().setText("" + playerTeam.get(i).getManaPoint() + " / 100");
+            playerTeam.get(i).getBattleHealthBar().setFill(Color.CRIMSON);
+            playerTeam.get(i).getBattleManaBar().setFill(Color.CORNFLOWERBLUE);
+            playerTeam.get(i).getBattleHealthBarContainer().setFill(Color.DIMGRAY);
+            playerTeam.get(i).getBattleManaBarContainer().setFill(Color.DIMGRAY);
+        }
+        for (int i = 0; i < enemyTeam.size(); i++) {
+            enemyTeam.get(i).getBattleHealthBar().setWidth(BAR_WIDTH * enemyTeam.get(i).getHealthPoint() / 100);
+            enemyTeam.get(i).getBattleManaBar().setWidth(BAR_WIDTH * enemyTeam.get(i).getManaPoint() / 100);
+            enemyTeam.get(i).getBattleHealthPoint().setText("" + enemyTeam.get(i).getHealthPoint() + " / 100");
+            enemyTeam.get(i).getBattleManaPoint().setText("" + enemyTeam.get(i).getManaPoint() + " / 100");
+            enemyTeam.get(i).getBattleHealthBar().setFill(Color.CRIMSON);
+            enemyTeam.get(i).getBattleManaBar().setFill(Color.CORNFLOWERBLUE);
+            enemyTeam.get(i).getBattleHealthBarContainer().setFill(Color.DIMGRAY);
+            enemyTeam.get(i).getBattleManaBarContainer().setFill(Color.DIMGRAY);
+        }
     }
 
     public void changeFrame() {
@@ -258,8 +308,12 @@ public class BattleMap extends Map {
             if (this.currentFrame > Character.NUM_IMAGE_FRAME) {
                 this.currentFrame = 1;
             }
-            playerFrame.setImage(new Image(player.getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"));
-            enemyFrame.setImage(new Image(enemy.getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"));
+            for (int i = 0; i < playerTeam.size(); i++) {
+                playerTeam.get(i).getBattleFrame().setImage(new Image(playerTeam.get(i).getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"));
+            }
+            for (int i = 0; i < enemyTeam.size(); i++) {
+                enemyTeam.get(i).getBattleFrame().setImage(new Image(enemyTeam.get(i).getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"));
+            }
         }
     }
     @Override
