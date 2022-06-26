@@ -32,7 +32,7 @@ public class BattleMap extends Map {
     private Group groupContainer;
     private static final int BAR_WIDTH = 100;
     private static final int BAR_HEIGHT = 20;
-    private static final int FRAME_WIDTH = 60;
+    private static final int FRAME_WIDTH = 80;
     private static final int FRAME_HEIGHT = 120;
     private static final int HIT_BOX_SIZE = 200;
     private static final int BAR_POINT_FONT_SIZE = 8;
@@ -52,7 +52,7 @@ public class BattleMap extends Map {
     public static Integer[] yManaPoint = {SimpleRPG.SCREEN_HEIGHT/4 + 115, SimpleRPG.SCREEN_HEIGHT/4 - 40, SimpleRPG.SCREEN_HEIGHT/4 - 40};
     public static Integer[] yHealthPoint = {SimpleRPG.SCREEN_HEIGHT/4 + 95, SimpleRPG.SCREEN_HEIGHT/4 - 60, SimpleRPG.SCREEN_HEIGHT/4 - 60};
     public static Integer[] yName = {SimpleRPG.SCREEN_HEIGHT/4 + 135, SimpleRPG.SCREEN_HEIGHT/4 - 15, SimpleRPG.SCREEN_HEIGHT/4 - 15};
-    public static Integer[] xHitBoxPlayerTeam = {225, 75, 375};
+    public static Integer[] xHitBoxPlayerTeam = {245, 95, 395};
     public static Integer[] xHitBoxEnemyTeam = {SimpleRPG.SCREEN_WIDTH - 425, SimpleRPG.SCREEN_WIDTH - 575, SimpleRPG.SCREEN_WIDTH - 275};
 
     private static CombatManager combatManager;
@@ -84,17 +84,17 @@ public class BattleMap extends Map {
 
         playerTeam.add(player);
         playerTeam.add(new Ally((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Ally 1",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
+                (new File("./assets/test/ally1")).getAbsolutePath(),
                 1, 5, 15, 0, 100, 100, 100, 100));
         playerTeam.add(new Ally((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Ally 2",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
+                (new File("./assets/test/ally2")).getAbsolutePath(),
                 1, 5, 15, 0, 100, 100, 100, 100));
         enemyTeam.add(enemy);
         enemyTeam.add(new Enemy((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy 1",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
+                (new File("./assets/test/enemy1")).getAbsolutePath(),
                 1, 5, 15, 0, 100, 100, 100, 100));
         enemyTeam.add(new Enemy((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy 2",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
+                (new File("./assets/test/enemy2")).getAbsolutePath(),
                 1, 5, 15, 0, 100, 100, 100, 100));
         setCharactersPosition();
 
@@ -195,7 +195,20 @@ public class BattleMap extends Map {
     }
 
     public static void turnDecide() {
-        if (enemy.getHealthPoint() <= 0) {
+        boolean allEnemyDead = true;
+        for (Character character : enemyTeam) {
+            if (character.getHealthPoint() <= 0) {
+                combatManager.removeEnemyMember(character);
+            } else {
+                allEnemyDead = false;
+            }
+        }
+        for (Character character : playerTeam) {
+            if (character.getHealthPoint() <= 0) {
+                combatManager.removePlayerMember(character);
+            }
+        }
+        if (allEnemyDead) {
             player.increaseExp(enemy.getAward());
             view.cleanUpScene();
             player.getStatusEffects().clear();
@@ -207,22 +220,22 @@ public class BattleMap extends Map {
         } else {
             Character currentTurnChar = combatManager.getCurrentTurnCharacter();
             BattleMap.currentTurnChar = currentTurnChar;
-            for (Character character: playerTeam) {
+            for (Character character: combatManager.getPlayerTeam()) {
                 character.getBattleHitBox().setImage(null);
             }
-            for (Character character: enemyTeam) {
+            for (Character character: combatManager.getEnemyTeam()) {
                 character.getBattleHitBox().setImage(null);
             }
             currentTurnChar.getBattleHitBox().setImage(new Image((new File("./assets/test/effect/turn/current_turn.png")).getAbsolutePath()));
             boolean anyStatusEffect = false;
             ArrayList<OvertimeStatusEffect> allOvertimeStatusEffect = new ArrayList<>();
-            for (Character character: playerTeam) {
+            for (Character character: combatManager.getPlayerTeam()) {
                 allOvertimeStatusEffect.add(character.getOvertimeStatusEffect());
                 if (character.getOvertimeStatusEffect() != null) {
                     anyStatusEffect = true;
                 }
             }
-            for (Character character: enemyTeam) {
+            for (Character character: combatManager.getEnemyTeam()) {
                 allOvertimeStatusEffect.add(character.getOvertimeStatusEffect());
                 if (character.getOvertimeStatusEffect() != null) {
                     anyStatusEffect = true;
@@ -252,10 +265,12 @@ public class BattleMap extends Map {
                 }
             }
         }
-
-        player.advanceStatusEffect();
-        enemy.advanceStatusEffect();
-//        SubSceneList.checkManaRequirement();
+        for (Character character: combatManager.getPlayerTeam()) {
+            character.advanceStatusEffect();
+        }
+        for (Character character: combatManager.getEnemyTeam()) {
+            character.advanceStatusEffect();
+        }
     }
 
     public static void showSkillEffect(Character attacker, Character defender, Effect effect, String... dialogTexts) {
@@ -308,11 +323,19 @@ public class BattleMap extends Map {
             if (this.currentFrame > Character.NUM_IMAGE_FRAME) {
                 this.currentFrame = 1;
             }
-            for (int i = 0; i < playerTeam.size(); i++) {
-                playerTeam.get(i).getBattleFrame().setImage(new Image(playerTeam.get(i).getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"));
+            for (Character character : playerTeam) {
+                if (character.getHealthPoint() > 0) {
+                    character.getBattleFrame().setImage(new Image(character.getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"));
+                } else {
+                    character.getBattleFrame().setImage(new Image(character.getImagePath() + Character.DEAD_IMAGE_PATH + this.currentFrame + ".png"));
+                }
             }
-            for (int i = 0; i < enemyTeam.size(); i++) {
-                enemyTeam.get(i).getBattleFrame().setImage(new Image(enemyTeam.get(i).getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"));
+            for (Character character : enemyTeam) {
+                if (character.getHealthPoint() > 0) {
+                    character.getBattleFrame().setImage(new Image(character.getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"));
+                } else {
+                    character.getBattleFrame().setImage(new Image(character.getImagePath() + Character.DEAD_IMAGE_PATH + this.currentFrame + ".png"));
+                }
             }
         }
     }

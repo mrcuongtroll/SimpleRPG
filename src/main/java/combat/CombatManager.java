@@ -28,10 +28,7 @@ public class CombatManager {
            showEffectText
     2. there might be not only "character" effects
     => implements other effect child classes and use method overloading in this class
-
-
     */
-
     public CombatManager(ArrayList<Character> playerTeam, ArrayList<Character> enemyTeam) {
         this.playerTeam = playerTeam;
         this.enemyTeam = enemyTeam;
@@ -60,7 +57,18 @@ public class CombatManager {
     public Character getCurrentTurnCharacter() {
         return turnDecider(this.playerTeam, this.enemyTeam);
     }
-
+    public void removePlayerMember(Character character) {
+        this.playerTeam.remove(character);
+    }
+    public void removeEnemyMember(Character character) {
+        this.enemyTeam.remove(character);
+    }
+    public ArrayList<Character> getPlayerTeam() {
+        return this.playerTeam;
+    }
+    public ArrayList<Character> getEnemyTeam() {
+        return this.enemyTeam;
+    }
     private Character turnDecider(ArrayList<Character> playerTeam, ArrayList<Character> enemyTeam) {
         while (turnQueue.isEmpty()){
             for (Character character : playerTeam){

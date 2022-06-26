@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public abstract class Character {
     public static final String DEFAULT_IMAGE_PATH = "/default/";
     public static final String BATTLE_IMAGE_PATH = "/battle/";
+    public static final String DEAD_IMAGE_PATH = "/dead/";
     public static final int NUM_IMAGE_FRAME = 4;
 
     public static final String DOWN = "/move_down/";
