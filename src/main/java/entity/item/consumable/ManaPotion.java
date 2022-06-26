@@ -49,7 +49,7 @@ public class ManaPotion extends Consumable{
     @Override
     public void activateInBattle(Player player, Enemy enemy) {
         this.activate(player);
-        BattleMap.showSkillEffect(player, effect, player.getName() + " heals " + 15 + " mana points ");
+        BattleMap.showSkillEffect(player, player, effect, player.getName() + " heals " + 15 + " mana points ");
     }
 
 }

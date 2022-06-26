@@ -91,16 +91,14 @@ public abstract class View {
     }
 
     public void showSubScene(GameSubScene toSubScene) {
-        if (currentShowingScene!=null){
-            currentShowingScene.disableButtons();
-        }
-
         //Cần ai đó làm đơn giản lại cái if else này
         if (currentShowingScene == null) {
             toSubScene.moveSubScene();
             currentShowingScene = toSubScene;
         } else {
+            currentShowingScene.disableButtons();
             if(currentShowingScene == toSubScene){
+                System.out.println("bruh");
                 toSubScene.moveSubScene();
             } else {
                 if(!currentShowingScene.isHidden){

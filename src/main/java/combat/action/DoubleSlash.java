@@ -24,7 +24,7 @@ public class DoubleSlash extends Action{
         if (damage > 0) {
             defender.setHealthPoint(defender.getHealthPoint() - damage);
         }
-        BattleMap.showSkillEffect(defender, effect, attacker.getName() + " deals " + damage + " damage to " + defender.getName());
+        BattleMap.showSkillEffect(attacker, defender, effect, attacker.getName() + " deals " + damage + " damage to " + defender.getName());
     }
     @Override
     public void randomActivate(Character currentTurnChar, Player player, Enemy enemy) {

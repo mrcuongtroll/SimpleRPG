@@ -38,7 +38,7 @@ public class SimpleRPG extends Application {
     public Canvas canvasBattle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     private Player player = new Player(this, 620, 820, "Player",
-            (new File("./assets/test/player")).getAbsolutePath(), 1, 10,
+            (new File("./assets/test/player")).getAbsolutePath(), 1, 6,
             25, 10, 80, 100, 100, 100,
             new Weapon("Wooden sword",
                     0, 25,0,0,0,

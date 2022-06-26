@@ -26,7 +26,7 @@ public class PoisonCloud extends Action{
             defender.setHealthPoint((int) Math.round(defender.getHealthPoint() - damage));
         }
         new Poisoned(defender);
-        BattleMap.showSkillEffect(defender, effect, attacker.getName() + " deals " + damage + " damage to " + defender.getName(),
+        BattleMap.showSkillEffect(attacker, defender, effect, attacker.getName() + " deals " + damage + " damage to " + defender.getName(),
                 defender.getName() + " is now Poisoned ");
     }
     @Override

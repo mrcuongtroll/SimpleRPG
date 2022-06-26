@@ -11,6 +11,6 @@ public class TestCombatModule {
         Enemy[] enemies = new Enemy[] {
 
         };
-        CombatManager combatInstance = new CombatManager(players, enemies);
+//        CombatManager combatInstance = new CombatManager(players, enemies);
     }
 }

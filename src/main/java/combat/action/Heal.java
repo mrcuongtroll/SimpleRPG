@@ -23,7 +23,7 @@ public class Heal extends Action{
     public void activate(Character attacker, Character defender){
         attacker.setManaPoint(attacker.getManaPoint()-COST);
         attacker.setHealthPoint((int) Math.round(attacker.getMaxHealthPoint()*0.15)+attacker.getHealthPoint());
-        BattleMap.showSkillEffect(attacker, effect, attacker.getName() + " heals " + Math.round(attacker.getMaxHealthPoint()*0.15) + " health points ");
+        BattleMap.showSkillEffect(attacker, attacker, effect, attacker.getName() + " heals " + Math.round(attacker.getMaxHealthPoint()*0.15) + " health points ");
     }
     @Override
     public void randomActivate(Character currentTurnChar, Player player, Enemy enemy) {
