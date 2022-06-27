@@ -23,7 +23,6 @@ import views.GameView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class BattleMap extends Map {
 
@@ -248,7 +247,7 @@ public class BattleMap extends Map {
                     view.showSubScene(SubSceneList.openBattleOption);
                 } else if (currentTurnChar.getBattleSide().equals("right")) {
                     view.cleanUpScene();
-                    ((Enemy) currentTurnChar).randomAttack(playerTeam);
+                    ((Enemy) currentTurnChar).randomAttack(playerTeam,enemyTeam);
                 }
             }
             else  {
