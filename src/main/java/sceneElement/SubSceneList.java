@@ -4,6 +4,7 @@ import combat.action.Action;
 import combat.action.NormalAttack;
 import combat.action.Rest;
 import combat.status_effect.OvertimeStatusEffect;
+import entity.Character;
 import entity.Enemy;
 import entity.Inventory;
 import entity.item.Item;
@@ -29,7 +30,6 @@ import world.World;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static javafx.scene.paint.Color.BROWN;
 import static main.SimpleRPG.SCREEN_WIDTH;
@@ -43,11 +43,11 @@ public class SubSceneList {
     public static GameSubScene openBattleOption;
     public static GameSubScene openCredit;
     public static GameSubScene openInventory;
-    public static GameSubScene openSkill;
+    public static GameSubScene[] openSkill = new GameSubScene[3];
     public static GameSubScene openGameOver;
     public static GameSubScene openDialog;
     public static Action[] actionList;
-    public static GameButton[] gameButtonList;
+    public static GameButton[][] gameButtonList = new GameButton[3][4];
 
     public SubSceneList(SimpleRPG simpleRPG) {
         Inventory.items.addAll(new HealthPotion(1),new ManaPotion(1));
@@ -56,11 +56,15 @@ public class SubSceneList {
         openBattleOption = createBattleOptionScene();
         openInventory = createInventoryScene();
         openCredit = createCreditScene();
-        openSkill = createSkillOptionScene();
         openGameOver = createGameOverScene();
 //        openDialog = createDialogScene("Test dialog");
     }
-    public static void updateInventory(){
+    public static void updateSkillScene(){
+        for (int i = 0; i<3;i++){
+            openSkill[i] = createSkillOptionScene(BattleMap.playerTeam.get(i), i);
+        }
+    }
+    public void updateInventory(){
         openInventory.getChildren().clear();
         openInventory.addText("Inventory", BROWN, 15, 200, 50, 100, 30);
 
@@ -88,8 +92,8 @@ public class SubSceneList {
                 imageView.setOnKeyPressed(new EventHandler<KeyEvent>() {
                     public void handle(KeyEvent ke) {
                         if (ke.getCode().isWhitespaceKey()) {
-                            current.activateInBattle(SubSceneList.simpleRPG.getPlayer(),
-                                    ((BattleMap) simpleRPG.getWorld()).getEnemy());
+                            view.cleanUpScene();
+                            currentShowingView.showSubScene(createChoosePlayerScene(current));
                         }
                     }
                 });
@@ -141,7 +145,7 @@ public class SubSceneList {
         return openGameOver;
     }
 
-    private static GameSubScene createInventoryScene() {
+    private GameSubScene createInventoryScene() {
         GameSubScene openInventory = new GameSubScene(400, 400, 440, 160, "Horizontal", (new File("./assets/test/menuBackground/square.png")).getAbsolutePath());
         openInventory.addText("Inventory", BROWN, 15, 200, 50, 100, 30);
 
@@ -169,8 +173,8 @@ public class SubSceneList {
                 imageView.setOnKeyPressed(new EventHandler<KeyEvent>() {
                                               public void handle(KeyEvent ke) {
                                                   if (ke.getCode().isWhitespaceKey()){
-                                                      current.activateInBattle(SubSceneList.simpleRPG.getPlayer(),
-                                                              ((BattleMap) simpleRPG.getWorld()).getEnemy());
+                                                      view.cleanUpScene();
+                                                      currentShowingView.showSubScene(createChoosePlayerScene(current));
                                                   }
                                               }
                                           });
@@ -226,7 +230,7 @@ public class SubSceneList {
 
         btnFight.setOnAction(event -> {
             view.cleanUpScene();
-            currentShowingView.showSubScene(openSkill);
+            currentShowingView.showSubScene(openSkill[BattleMap.playerTeam.indexOf(BattleMap.currentTurnChar)]);
         });
 
         btnItems.setOnAction(event -> {
@@ -235,7 +239,7 @@ public class SubSceneList {
         });
 
         btnDoNothing.setOnAction(event -> {
-            new Rest().activate(simpleRPG.getPlayer(), simpleRPG.getPlayer());
+            new Rest().activate(BattleMap.currentTurnChar, BattleMap.currentTurnChar);
         });
 
         addButtonGrid(openBattleOption, 800, 25, 2, 2, 10, btnFight, btnSurrender, btnDoNothing, btnItems);
@@ -243,30 +247,39 @@ public class SubSceneList {
         return openBattleOption;
     }
 
-    private GameSubScene createSkillOptionScene(){
-        if (BattleMap.currentTurnChar == null) {
-            actionList = simpleRPG.getPlayer().getActionList();
-        } else {
-            actionList =  BattleMap.currentTurnChar.getActionList();
-        }
-        gameButtonList = new GameButton[actionList.length];
+    private static GameSubScene createSkillOptionScene(Character player, int playerIndex){
+//        if (BattleMap.currentTurnChar == null) {
+//            actionList = simpleRPG.getPlayer().getActionList();
+//        } else {
+//            actionList =  BattleMap.currentTurnChar.getActionList();
+//        }
+        Action[] actionList = player.getActionList();
 
         GameSubScene openSkill = new GameSubScene(400, 200, (SCREEN_WIDTH - 400)/2, 470, "Vertical", (new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath());
 
         for (int i = 0;i<actionList.length ;i++){
             Action action = actionList[i];
-            gameButtonList[i] = new GameButton(action.getName(), 100, 50);
-            gameButtonList[i].setOnAction(event -> {
-                view.cleanUpScene();
-                currentShowingView.showSubScene(createChooseCharacterToAttackScene(action));
+            gameButtonList[playerIndex][i] = new GameButton(action.getName(), 100, 50);
+            gameButtonList[playerIndex][i].setOnAction(new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent event) {
+                    if (action.isTargetEnemy()){
+                        currentShowingView.cleanUpScene();
+                        currentShowingView.showSubScene(createChooseEnemyScene(action));
+                    }
+                    else{
+                        currentShowingView.cleanUpScene();
+                        currentShowingView.showSubScene(createChoosePlayerScene(action));
+                    }
+                }
             });
         }
-        checkManaRequirement();
+
         GameButton btnNormalAttack = new GameButton("Normal Attack", 100, 50);
         GameButton btnBack = new GameButton("Go back", 100, 50);
 
         btnNormalAttack.setOnAction(event -> {
-            (new NormalAttack()).activate(BattleMap.currentTurnChar, ((BattleMap) simpleRPG.getWorld()).getEnemy());
+            currentShowingView.cleanUpScene();
+            currentShowingView.showSubScene(createChooseEnemyScene(new NormalAttack()));
         });
 
         btnBack.setOnAction(event -> {
@@ -274,22 +287,35 @@ public class SubSceneList {
             currentShowingView.showSubScene(openBattleOption);
         });
 
-        addButtonGrid(openSkill, 25, 25, 2, 3, 10, gameButtonList[0] ,gameButtonList[1], gameButtonList[2], gameButtonList[3], btnNormalAttack, btnBack);
+        addButtonGrid(openSkill, 25, 25, 2, 3, 10,
+                gameButtonList[playerIndex][0] ,gameButtonList[playerIndex][1],
+                gameButtonList[playerIndex][2], gameButtonList[playerIndex][3], btnNormalAttack, btnBack);
         return openSkill;
     }
     public static void checkManaRequirement(){
-        for (int i = 0;i<actionList.length ;i++){
-            Action action = actionList[i];
-            if (simpleRPG.getPlayer().getManaPoint() < action.getCost()){
-                gameButtonList[i].setOpacity(0.3);
-                gameButtonList[i].setOnAction(event -> {});
+        ArrayList<Character> players = BattleMap.playerTeam;
+        for (int i = 0;i<players.size() ;i++) {
+            for (int j = 0; j < 4; j++) {
+                Character player = players.get(i);
+                Action action = player.getActionList()[j];
+                if (player.getManaPoint() < action.getCost()) {
+                    gameButtonList[i][j].setOpacity(0.3);
+                    gameButtonList[i][j].setOnAction(event -> {
+                    });
+                } else if (action.isTargetEnemy()) {
+                    gameButtonList[i][j].setOpacity(1);
+                    gameButtonList[i][j].setOnAction(event -> {
+                        view.cleanUpScene();
+                        currentShowingView.showSubScene(createChooseEnemyScene(action));
+                    });
+                } else {
+                    gameButtonList[i][j].setOpacity(1);
+                    gameButtonList[i][j].setOnAction(event -> {
+                        view.cleanUpScene();
+                        currentShowingView.showSubScene(createChoosePlayerScene(action));
+                    });
+                }
             }
-//            else{
-//                gameButtonList[i].setOpacity(1);
-//                gameButtonList[i].setOnAction(event -> {
-//                    action.activate(simpleRPG.getPlayer(), ((BattleMap) simpleRPG.getWorld()).getEnemy());
-//                });
-//            }
         }
     }
     public static GameSubScene createDialogScene(String... texts){
@@ -319,7 +345,7 @@ public class SubSceneList {
         return dialogScenes.get(0);
     }
 
-    public GameSubScene createChooseCharacterToAttackScene(Action action){
+    public static GameSubScene createChooseEnemyScene(Action action){
         GameSubScene dialogScene = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
         ArrayList<GameButton> dialogButtons = new ArrayList<>();
         for (int i = 0; i < BattleMap.enemyTeam.size() ;i++){
@@ -331,6 +357,36 @@ public class SubSceneList {
         }
         addButtonGrid(dialogScene, 800, 20, 2, 2, 10, dialogButtons);
         dialogScene.addText("Choose character to perform " + action.getName(), BROWN, 16, 800, 300, 0, 0);
+        view.addSubSceneToPane(dialogScene);
+        return dialogScene;
+    }
+    public static GameSubScene createChoosePlayerScene(Action action){
+        GameSubScene dialogScene = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
+        ArrayList<GameButton> dialogButtons = new ArrayList<>();
+        for (int i = 0; i < BattleMap.playerTeam.size() ;i++){
+            dialogButtons.add(new GameButton(BattleMap.playerTeam.get(i).getName(), 100, 50));
+            int playerIndex = i;
+            dialogButtons.get(i).setOnAction(event -> {
+                action.activate(BattleMap.currentTurnChar, BattleMap.playerTeam.get(playerIndex));
+            });
+        }
+        addButtonGrid(dialogScene, 800, 20, 2, 2, 10, dialogButtons);
+        dialogScene.addText("Choose character to perform " + action.getName(), BROWN, 16, 800, 300, 0, 0);
+        view.addSubSceneToPane(dialogScene);
+        return dialogScene;
+    }
+    public GameSubScene createChoosePlayerScene(Consumable consumable){
+        GameSubScene dialogScene = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
+        ArrayList<GameButton> dialogButtons = new ArrayList<>();
+        for (int i = 0; i < BattleMap.playerTeam.size() ;i++){
+            dialogButtons.add(new GameButton(BattleMap.playerTeam.get(i).getName(), 100, 50));
+            int playerIndex = i;
+            dialogButtons.get(i).setOnAction(event -> {
+                consumable.activateInBattle(BattleMap.playerTeam.get(playerIndex),this);
+            });
+        }
+        addButtonGrid(dialogScene, 800, 20, 2, 2, 10, dialogButtons);
+        dialogScene.addText("Choose character to perform " + consumable.getName(), BROWN, 16, 800, 300, 0, 0);
         view.addSubSceneToPane(dialogScene);
         return dialogScene;
     }
@@ -352,7 +408,7 @@ public class SubSceneList {
                     dialogButtons.get(i).setOnAction(new EventHandler<ActionEvent>() {
                         public void handle(ActionEvent event) {
                             view.cleanUpScene();
-                            view.showSubScene(SubSceneList.openBattleOption);
+                            currentShowingView.showSubScene(SubSceneList.openBattleOption);
                             System.out.println("Player turn");
                         }
                     });
@@ -362,7 +418,7 @@ public class SubSceneList {
                         public void handle(ActionEvent event) {
                             view.cleanUpScene();
                             System.out.println("Enemy turn");
-                            BattleMap.enemy.randomAttack(BattleMap.playerTeam);
+                            BattleMap.enemy.randomAttack(BattleMap.playerTeam,BattleMap.enemyTeam);
                         }
                     });
                 }
@@ -383,7 +439,7 @@ public class SubSceneList {
         return dialogScenes.get(0);
     }
 
-    private void addButtonGrid(GameSubScene gameSubScene, int x, int y, int rows, int columns, int padding, GameButton... buttons){
+    private static void addButtonGrid(GameSubScene gameSubScene, int x, int y, int rows, int columns, int padding, GameButton... buttons){
         GridPane gridPane = new GridPane();
 
         for (int i = 0; i < columns; i ++){
@@ -403,7 +459,7 @@ public class SubSceneList {
 
         gameSubScene.addGrid(gridPane, x, y);
     }
-    private void addButtonGrid(GameSubScene gameSubScene, int x, int y, int rows, int columns, int padding, ArrayList<GameButton> buttons){
+    private static void addButtonGrid(GameSubScene gameSubScene, int x, int y, int rows, int columns, int padding, ArrayList<GameButton> buttons){
         GridPane gridPane = new GridPane();
 
         for (int i = 0; i < columns; i ++){
