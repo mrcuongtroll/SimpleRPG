@@ -1,5 +1,6 @@
 package entity.item.consumable;
 
+import entity.Character;
 import entity.Inventory;
 import entity.Player;
 import entity.item.Item;
@@ -17,8 +18,11 @@ public abstract class Consumable extends Item {
     public String getType(){
         return TYPE;
     }
-    public void activateInBattle(Player player, SubSceneList subSceneList){
-        this.activate(player);
+    public void activateInBattle(Character player, SubSceneList subSceneList){
+        this.setQuantity(this.getQuantity()-1);
+        if (this.getQuantity()==0){
+            Inventory.items.remove(this);
+        }
         subSceneList.updateInventory();
     }
 }

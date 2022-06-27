@@ -84,7 +84,7 @@ public class BattleMap extends Map {
         playerTeam.add(player);
         playerTeam.add(new Ally((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Ally 1",
                 (new File("./assets/test/ally1")).getAbsolutePath(),
-                1, 5, 15, 0, 100, 100, 100, 100));
+                1, 5, 15, 0, 100, 20, 100, 100));
         playerTeam.add(new Ally((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Ally 2",
                 (new File("./assets/test/ally2")).getAbsolutePath(),
                 1, 5, 15, 0, 100, 100, 100, 100));
@@ -99,6 +99,10 @@ public class BattleMap extends Map {
 
         this.groupContainer = new Group();
         combatManager = new CombatManager(playerTeam, enemyTeam);
+
+        SubSceneList.updateSkillScene();
+        SubSceneList.checkManaRequirement();
+
         view = battleView;
         start();
     }
@@ -225,7 +229,7 @@ public class BattleMap extends Map {
             for (Character character: combatManager.getEnemyTeam()) {
                 character.getBattleHitBox().setImage(null);
             }
-            currentTurnChar.getBattleHitBox().setImage(new Image((new File("./assets/test/effect/turn/current_turn.png")).getAbsolutePath()));
+//            currentTurnChar.getBattleHitBox().setImage(new Image((new File("./assets/test/effect/turn/current_turn.png")).getAbsolutePath()));
             boolean anyStatusEffect = false;
             ArrayList<OvertimeStatusEffect> allOvertimeStatusEffect = new ArrayList<>();
             for (Character character: combatManager.getPlayerTeam()) {
@@ -270,6 +274,7 @@ public class BattleMap extends Map {
         for (Character character: combatManager.getEnemyTeam()) {
             character.advanceStatusEffect();
         }
+        SubSceneList.checkManaRequirement();
     }
 
     public static void showSkillEffect(Character attacker, Character defender, Effect effect, String... dialogTexts) {
@@ -311,6 +316,7 @@ public class BattleMap extends Map {
             enemyTeam.get(i).getBattleHealthBarContainer().setFill(Color.DIMGRAY);
             enemyTeam.get(i).getBattleManaBarContainer().setFill(Color.DIMGRAY);
         }
+        currentTurnChar.getBattleHitBox().setImage(new Image((new File("./assets/test/effect/turn/current_turn.png")).getAbsolutePath()));
     }
 
     public void changeFrame() {

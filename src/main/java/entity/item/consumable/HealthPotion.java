@@ -1,6 +1,7 @@
 package entity.item.consumable;
 
 import combat.effect.Effect;
+import entity.Character;
 import entity.Player;
 import sceneElement.SubSceneList;
 import world.BattleMap;
@@ -47,10 +48,10 @@ public class HealthPotion extends Consumable{
     }
 
     @Override
-    public void activateInBattle(Player player, SubSceneList subSceneList) {
-        super.activateInBattle(player,subSceneList);
-        player.setHealthPoint(player.getHealthPoint()+15);
-        BattleMap.showSkillEffect(player, player, effect, player.getName() + " heals " + 15 + " health points ");
+    public void activateInBattle(Character character, SubSceneList subSceneList) {
+        super.activateInBattle(character,subSceneList);
+        character.setHealthPoint(character.getHealthPoint()+15);
+        BattleMap.showSkillEffect(character, character, effect, character.getName() + " heals " + 15 + " health points ");
     }
 
 }
