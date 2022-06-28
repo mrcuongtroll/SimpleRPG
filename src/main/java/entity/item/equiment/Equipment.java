@@ -3,7 +3,9 @@ package entity.item.equiment;
 import entity.Player;
 import entity.item.Item;
 
-public abstract class Equipment extends Item {
+import java.io.Serializable;
+
+public abstract class Equipment extends Item implements Serializable {
     private int attackSpeed;
     private int attackPoint;
     private int defensePoint;

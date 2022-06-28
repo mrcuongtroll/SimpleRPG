@@ -43,6 +43,7 @@ public abstract class Character {
     private Text battleName;
 
     private String battleSide;
+    private ArrayList<Character> allyList;
     private SimpleRPG master;
     private String name;
     private double x;
@@ -340,9 +341,14 @@ public abstract class Character {
         this.image = image;
     }
 
+    public ArrayList<Character> getAllyList() {
+        return this.allyList;
+    }
+
     public Character(SimpleRPG master, int x, int y, String name, String imagePath,
                      int width, int height, int level,
                      int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid, String battleSide) {
+        this.allyList = new ArrayList<>();
         this.master = master;
         this.x = x;
         this.y = y;

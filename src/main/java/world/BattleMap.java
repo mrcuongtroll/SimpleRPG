@@ -23,6 +23,8 @@ import views.GameView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BattleMap extends Map {
 
@@ -82,19 +84,14 @@ public class BattleMap extends Map {
         enemy = enemyFighter;
 
         playerTeam.add(player);
-        playerTeam.add(new Ally((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Ally 1",
-                (new File("./assets/test/ally1")).getAbsolutePath(),
-                1, 5, 15, 0, 100, 20, 100, 100));
-        playerTeam.add(new Ally((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Ally 2",
-                (new File("./assets/test/ally2")).getAbsolutePath(),
-                1, 5, 15, 0, 100, 100, 100, 100));
+        for (Character character: player.getAllyList()) {
+            playerTeam.add(character);
+        }
         enemyTeam.add(enemy);
-        enemyTeam.add(new Enemy((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy 1",
-                (new File("./assets/test/enemy1")).getAbsolutePath(),
-                1, 5, 15, 0, 100, 100, 100, 100));
-        enemyTeam.add(new Enemy((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy 2",
-                (new File("./assets/test/enemy2")).getAbsolutePath(),
-                1, 5, 15, 0, 100, 100, 100, 100));
+        enemy.initEnemyAllies();
+        for (Character character: enemy.getAllyList()) {
+            enemyTeam.add(character);
+        }
         setCharactersPosition();
 
         this.groupContainer = new Group();
