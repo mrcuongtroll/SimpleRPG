@@ -9,6 +9,12 @@ public abstract class Action {
     String name;
     Effect[] effectList;
 
+    public boolean isTargetEnemy() {
+        return targetEnemy;
+    }
+
+    boolean targetEnemy = true;
+    //TODO find a way to differentiate friendly target spell with enemy target ones => targetEnemy - Done
     abstract public String getName();
     abstract public int getCost();
     /*
@@ -28,4 +34,5 @@ public abstract class Action {
     */
     abstract public void randomActivate(Character currentTurnChar, Player player, Enemy enemy);
     abstract public void activate(Character player, Character enemy);
+
 }

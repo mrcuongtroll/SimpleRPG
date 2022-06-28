@@ -62,10 +62,16 @@ public class Enemy extends NPC{
         System.out.println("Encountered");
     }
 
-    public void randomAttack(ArrayList<Character> playerTeam){
+    public void randomAttack(ArrayList<Character> playerTeam, ArrayList<Character> enemyTeam){
         List<Action> possibleActions = actionList.stream().filter(action -> action.getCost() < this.getManaPoint()).collect(Collectors.toList()); ;
         int randomNum = ThreadLocalRandom.current().nextInt(0, possibleActions.size());
-        possibleActions.get(randomNum).activate(this, playerTeam.get((int)(Math.random() * playerTeam.size())));
+        Action action = possibleActions.get(randomNum);
+        if (action.isTargetEnemy()){
+            action.activate(this, playerTeam.get((int)(Math.random() * playerTeam.size())));
+        }
+        else{
+            action.activate(this, enemyTeam.get((int)(Math.random() * enemyTeam.size())));
+        }
     }
 
     public int getAward(){
