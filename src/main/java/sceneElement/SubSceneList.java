@@ -19,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import main.SaveLoad;
 import main.SimpleRPG;
 import views.BattleView;
 import views.GameView;
@@ -200,13 +201,20 @@ public class SubSceneList {
 
         openSetting.addText("Paused", BROWN, 15, 200, 50, 200, 30);
         GameButton btnGoHome = new GameButton("Back to menu", 100, 50);
-        GameButton btnTest1 = new GameButton("Button 2", 100, 50);
-        GameButton btnTest2 = new GameButton("Button 3", 100, 50);
+        GameButton btnSave = new GameButton("Save", 100, 50);
+        GameButton btnLoad = new GameButton("Load", 100, 50);
         btnGoHome.setOnAction(event ->  {view.cleanUpScene(); simpleRPG.mainPane.getChildren().clear(); openView(new StartScreenView(simpleRPG));});
-
+        btnSave.setOnAction(event ->  {
+            SaveLoad.saveState(simpleRPG);
+            System.out.println("Success save...");
+        });
+        btnLoad.setOnAction(event ->  {
+            SaveLoad.loadState(simpleRPG);
+            System.out.println("Success load...");
+        });
         openSetting.addButton(btnGoHome, 100, 100);
-        openSetting.addButton(btnTest1, 250, 100);
-        openSetting.addButton(btnTest2, 400, 100);
+        openSetting.addButton(btnSave, 250, 100);
+        openSetting.addButton(btnLoad, 400, 100);
 
         return openSetting;
     }

@@ -4,6 +4,7 @@ import combat.action.*;
 import main.SimpleRPG;
 import world.World;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +31,15 @@ public class Enemy extends NPC{
         super(worldMaster, master, x, y, xDisplay, yDisplay, name, imagePath, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, false, NPC.MODE_WANDER, "right");
         this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark()});
         this.award = 20*level;
+    }
+
+    public void initEnemyAllies() {
+        int randomNumEnemyAllies = ThreadLocalRandom.current().nextInt(0, 2);
+        for (int i = 0; i <= randomNumEnemyAllies; i++) {
+            this.getAllyList().add(new Enemy((World) this.getMaster().getWorld(), this.getMaster(), SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy " + (i + 1),
+                    (new File("./assets/test/enemy1")).getAbsolutePath(),
+                    1, 5, 15, 0, 100, 100, 100, 100));
+        }
     }
 
     @Override

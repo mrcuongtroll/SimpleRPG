@@ -8,7 +8,11 @@ import main.SimpleRPG;
 import world.Tile;
 import world.World;
 
-public class Player extends Character {
+import java.io.File;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Player extends Character implements Serializable {
     public static final int SPRITE_HEIGHT = 48;
     public static final int SPRITE_WIDTH = 48;
     public static final int MOVEMENT_SPEED = 3;
@@ -82,6 +86,9 @@ public class Player extends Character {
         this.setMovementSpeed(Player.MOVEMENT_SPEED);
         this.defaultFrame(Character.DOWN);
         this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark()});
+        this.getAllyList().add(new Ally((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Ally 1",
+                (new File("./assets/test/ally1")).getAbsolutePath(),
+                1, 5, 15, 0, 100, 100, 100, 100));
     }
     public void equip(Weapon weapon) {
         super.setAttackSpeed(super.getAttackSpeed() - this.weapon.getAttackSpeed());

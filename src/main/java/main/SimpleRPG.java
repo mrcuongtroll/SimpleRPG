@@ -84,6 +84,9 @@ public class SimpleRPG extends Application {
     public Player getPlayer() {
         return this.player;
     }
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 
     public DialogueRender getDialogueRender() {
         return this.dialogueRender;
