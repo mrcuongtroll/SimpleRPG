@@ -40,8 +40,8 @@ public class StartScreenView extends View{
         GameButton startBattleButton = createBlankButton("Start Battle",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 100);
         startBattleButton.setOnAction(event -> {
             view.cleanUpScene();
-            new BattleView(simpleRPG, new Enemy((World) simpleRPG.getWorld(), simpleRPG, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
-                    (new File("./assets/test/enemy")).getAbsolutePath(),
+            new BattleView(simpleRPG, new Enemy((World) simpleRPG.getWorld(), simpleRPG, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Boss 2",
+                    (new File("./assets/test/boss2")).getAbsolutePath(),
                     1, 5, 20, 0, 100, 100, 100, 100));
         });
         createSubSceneButton("Load", openSetting,MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 200);
