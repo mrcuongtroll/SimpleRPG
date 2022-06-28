@@ -34,10 +34,10 @@ public class Enemy extends NPC{
     }
 
     public void initEnemyAllies() {
-        int randomNumEnemyAllies = ThreadLocalRandom.current().nextInt(0, 2);
-        for (int i = 0; i <= randomNumEnemyAllies; i++) {
-            this.getAllyList().add(new Enemy((World) this.getMaster().getWorld(), this.getMaster(), SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy " + (i + 1),
-                    (new File("./assets/test/enemy1")).getAbsolutePath(),
+        int randomNumEnemyAllies = ThreadLocalRandom.current().nextInt(1, 3);
+        for (int i = 1; i <= randomNumEnemyAllies; i++) {
+            this.getAllyList().add(new Enemy((World) this.getMaster().getWorld(), this.getMaster(), SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy " + i,
+                    (new File("./assets/test/enemy" + i)).getAbsolutePath(),
                     1, 5, 15, 0, 100, 100, 100, 100));
         }
     }

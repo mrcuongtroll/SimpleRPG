@@ -44,7 +44,7 @@ public class SubSceneList {
     public static GameSubScene openBattleOption;
     public static GameSubScene openCredit;
     public static GameSubScene openInventory;
-    public static GameSubScene[] openSkill = new GameSubScene[3];
+    public static GameSubScene[] openSkill;
     public static GameSubScene openGameOver;
     public static GameSubScene openDialog;
     public static Action[] actionList;
@@ -61,7 +61,8 @@ public class SubSceneList {
 //        openDialog = createDialogScene("Test dialog");
     }
     public static void updateSkillScene(){
-        for (int i = 0; i<3;i++){
+        openSkill = new GameSubScene[BattleMap.playerTeam.size()];
+        for (int i = 0; i<BattleMap.playerTeam.size();i++){
             openSkill[i] = createSkillOptionScene(BattleMap.playerTeam.get(i), i);
         }
     }
