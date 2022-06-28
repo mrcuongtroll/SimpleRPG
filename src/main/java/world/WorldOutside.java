@@ -23,14 +23,14 @@ public class WorldOutside extends World {
         this.getEventList().add(new OutsideToHomeEvent(this, 620, 800));
 
         // Create NPCs (this should be move to subclasses)
-        this.getNpcList().add(new Enemy(this, master, 1000, 400, 1000+(int)this.getX(), 400+(int)this.getY(), "Enemy",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
+        this.getNpcList().add(new Enemy(this, master, 1000, 400, 1000+(int)this.getX(), 400+(int)this.getY(), "Enemy 1",
+                (new File("./assets/test/enemy1")).getAbsolutePath(),
                 1, 5, 20, 10, 100, 100, 100, 100));
-        this.getNpcList().add(new Enemy(this, master, 1500, 400, 1500+(int)this.getX(), 400+(int)this.getY(), "Enemy",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
+        this.getNpcList().add(new Enemy(this, master, 1500, 400, 1500+(int)this.getX(), 400+(int)this.getY(), "Enemy 2",
+                (new File("./assets/test/enemy2")).getAbsolutePath(),
                 1, 5, 20, 10, 100, 100, 100, 100));
-        this.getNpcList().add(new Enemy(this, master, 1300, 600, 1300+(int)this.getX(), 600+(int)this.getY(), "Enemy",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
+        this.getNpcList().add(new Enemy(this, master, 1300, 600, 1300+(int)this.getX(), 600+(int)this.getY(), "Enemy 3",
+                (new File("./assets/test/enemy3")).getAbsolutePath(),
                 1, 5, 20, 10, 100, 100, 100, 100));
         for (NPC npc: this.getNpcList()) {
             Event enemyEvent = new BattleEvent(this, Event.TRIGGER_TYPE_TOUCH, npc);
