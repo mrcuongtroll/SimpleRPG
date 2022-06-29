@@ -88,7 +88,6 @@ public class BattleMap extends Map {
             playerTeam.add(character);
         }
         enemyTeam.add(enemy);
-        enemy.initEnemyAllies();
         for (Character character: enemy.getAllyList()) {
             enemyTeam.add(character);
         }

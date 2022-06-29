@@ -59,6 +59,7 @@ public class OutsideToHomeEvent extends Event {
 
     @Override
     public void trigger() {
+        this.getGameInstance().getPlayer().stopMoving(this.getGameInstance().getPlayer().getLastDirection());
         // Get game instance
         SimpleRPG gameInstance = this.getGameInstance();
         // Stop the player character

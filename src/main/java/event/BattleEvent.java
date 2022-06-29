@@ -27,6 +27,7 @@ public class BattleEvent extends Event {
 
     @Override
     public void trigger() {
+        this.getGameInstance().getPlayer().stopMoving(this.getGameInstance().getPlayer().getLastDirection());
         new BattleView(this.getGameInstance(), (Enemy) this.getCharacter());
 //        System.out.println(this.getRect());
     }

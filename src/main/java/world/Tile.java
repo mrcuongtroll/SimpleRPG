@@ -23,4 +23,8 @@ public class Tile {
     public Rectangle getRect() {
         return this.rect;
     }
+
+    public void setBounds(int x, int y, int width, int height) {
+        this.rect.setBounds(x, y, width, height);
+    }
 }
