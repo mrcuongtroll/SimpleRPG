@@ -8,9 +8,15 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import main.SimpleRPG;
+
+import java.io.File;
 import java.util.*;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
+import sceneElement.GameButton;
+import sceneElement.GameSubScene;
+
+import static javafx.scene.paint.Color.BROWN;
 
 public class DialogueRender {
     private Dialogue dialogue;
@@ -84,7 +90,7 @@ public class DialogueRender {
 
         Canvas imageBox = new Canvas(height, height);
         VBox contentPane = new VBox();
-        if (this.dialogue.getCharacter() != null){
+        if (this.dialogue.getCharacter() != null) {
             Image portrait = new Image(this.dialogue.getImagePath() , 100, 100, false, false);
             imageBox.setStyle("-fx-background-color: rgba(20, 20, 100, 0.8); -fx-background-radius: 10;");
 
@@ -290,7 +296,86 @@ public class DialogueRender {
 //                } else {
 //                    this.renderWithCharacter();
 //                }
-                this.renderWithCharacter();
+//                this.renderWithCharacter();
+                this.renderDialogue();
+            }
+        }
+    }
+    private void renderDialogue() {
+        GameSubScene subScene = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
+        subScene.addText(this.dialogue.getText(), BROWN, 15, 900, 100, 100, 30);
+
+        // Choices
+        VBox choiceBox = new VBox(2);
+        choiceBox.setAlignment(Pos.CENTER);
+        // Add choices if needed
+        if (this.choices != null) {
+            for (Choice choice: this.choices.getChoices()) {
+//                Button button = new Button(choice.getText());
+                GameButton button = new GameButton(choice.getText(), 100, 50);
+                subScene.addButton(button, 100, 200);
+//                button.setMinSize(100, 30);
+//                button.setStyle("-fx-background-image: null;" +
+//                        "-fx-background-color: rgba(200, 200,200, 0.8);");
+                button.setOnKeyPressed(e -> {
+                    if ((e.getCode() == KeyCode.Z) || (e.getCode() == KeyCode.ENTER)) {
+                        subScene.moveSubScene();
+                        this.root.setVisible(false);
+                        this.master.mainPane.requestFocus();
+                        this.showing = false;
+                        this.dialogue = (Dialogue) choice.getNext();
+                        this.choices = null;
+                        choice.trigger();
+                    }
+                });
+                button.setOnAction(e -> {
+                    subScene.moveSubScene();
+                    this.root.setVisible(false);
+                    this.master.mainPane.requestFocus();
+                    this.showing = false;
+                    this.dialogue = (Dialogue) choice.getNext();
+                    this.choices = null;
+                    choice.trigger();
+                });
+                choiceBox.getChildren().add(button);
+//                button.requestFocus();
+            }
+            subScene.getChildren().add(choiceBox);
+            choiceBox.setLayoutX(10);
+            choiceBox.setLayoutY(-50*choiceBox.getChildren().size()-10);
+            choiceBox.setFocusTraversable(true);
+        }
+
+        this.root.getChildren().add(subScene);
+//        this.master.dialoguePane.getChildren().clear();
+//        this.root.setFocusTraversable(true);
+        subScene.moveSubScene();
+        this.root.setOnKeyPressed(e -> {
+            if ((e.getCode() == KeyCode.Z) || (e.getCode() == KeyCode.ENTER))  {
+//                this.clear();
+                subScene.moveSubScene();
+                this.root.setVisible(false);
+                this.master.mainPane.requestFocus();
+                this.showing = false;
+                if (this.dialogue != null) {
+                    this.dialogue.trigger();
+                    if (this.dialogue.getNext() instanceof Dialogue) {
+                        this.dialogue = (Dialogue) this.dialogue.getNext();
+                    } else if (this.dialogue.getNext() instanceof ChoicesList) {
+                        this.choices = (ChoicesList) this.dialogue.getNext();
+                    } else {
+                        this.dialogue = null;
+                        this.choices = null;
+                    }
+                }
+            }
+        });
+        if (this.choices == null) {
+            this.root.requestFocus();
+        } else {
+            for (Node button: choiceBox.getChildren()) {
+                button.requestFocus();
+                break;
             }
         }
     }
