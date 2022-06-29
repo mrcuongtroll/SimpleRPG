@@ -26,7 +26,7 @@ public class WorldOutside extends World {
 
         // Create NPCs
         Enemy enemy1 = new Enemy(this, master, 1000, 400, 1000+(int)this.getX(), 400+(int)this.getY(), "Enemy",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
+                (new File("./assets/test/enemy1")).getAbsolutePath(),
                 1, 5, 20, 10, 100, 100, 100, 100);
         enemy1.initEnemyAllies();
         Event enemyEvent1 = new BattleEvent(this, Event.TRIGGER_TYPE_TOUCH, enemy1);
@@ -34,7 +34,7 @@ public class WorldOutside extends World {
         this.getNpcList().add(enemy1);
         this.getEventList().add(enemyEvent1);
         Enemy enemy2 = new Enemy(this, master, 1500, 400, 1500+(int)this.getX(), 400+(int)this.getY(), "Enemy",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
+                (new File("./assets/test/enemy2")).getAbsolutePath(),
                 1, 5, 20, 10, 100, 100, 100, 100);
         enemy2.initEnemyAllies();
         Event enemyEvent2 = new BattleEvent(this, Event.TRIGGER_TYPE_TOUCH, enemy2);
@@ -42,7 +42,7 @@ public class WorldOutside extends World {
         this.getNpcList().add(enemy2);
         this.getEventList().add(enemyEvent2);
         Enemy enemy3 = new Enemy(this, master, 1300, 600, 1300+(int)this.getX(), 600+(int)this.getY(), "Enemy",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
+                (new File("./assets/test/enemy3")).getAbsolutePath(),
                 1, 5, 20, 10, 100, 100, 100, 100);
         enemy3.initEnemyAllies();
         Event enemyEvent3 = new BattleEvent(this, Event.TRIGGER_TYPE_TOUCH, enemy3);
