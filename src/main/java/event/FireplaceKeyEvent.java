@@ -28,6 +28,7 @@ public class FireplaceKeyEvent extends Event {
 
     @Override
     public void trigger() {
+        this.getGameInstance().getPlayer().stopMoving(this.getGameInstance().getPlayer().getLastDirection());
         // Create dialogue
         Dialogue d1 = new Dialogue("You found an old book covered in ashes. Open it?");
         Choice c1 = new Choice("Yes");
