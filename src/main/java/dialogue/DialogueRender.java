@@ -303,7 +303,12 @@ public class DialogueRender {
     }
     private void renderDialogue() {
         GameSubScene subScene = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
-        subScene.addText(this.dialogue.getText(), BROWN, 15, 900, 100, 100, 30);
+        if (this.dialogue.getCharacter() != null) {
+            subScene.addText(this.dialogue.getCharacter().getName() + ": \"" + this.dialogue.getText() + "\"",
+                    BROWN, 15, 900, 100, 100, 30);
+        } else {
+            subScene.addText(this.dialogue.getText(), BROWN, 15, 900, 100, 100, 30);
+        }
 
         // Choices
         VBox choiceBox = new VBox(2);
