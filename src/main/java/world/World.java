@@ -85,23 +85,6 @@ public class World extends Map {
     public ArrayList<NPC> getNpcList() {
         return this.npcList;
     }
-    public ArrayList<CharacterSave> getNpcSaveList() {
-        ArrayList<CharacterSave> npcList = new ArrayList<>();
-        for (Character npc: this.npcList) {
-            if (npc instanceof Ally) {
-                npcList.add(new CharacterSave(npc.getName(), "ally", (int) npc.getX(), (int) npc.getY(), npc.getLevel(),
-                        npc.getExp(), npc.getAttackSpeed(), npc.getAttackPoint(), npc.getDefensePoint(),
-                        npc.getManaPoint(), npc.getHealthPoint(), npc.getMaxHealthPoint(), npc.getMaxManaPoint(),
-                        npc.getImagePath()));
-            } else if (npc instanceof Enemy) {
-                npcList.add(new CharacterSave(npc.getName(), "enemy", (int) npc.getX(), (int) npc.getY(), npc.getLevel(),
-                        npc.getExp(), npc.getAttackSpeed(), npc.getAttackPoint(), npc.getDefensePoint(),
-                        npc.getManaPoint(), npc.getHealthPoint(), npc.getMaxHealthPoint(), npc.getMaxManaPoint(),
-                        npc.getImagePath()));
-            }
-        }
-        return npcList;
-    }
     public void setNpcList(ArrayList<NPC> npcList) {
         this.npcList = npcList;
     }

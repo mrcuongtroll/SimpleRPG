@@ -211,7 +211,7 @@ public class BattleMap extends Map {
             view.cleanUpScene();
             player.getStatusEffects().clear();
             SimpleRPG.canvasBattle.getGraphicsContext2D().clearRect(0, 0, SimpleRPG.canvasBattle.getWidth(), SimpleRPG.canvasBattle.getHeight());
-            GameView gv = new GameView(getMaster());
+            GameView gv = new GameView(getMaster(), true);
             ((World) getMaster().getWorld()).removeNPC(enemy);
             // Focus control on the game
             gv.getMainPane().requestFocus();
@@ -347,6 +347,7 @@ public class BattleMap extends Map {
     private static void removeNPC(Enemy enemy) {
         if (enemy.getName().equals("Enemy 1")) {
             WorldOutside.enemy1Defeated = true;
+            System.out.println("Enemy 1 dead? " + WorldOutside.enemy1Defeated);
         } else if (enemy.getName().equals("Enemy 2")) {
             WorldOutside.enemy2Defeated = true;
         } else if (enemy.getName().equals("Enemy 3")) {

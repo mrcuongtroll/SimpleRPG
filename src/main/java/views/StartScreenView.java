@@ -35,7 +35,7 @@ public class StartScreenView extends View{
         GameButton startGameButton = createBlankButton("Start Game",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y);
         startGameButton.setOnAction(event -> {
             cleanUpScene();
-            new GameView(simpleRPG);
+            new GameView(simpleRPG, false);
         });
         GameButton startBattleButton = createBlankButton("Start Battle",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 100);
         startBattleButton.setOnAction(event -> {

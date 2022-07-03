@@ -1,6 +1,7 @@
 package saveload;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class CharacterSave implements Serializable {
 
@@ -20,9 +21,11 @@ public class CharacterSave implements Serializable {
     private int maxManaPoint;
     private String imagePath;
 
+    private ArrayList<CharacterSave> allyList;
+
     public CharacterSave(String name, String type, int x, int y, int level, int exp,
                          int attackSpeed, int attackPoint, int defensePoint, int manaPoint,
-                         int healthPoint, int maxHealthPoint, int maxManaPoint, String imagePath) {
+                         int healthPoint, int maxHealthPoint, int maxManaPoint, String imagePath, ArrayList<CharacterSave> allyList) {
         this.name = name;
         this.type = type;
         this.x = x;
@@ -37,12 +40,15 @@ public class CharacterSave implements Serializable {
         this.maxHealthPoint = maxHealthPoint;
         this.maxManaPoint = maxManaPoint;
         this.imagePath = imagePath;
+        this.allyList = allyList;
     }
 
     public String getName() {
         return name;
     }
-
+    public ArrayList<CharacterSave> getAllyList() {
+        return allyList;
+    }
     public double getX() {
         return x;
     }
