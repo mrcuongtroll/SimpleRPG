@@ -15,6 +15,9 @@ import java.util.ArrayList;
 public class WorldOutside extends World {
 
     public static boolean ally1Recruited = false;
+    public static boolean enemy1Defeated = false;
+    public static boolean enemy2Defeated = false;
+    public static boolean enemy3Defeated = false;
 
     public WorldOutside(SimpleRPG master, double playerX, double playerY) {
         super(master, playerX, playerY,
@@ -33,15 +36,21 @@ public class WorldOutside extends World {
 
     public void initiateNPCList(ArrayList<NPC> npcList) {
         if (npcList.size() == 0) {
-            this.getNpcList().add(new Enemy(this, this.getMaster(), 1000, 400, 1000+(int)this.getX(), 400+(int)this.getY(), "Enemy 1",
-                    (new File("./assets/test/enemy1")).getAbsolutePath(),
-                    1, 5, 20, 10, 100, 100, 100, 100));
-            this.getNpcList().add(new Enemy(this, this.getMaster(), 1500, 400, 1500+(int)this.getX(), 400+(int)this.getY(), "Enemy 2",
-                    (new File("./assets/test/enemy2")).getAbsolutePath(),
-                    1, 5, 20, 10, 100, 100, 100, 100));
-            this.getNpcList().add(new Enemy(this, this.getMaster(), 1300, 600, 1300+(int)this.getX(), 600+(int)this.getY(), "Enemy 3",
-                    (new File("./assets/test/enemy3")).getAbsolutePath(),
-                    1, 5, 20, 10, 100, 100, 100, 100));
+            if (!enemy1Defeated) {
+                this.getNpcList().add(new Enemy(this, this.getMaster(), 1000, 400, 1000 + (int) this.getX(), 400 + (int) this.getY(), "Enemy 1",
+                        (new File("./assets/test/enemy1")).getAbsolutePath(),
+                        1, 5, 20, 10, 100, 100, 100, 100));
+            }
+            if (!enemy2Defeated) {
+                this.getNpcList().add(new Enemy(this, this.getMaster(), 1500, 400, 1500 + (int) this.getX(), 400 + (int) this.getY(), "Enemy 2",
+                        (new File("./assets/test/enemy2")).getAbsolutePath(),
+                        1, 5, 20, 10, 100, 100, 100, 100));
+            }
+            if (!enemy3Defeated) {
+                this.getNpcList().add(new Enemy(this, this.getMaster(), 1300, 600, 1300 + (int) this.getX(), 600 + (int) this.getY(), "Enemy 3",
+                        (new File("./assets/test/enemy3")).getAbsolutePath(),
+                        1, 5, 20, 10, 100, 100, 100, 100));
+            }
             if (!ally1Recruited) {
                 Ally ally1 = new Ally(this, this.getMaster(), 353, 406, 353 + (int) this.getX(), 406 + (int) this.getY(), "Ally 1",
                         (new File("./assets/test/ally1")).getAbsolutePath(),
@@ -66,15 +75,21 @@ public class WorldOutside extends World {
 
     public void initiateNPCList() {
         if (this.getNpcList().size() == 0) {
-            this.getNpcList().add(new Enemy(this, this.getMaster(), 1000, 400, 1000+(int)this.getX(), 400+(int)this.getY(), "Enemy 1",
-                    (new File("./assets/test/enemy1")).getAbsolutePath(),
-                    1, 5, 20, 10, 100, 100, 100, 100));
-            this.getNpcList().add(new Enemy(this, this.getMaster(), 1500, 400, 1500+(int)this.getX(), 400+(int)this.getY(), "Enemy 2",
-                    (new File("./assets/test/enemy2")).getAbsolutePath(),
-                    1, 5, 20, 10, 100, 100, 100, 100));
-            this.getNpcList().add(new Enemy(this, this.getMaster(), 1300, 600, 1300+(int)this.getX(), 600+(int)this.getY(), "Enemy 3",
-                    (new File("./assets/test/enemy3")).getAbsolutePath(),
-                    1, 5, 20, 10, 100, 100, 100, 100));
+            if (!enemy1Defeated) {
+                this.getNpcList().add(new Enemy(this, this.getMaster(), 1000, 400, 1000 + (int) this.getX(), 400 + (int) this.getY(), "Enemy 1",
+                        (new File("./assets/test/enemy1")).getAbsolutePath(),
+                        1, 5, 20, 10, 100, 100, 100, 100));
+            }
+            if (!enemy2Defeated) {
+                this.getNpcList().add(new Enemy(this, this.getMaster(), 1500, 400, 1500 + (int) this.getX(), 400 + (int) this.getY(), "Enemy 2",
+                        (new File("./assets/test/enemy2")).getAbsolutePath(),
+                        1, 5, 20, 10, 100, 100, 100, 100));
+            }
+            if (!enemy3Defeated) {
+                this.getNpcList().add(new Enemy(this, this.getMaster(), 1300, 600, 1300 + (int) this.getX(), 600 + (int) this.getY(), "Enemy 3",
+                        (new File("./assets/test/enemy3")).getAbsolutePath(),
+                        1, 5, 20, 10, 100, 100, 100, 100));
+            }
             if (!ally1Recruited) {
                 Ally ally1 = new Ally(this, this.getMaster(), 353, 406, 353 + (int) this.getX(), 406 + (int) this.getY(), "Ally 1",
                         (new File("./assets/test/ally1")).getAbsolutePath(),
