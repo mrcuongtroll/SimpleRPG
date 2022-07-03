@@ -7,7 +7,7 @@ import java.io.File;
 
 public class WorldHome extends World {
 
-    public static boolean tutorialViewed = true;
+    public static boolean tutorialViewed = false;
     public static boolean doorUnlocked = false;
     public static boolean keyObtained = false;
 
@@ -28,7 +28,7 @@ public class WorldHome extends World {
             }
         }
         // Add starting tutorial event
-        if (tutorialViewed) {
+        if (!tutorialViewed) {
             this.getEventList().add(new StartTutorialEvent(this, 0, 0));
         }
         // Lamb sauce event

@@ -41,8 +41,8 @@ public class BattleMap extends Map {
     public static Player player;
     public static Enemy enemy;
     public static Character currentTurnChar;
-    public static ArrayList<Character> playerTeam = new ArrayList<>();
-    public static ArrayList<Character> enemyTeam = new ArrayList<>();
+    public static ArrayList<Character> playerTeam;
+    public static ArrayList<Character> enemyTeam;
 
     public static Integer[] xPlayerTeam = {300, 150, 450};
     public static Integer[] xEnemyTeam = {SimpleRPG.SCREEN_WIDTH - 350, SimpleRPG.SCREEN_WIDTH - 500, SimpleRPG.SCREEN_WIDTH - 200};
@@ -82,13 +82,13 @@ public class BattleMap extends Map {
         super(master, 0, 0, imagePath);
         player = master.getPlayer();
         enemy = enemyFighter;
-
+        playerTeam = new ArrayList<>();
+        enemyTeam = new ArrayList<>();
         playerTeam.add(player);
         for (Character character: player.getAllyList()) {
             playerTeam.add(character);
         }
         enemyTeam.add(enemy);
-        enemy.initEnemyAllies();
         for (Character character: enemy.getAllyList()) {
             enemyTeam.add(character);
         }
@@ -195,25 +195,24 @@ public class BattleMap extends Map {
     }
 
     public static void turnDecide() {
-        boolean allEnemyDead = true;
-        for (Character character : enemyTeam) {
-            if (character.getHealthPoint() <= 0) {
-                combatManager.removeEnemyMember(character);
-            } else {
-                allEnemyDead = false;
+        for (int i = 0; i < enemyTeam.size(); i++) {
+            if (enemyTeam.get(i).getHealthPoint() <= 0) {
+                combatManager.removeEnemyMember(enemyTeam.get(i));
             }
         }
-        for (Character character : playerTeam) {
-            if (character.getHealthPoint() <= 0) {
-                combatManager.removePlayerMember(character);
+        for (int i = 0; i < playerTeam.size(); i++) {
+            if (playerTeam.get(i).getHealthPoint() <= 0) {
+                combatManager.removeEnemyMember(playerTeam.get(i));
             }
         }
-        if (allEnemyDead) {
-            player.increaseExp(enemy.getAward());
+        if (enemy.getHealthPoint() <= 0) {
+//            player.increaseExp(enemy.getAward());
             view.cleanUpScene();
             player.getStatusEffects().clear();
+            SimpleRPG.canvasBattle.getGraphicsContext2D().clearRect(0, 0, SimpleRPG.canvasBattle.getWidth(), SimpleRPG.canvasBattle.getHeight());
             new GameView(getMaster());
             ((World) getMaster().getWorld()).removeNPC(enemy);
+            return;
         } else if (player.getHealthPoint() <= 0) {
             view.cleanUpScene();
             view.showSubScene(SubSceneList.openGameOver);

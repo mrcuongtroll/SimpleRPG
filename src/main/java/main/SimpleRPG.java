@@ -11,6 +11,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import loop.GameLoopManager;
+import saveload.SaveLoad;
 import sceneElement.SubSceneList;
 import views.StartScreenView;
 import world.Map;
@@ -35,23 +36,24 @@ public class SimpleRPG extends Application {
 
 
     public AnchorPane popupPane = new AnchorPane();
-    public Canvas canvasBattle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+    public static Canvas canvasBattle = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    private Player player = new Player(this, 620, 820, "Player",
-            (new File("./assets/test/player")).getAbsolutePath(), 1, 6,
-            25, 10, 80, 100, 100, 100,
-            new Weapon("Wooden sword",
-                    0, 25,0,0,0,
-                    "example_armor.png"),
-            new Armor("Wooden armor",
-                    0, 0, 5,0,0,
-                    "example_armor.png"));
+//    private Player player = new Player(this, 620, 820, "Player",
+//            (new File("./assets/test/player")).getAbsolutePath(), 1, 6,
+//            25, 10, 80, 100, 100, 100,
+//            new Weapon("Wooden sword",
+//                    0, 25,0,0,0,
+//                    "example_armor.png"),
+//            new Armor("Wooden armor",
+//                    0, 0, 5,0,0,
+//                    "example_armor.png"));
+    private Player player = SaveLoad.loadPlayer(this);
 //    private Map world = new World(this, 620, 820,
 //            (new File("./assets/Map/Outside/outside_bottom.png")).getAbsolutePath(),
 //            (new File("./assets/Map/Outside/outside_overlay.png")).getAbsolutePath(),
 //            (new File("./assets/Map/Outside/outside_shading.png")).getAbsolutePath(),
 //            (new File("./assets/Map/Outside/outside_mask.png")).getAbsolutePath());
-    private Map world = new WorldHome(this, 570, 230);
+    private Map world = SaveLoad.loadWorld(this);
 
     //    public Map world = BattleMap(this, (new File("./assets/test/battle_map.png")).getAbsolutePath());
     private DialogueRender dialogueRender = new DialogueRender(this);

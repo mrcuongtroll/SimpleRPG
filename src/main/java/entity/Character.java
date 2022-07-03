@@ -16,7 +16,9 @@ import world.Tile;
 import world.World;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class Character {
     public static final String DEFAULT_IMAGE_PATH = "/default/";
@@ -565,5 +567,10 @@ public abstract class Character {
             exp += amount;
         }
         updateLevel();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this.getName().equals(((Character) o).getName());
     }
 }

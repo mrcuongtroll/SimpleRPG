@@ -1,14 +1,14 @@
 package world;
 
-import entity.Enemy;
-import entity.NPC;
-import entity.Player;
+import entity.*;
+import entity.Character;
 import event.BattleEvent;
 import event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import main.SimpleRPG;
+import saveload.CharacterSave;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -26,6 +26,10 @@ public class World extends Map {
     private double dx;
     private double x;
     private double y;
+    private String bgImagePath;
+    private String overlayImagePath;
+    private String shadingImagePath;
+    private String maskPath;
     private GraphicsContext gcOverlay;
     private GraphicsContext gcShading;
     private Image overlayImage;
@@ -81,12 +85,48 @@ public class World extends Map {
     public ArrayList<NPC> getNpcList() {
         return this.npcList;
     }
+    public ArrayList<CharacterSave> getNpcSaveList() {
+        ArrayList<CharacterSave> npcList = new ArrayList<>();
+        for (Character npc: this.npcList) {
+            if (npc instanceof Ally) {
+                npcList.add(new CharacterSave(npc.getName(), "ally", (int) npc.getX(), (int) npc.getY(), npc.getLevel(),
+                        npc.getExp(), npc.getAttackSpeed(), npc.getAttackPoint(), npc.getDefensePoint(),
+                        npc.getManaPoint(), npc.getHealthPoint(), npc.getMaxHealthPoint(), npc.getMaxManaPoint(),
+                        npc.getImagePath()));
+            } else if (npc instanceof Enemy) {
+                npcList.add(new CharacterSave(npc.getName(), "enemy", (int) npc.getX(), (int) npc.getY(), npc.getLevel(),
+                        npc.getExp(), npc.getAttackSpeed(), npc.getAttackPoint(), npc.getDefensePoint(),
+                        npc.getManaPoint(), npc.getHealthPoint(), npc.getMaxHealthPoint(), npc.getMaxManaPoint(),
+                        npc.getImagePath()));
+            }
+        }
+        return npcList;
+    }
+    public void setNpcList(ArrayList<NPC> npcList) {
+        this.npcList = npcList;
+    }
     public ArrayList<Event> getEventList() {
         return this.eventList;
+    }
+    public String getBgImagePath() {
+        return bgImagePath;
+    }
+    public String getOverlayImagePath() {
+        return overlayImagePath;
+    }
+    public String getShadingImagePath() {
+        return shadingImagePath;
+    }
+    public String getMaskPath() {
+        return maskPath;
     }
 
     public World(SimpleRPG master, double playerX, double playerY, String bgImagePath, String overlayImagePath, String shadingImagePath, String maskPath) {
         super(master, playerX, playerY, bgImagePath);
+        this.bgImagePath = bgImagePath;
+        this.overlayImagePath = overlayImagePath;
+        this.shadingImagePath = shadingImagePath;
+        this.maskPath = maskPath;
         // Configure world coordinates
         if (master.getPlayer().getX() <= (double)SimpleRPG.SCREEN_WIDTH/2 - (double) Player.SPRITE_WIDTH/2) {
             this.x = 0;

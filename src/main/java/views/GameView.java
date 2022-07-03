@@ -10,6 +10,7 @@ import main.HUD;
 import main.SimpleRPG;
 import popup.PopupChoice;
 import popup.PopupRender;
+import saveload.SaveLoad;
 import world.Map;
 
 import java.util.ArrayList;
@@ -65,7 +66,10 @@ public class GameView extends View{
 
         simpleRPG.getGameLoopManager().stop();
 //        simpleRPG.setArchiveWorld(world);
-        simpleRPG.setWorld(simpleRPG.archiveWorld);
+//        simpleRPG.setWorld(simpleRPG.archiveWorld);
+        simpleRPG.setWorld(SaveLoad.loadWorld(simpleRPG));
+        simpleRPG.setPlayer(SaveLoad.loadPlayer(simpleRPG));
+        simpleRPG.getPlayer().stopMoving(simpleRPG.getPlayer().getLastDirection());
         simpleRPG.setGameLoopManager(new GameLoopManager(simpleRPG));
         this.gameLoopManager = simpleRPG.getGameLoopManager();
         CreateScreenElements();

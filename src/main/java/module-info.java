@@ -17,4 +17,6 @@ module com.example.simplerpg {
 
     exports main;
     opens main to javafx.graphics;
+    exports saveload;
+    opens saveload to javafx.graphics;
 }

@@ -2,12 +2,12 @@ package event;
 
 import entity.Character;
 import entity.Enemy;
+import saveload.SaveLoad;
 import views.BattleView;
 import world.Tile;
 import world.World;
 
 public class BattleEvent extends Event {
-
 
     public BattleEvent(World world, String triggerType) {
         super(world, triggerType);
@@ -27,6 +27,7 @@ public class BattleEvent extends Event {
 
     @Override
     public void trigger() {
+        SaveLoad.saveState(this.getGameInstance());
         new BattleView(this.getGameInstance(), (Enemy) this.getCharacter());
 //        System.out.println(this.getRect());
     }

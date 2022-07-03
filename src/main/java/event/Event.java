@@ -99,4 +99,15 @@ public abstract class Event {
     }
 
     public abstract void trigger();
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (((Event) obj).getCharacter() == null) {
+            return false;
+        }
+        return this.getCharacter().getName().equals(((Event) obj).getCharacter().getName());
+    }
 }
