@@ -210,7 +210,9 @@ public class BattleMap extends Map {
             view.cleanUpScene();
             player.getStatusEffects().clear();
             SimpleRPG.canvasBattle.getGraphicsContext2D().clearRect(0, 0, SimpleRPG.canvasBattle.getWidth(), SimpleRPG.canvasBattle.getHeight());
-            new GameView(getMaster());
+            GameView gv = new GameView(getMaster());
+            // Focus control on the game
+            gv.getMainPane().requestFocus();
             ((World) getMaster().getWorld()).removeNPC(enemy);
             return;
         } else if (player.getHealthPoint() <= 0) {
