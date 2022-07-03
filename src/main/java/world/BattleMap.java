@@ -207,13 +207,14 @@ public class BattleMap extends Map {
         }
         if (enemy.getHealthPoint() <= 0) {
 //            player.increaseExp(enemy.getAward());
+            removeNPC(enemy);
             view.cleanUpScene();
             player.getStatusEffects().clear();
             SimpleRPG.canvasBattle.getGraphicsContext2D().clearRect(0, 0, SimpleRPG.canvasBattle.getWidth(), SimpleRPG.canvasBattle.getHeight());
             GameView gv = new GameView(getMaster());
+            ((World) getMaster().getWorld()).removeNPC(enemy);
             // Focus control on the game
             gv.getMainPane().requestFocus();
-            ((World) getMaster().getWorld()).removeNPC(enemy);
             return;
         } else if (player.getHealthPoint() <= 0) {
             view.cleanUpScene();
@@ -342,6 +343,17 @@ public class BattleMap extends Map {
             }
         }
     }
+
+    private static void removeNPC(Enemy enemy) {
+        if (enemy.getName().equals("Enemy 1")) {
+            WorldOutside.enemy1Defeated = true;
+        } else if (enemy.getName().equals("Enemy 2")) {
+            WorldOutside.enemy2Defeated = true;
+        } else if (enemy.getName().equals("Enemy 3")) {
+            WorldOutside.enemy3Defeated = true;
+        }
+    }
+
     @Override
     public void render() {
         this.tick();
