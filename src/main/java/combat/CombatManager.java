@@ -59,10 +59,12 @@ public class CombatManager {
     }
     public void removePlayerMember(Character character) {
         this.playerTeam.remove(character);
+        while(turnQueue.remove(character)) {}
         System.out.println(character.getName() + " is dead");
     }
     public void removeEnemyMember(Character character) {
         this.enemyTeam.remove(character);
+        while(turnQueue.remove(character)) {}
         System.out.println(character.getName() + " is dead");
     }
     public ArrayList<Character> getPlayerTeam() {

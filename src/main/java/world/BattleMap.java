@@ -202,10 +202,10 @@ public class BattleMap extends Map {
         }
         for (int i = 0; i < playerTeam.size(); i++) {
             if (playerTeam.get(i).getHealthPoint() <= 0) {
-                combatManager.removeEnemyMember(playerTeam.get(i));
+                combatManager.removePlayerMember(playerTeam.get(i));
             }
         }
-        if (enemy.getHealthPoint() <= 0) {
+        if (combatManager.getEnemyTeam().size() == 0) {
 //            player.increaseExp(enemy.getAward());
             removeNPC(enemy);
             view.cleanUpScene();
