@@ -41,7 +41,7 @@ public class StartTutorialEvent extends Event {
         choice1.setEvent(new Event(this.getWorld(), Event.TRIGGER_TYPE_INTERACT) {
             public void trigger() {
                 System.out.println("I understood");
-                WorldHome.tutorialViewed = false;
+                WorldHome.tutorialViewed = true;
             }
         });
         Choice choice2 = new Choice("Let me review the tutorial");
@@ -52,7 +52,7 @@ public class StartTutorialEvent extends Event {
         choice3.setEvent(new Event(this.getWorld(), Event.TRIGGER_TYPE_INTERACT) {
             public void trigger() {
                 System.out.println("Let's go... I guess?");
-                WorldHome.tutorialViewed = false;
+                WorldHome.tutorialViewed = true;
             }
         });
         ChoicesList choices = new ChoicesList();

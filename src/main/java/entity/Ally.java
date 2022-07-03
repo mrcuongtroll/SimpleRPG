@@ -23,6 +23,12 @@ public class Ally extends NPC{
         this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark()});
     }
 
+    public Ally(World worldMaster, SimpleRPG master, int x, int y, int xDisplay, int yDisplay, String name, String imagePath,
+                 int level, int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint) {
+        super(worldMaster, master, x, y, xDisplay, yDisplay, name, imagePath, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, false, NPC.MODE_WANDER, "right");
+        this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark()});
+    }
+
     public void randomAttack(Player player){
         List<Action> possibleActions = actionList.stream().filter(action -> action.getCost() < this.getManaPoint()).collect(Collectors.toList()); ;
         int randomNum = ThreadLocalRandom.current().nextInt(0, possibleActions.size());

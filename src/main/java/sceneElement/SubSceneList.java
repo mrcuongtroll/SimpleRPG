@@ -20,7 +20,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import main.SaveLoad;
+import saveload.SaveLoad;
 import main.SimpleRPG;
 import views.BattleView;
 import views.GameView;
@@ -214,7 +214,7 @@ public class SubSceneList {
             System.out.println("Success save...");
         });
         btnLoad.setOnAction(event ->  {
-            SaveLoad.loadState(simpleRPG);
+            simpleRPG.setPlayer(SaveLoad.loadPlayer(simpleRPG));
             System.out.println("Success load...");
         });
         openSetting.addButton(btnGoHome, 100, 100);

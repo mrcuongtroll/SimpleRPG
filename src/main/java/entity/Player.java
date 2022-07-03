@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player extends Character implements Serializable {
+public class Player extends Character {
     public static final int SPRITE_HEIGHT = 48;
     public static final int SPRITE_WIDTH = 48;
     public static final int MOVEMENT_SPEED = 3;
@@ -87,6 +87,7 @@ public class Player extends Character implements Serializable {
         this.defaultFrame(Character.DOWN);
         this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark()});
     }
+
     public void equip(Weapon weapon) {
         super.setAttackSpeed(super.getAttackSpeed() - this.weapon.getAttackSpeed());
         super.setAttackPoint(super.getAttackPoint() - this.weapon.getAttackPoint());
