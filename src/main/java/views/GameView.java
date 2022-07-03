@@ -33,6 +33,10 @@ public class GameView extends View{
     private HUD mainHUD;
     private Map world;
 
+    public AnchorPane getMainPane() {
+        return this.mainPane;
+    }
+
     public GameView(SimpleRPG simpleRPG){
         super(simpleRPG);
         clearPane();

@@ -8,6 +8,7 @@ import entity.Character;
 import entity.NPC;
 import world.Tile;
 import world.World;
+import world.WorldOutside;
 
 public class FirstAllyRecruitEvent extends Event {
     public FirstAllyRecruitEvent(World world) {
@@ -54,6 +55,7 @@ public class FirstAllyRecruitEvent extends Event {
                 FirstAllyRecruitEvent.this.getGameInstance().getPlayer().getAllyList().add(FirstAllyRecruitEvent.this.getCharacter());
                 FirstAllyRecruitEvent.this.getWorld().getNpcList().remove((NPC)FirstAllyRecruitEvent.this.getCharacter());
                 FirstAllyRecruitEvent.this.getWorld().getEventList().remove(FirstAllyRecruitEvent.this.getCharacter().getEvent());
+                WorldOutside.ally1Recruited = true;
             }
         });
         // Set up dialogue sequence
