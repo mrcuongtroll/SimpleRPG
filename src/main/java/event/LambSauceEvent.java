@@ -25,6 +25,7 @@ public class LambSauceEvent extends Event {
 
     @Override
     public void trigger() {
+        this.getGameInstance().getPlayer().stopMoving(this.getGameInstance().getPlayer().getLastDirection());
         Dialogue d1 = new Dialogue("Inside these bottles is lamb sauce!");
         Dialogue d2 = new Dialogue("(Why is there lamb sauce here?)",
                 this.getGameInstance().getPlayer());

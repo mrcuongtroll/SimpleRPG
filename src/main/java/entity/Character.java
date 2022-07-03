@@ -180,6 +180,9 @@ public abstract class Character {
         return this.rect;
     }
     public Tile getTile() {return this.tile;}
+    public boolean isSolid() {
+        return this.isSolid;
+    }
     public double getLastX() {
         return this.lastRelativeX;
     }
@@ -372,13 +375,12 @@ public abstract class Character {
         this.defensePoint = defensePoint;
         this.healthPoint = healthPoint;
         this.manaPoint = manaPoint;
-
         this.maxHealthPoint = maxHealthPoint;
         this.maxManaPoint = maxManaPoint;
 
         this.isSolid = isSolid;
         this.rect = new java.awt.Rectangle((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), 2*Tile.TILE_SIZE, Tile.TILE_SIZE);
-        this.tile = new Tile(this.rect, isSolid);
+        this.tile = new Tile(this.rect, this.isSolid);
         if (this.getMaster().getWorld() instanceof World) {
             ((World)master.getWorld()).getTileList().add(this.tile);
         }
@@ -444,8 +446,7 @@ public abstract class Character {
             this.yDisplay += dy;
         }
         this.rect.setBounds((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), (int)this.rect.getWidth(), (int)this.rect.getHeight());
-        // TODO: Refine relative position for checking collision and stuff
-        // TODO: Idea: split the coordinates into logical and display coordinates
+//        this.tile.setBounds((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), (int)this.rect.getWidth(), (int)this.rect.getHeight());
         // Handle frame changing
         if (this.getDy() == 0) {
             if (this.getDx() > 0) {

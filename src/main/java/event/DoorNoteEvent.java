@@ -32,6 +32,7 @@ public class DoorNoteEvent extends Event {
 
     @Override
     public void trigger() {
+        this.getGameInstance().getPlayer().stopMoving(this.getGameInstance().getPlayer().getLastDirection());
         // Set up dialogue
         if (WorldHome.keyObtained) {
             // If you have the key

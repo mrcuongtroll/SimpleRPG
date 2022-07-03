@@ -79,16 +79,13 @@ public class Player extends Character {
 
     public Player(SimpleRPG master, int x, int y, String name, String imagePath, int level,
                   int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, Weapon weapon, Armor armor) {
-        super(master, x, y, name, imagePath, 32, 80, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, weapon, armor, "left");
+        super(master, x, y, name, imagePath, 32, 80, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, weapon, armor,"left");
         this.weapon = weapon;
         this.armor = armor;
         this.stamina = MAX_STAMINA;
         this.setMovementSpeed(Player.MOVEMENT_SPEED);
         this.defaultFrame(Character.DOWN);
         this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark()});
-        this.getAllyList().add(new Ally((World) master.getWorld(), master, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Ally 1",
-                (new File("./assets/test/ally1")).getAbsolutePath(),
-                1, 5, 15, 0, 100, 100, 100, 100));
     }
 
     public void equip(Weapon weapon) {

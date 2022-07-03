@@ -25,6 +25,7 @@ public class HomeNoteEvent extends Event {
 
     @Override
     public void trigger() {
+        this.getGameInstance().getPlayer().stopMoving(this.getGameInstance().getPlayer().getLastDirection());
         Dialogue d1 = new Dialogue("The note says: \"You can go outside through the door in the left side of this room\".");
         this.getGameInstance().getDialogueRender().setDialogue(d1);
     }

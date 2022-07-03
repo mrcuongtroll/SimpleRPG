@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -76,8 +77,10 @@ public class GameSubScene extends AnchorPane {
         getChildren().add(grid);
     }
 
-    protected void addText(String text, Color color, int size, int width, int height, int x, int y){
+    public void addText(String text, Color color, int size, int width, int height, int x, int y){
         Label label = new Label(text);
+        label.setWrapText(true);
+        label.setTextAlignment(TextAlignment.JUSTIFY);
         label.setFont(Font.loadFont("file:src/main/resources/arcade.ttf", size));
         label.setPrefHeight(height);
         label.setPrefWidth(width);
