@@ -28,26 +28,16 @@ public class WorldSave implements Serializable {
     private String overlayImagePath;
     private String shadingImagePath;
     private String maskPath;
-    private ArrayList<CharacterSave> npcList;
-
     private boolean tutorialViewed = true;
     private boolean doorUnlocked = false;
     private boolean keyObtained = false;
-    public WorldSave(double dy, double dx, double x, double y, String worldType, ArrayList<CharacterSave> npcList,
-                     String bgImagePath, String overlayImagePath, String shadingImagePath, String maskPath) {
-        this.dy = dy;
-        this.dx = dx;
-        this.x = x;
-        this.y = y;
-        this.worldType = worldType;
-        this.npcList = npcList;
-        this.bgImagePath = bgImagePath;
-        this.overlayImagePath = overlayImagePath;
-        this.shadingImagePath = shadingImagePath;
-        this.maskPath = maskPath;
-    }
 
-    public WorldSave(double dy, double dx, double x, double y, String worldType, String bgImagePath, String overlayImagePath, String shadingImagePath, String maskPath, ArrayList<CharacterSave> npcList, boolean tutorialViewed, boolean doorUnlocked, boolean keyObtained) {
+    private boolean ally1Recruited;
+    private boolean enemy1Defeated;
+    private boolean enemy2Defeated;
+    private boolean enemy3Defeated;
+
+    public WorldSave(double dy, double dx, double x, double y, String worldType, String bgImagePath, String overlayImagePath, String shadingImagePath, String maskPath, boolean tutorialViewed, boolean doorUnlocked, boolean keyObtained, boolean ally1Recruited, boolean enemy1Defeated, boolean enemy2Defeated, boolean enemy3Defeated) {
         this.dy = dy;
         this.dx = dx;
         this.x = x;
@@ -57,10 +47,13 @@ public class WorldSave implements Serializable {
         this.overlayImagePath = overlayImagePath;
         this.shadingImagePath = shadingImagePath;
         this.maskPath = maskPath;
-        this.npcList = npcList;
         this.tutorialViewed = tutorialViewed;
         this.doorUnlocked = doorUnlocked;
         this.keyObtained = keyObtained;
+        this.ally1Recruited = ally1Recruited;
+        this.enemy1Defeated = enemy1Defeated;
+        this.enemy2Defeated = enemy2Defeated;
+        this.enemy3Defeated = enemy3Defeated;
     }
 
     public boolean isTutorialViewed() {
@@ -73,6 +66,22 @@ public class WorldSave implements Serializable {
 
     public boolean isKeyObtained() {
         return keyObtained;
+    }
+
+    public boolean isAlly1Recruited() {
+        return ally1Recruited;
+    }
+
+    public boolean isEnemy1Defeated() {
+        return enemy1Defeated;
+    }
+
+    public boolean isEnemy2Defeated() {
+        return enemy2Defeated;
+    }
+
+    public boolean isEnemy3Defeated() {
+        return enemy3Defeated;
     }
 
     public double getDy() {
@@ -89,9 +98,6 @@ public class WorldSave implements Serializable {
     }
     public String getWorldType() {
         return worldType;
-    }
-    public ArrayList<CharacterSave> getNpcList() {
-        return npcList;
     }
     public String getBgImagePath() {
         return bgImagePath;

@@ -234,7 +234,7 @@ public class SubSceneList {
         GameButton btnItems = new GameButton("Inventory", 100, 50);
 
         btnSurrender.setOnAction(event -> {view.cleanUpScene();
-            new GameView(simpleRPG);
+            new GameView(simpleRPG, false);
         });
 
         btnFight.setOnAction(event -> {

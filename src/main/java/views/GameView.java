@@ -37,7 +37,7 @@ public class GameView extends View{
         return this.mainPane;
     }
 
-    public GameView(SimpleRPG simpleRPG){
+    public GameView(SimpleRPG simpleRPG, boolean loadAfterBattle){
         super(simpleRPG);
         clearPane();
 
@@ -71,8 +71,13 @@ public class GameView extends View{
         simpleRPG.getGameLoopManager().stop();
 //        simpleRPG.setArchiveWorld(world);
 //        simpleRPG.setWorld(simpleRPG.archiveWorld);
-        simpleRPG.setWorld(SaveLoad.loadWorld(simpleRPG));
-        simpleRPG.setPlayer(SaveLoad.loadPlayer(simpleRPG));
+        if (loadAfterBattle) {
+            simpleRPG.setWorld(SaveLoad.loadWorldAfterBattle(simpleRPG));
+            simpleRPG.setPlayer(SaveLoad.loadPlayerAfterBattle(simpleRPG));
+        } else {
+            simpleRPG.setWorld(SaveLoad.loadWorld(simpleRPG));
+            simpleRPG.setPlayer(SaveLoad.loadPlayer(simpleRPG));
+        }
         simpleRPG.getPlayer().stopMoving(simpleRPG.getPlayer().getLastDirection());
         simpleRPG.setGameLoopManager(new GameLoopManager(simpleRPG));
         this.gameLoopManager = simpleRPG.getGameLoopManager();
