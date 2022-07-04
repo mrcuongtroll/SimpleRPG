@@ -244,13 +244,15 @@ public class BattleMap extends Map {
                 }
             }
             if (!anyStatusEffect){
-                System.out.println(currentTurnChar.getName() + " turn");
-                if (currentTurnChar.getBattleSide().equals("left")) {
-                    view.cleanUpScene();
-                    view.showSubScene(SubSceneList.openBattleOption);
-                } else if (currentTurnChar.getBattleSide().equals("right")) {
-                    view.cleanUpScene();
-                    ((Enemy) currentTurnChar).randomAttack(playerTeam,enemyTeam);
+                if (currentTurnChar.getHealthPoint() > 0) {
+                    System.out.println(currentTurnChar.getName() + " turn");
+                    if (currentTurnChar.getBattleSide().equals("left")) {
+                        view.cleanUpScene();
+                        view.showSubScene(SubSceneList.openBattleOption);
+                    } else if (currentTurnChar.getBattleSide().equals("right")) {
+                        view.cleanUpScene();
+                        ((Enemy) currentTurnChar).randomAttack(playerTeam,enemyTeam);
+                    }
                 }
             }
             else  {
