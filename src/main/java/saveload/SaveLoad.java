@@ -232,16 +232,8 @@ public class SaveLoad {
             WorldOutside.enemy3Defeated = loadedWorld.isEnemy3Defeated();
             if (loadedWorld.getWorldType().equals("home")) {
                 world = new WorldHome(master, master.getPlayer().getX(), master.getPlayer().getY());
-                world.setDx(loadedWorld.getDx());
-                world.setDy(loadedWorld.getDy());
-                world.setX(loadedWorld.getX());
-                world.setY(loadedWorld.getY());
             } else if (loadedWorld.getWorldType().equals("outside")){
                 world = new WorldOutside(master, master.getPlayer().getX(), master.getPlayer().getY());
-                world.setDx(loadedWorld.getDx());
-                world.setDy(loadedWorld.getDy());
-                world.setX(loadedWorld.getX());
-                world.setY(loadedWorld.getY());
             }
 
             return world;
