@@ -72,11 +72,11 @@ public class GameView extends View{
 //        simpleRPG.setArchiveWorld(world);
 //        simpleRPG.setWorld(simpleRPG.archiveWorld);
         if (loadAfterBattle) {
-            simpleRPG.setWorld(SaveLoad.loadWorldAfterBattle(simpleRPG));
             simpleRPG.setPlayer(SaveLoad.loadPlayerAfterBattle(simpleRPG));
+            simpleRPG.setWorld(SaveLoad.loadWorldAfterBattle(simpleRPG));
         } else {
-            simpleRPG.setWorld(SaveLoad.loadWorld(simpleRPG));
             simpleRPG.setPlayer(SaveLoad.loadPlayer(simpleRPG));
+            simpleRPG.setWorld(SaveLoad.loadWorld(simpleRPG));
         }
         simpleRPG.getPlayer().stopMoving(simpleRPG.getPlayer().getLastDirection());
         simpleRPG.setGameLoopManager(new GameLoopManager(simpleRPG));
