@@ -3,10 +3,7 @@ package world;
 import entity.Ally;
 import entity.Enemy;
 import entity.NPC;
-import event.BattleEvent;
-import event.Event;
-import event.FirstAllyRecruitEvent;
-import event.OutsideToHomeEvent;
+import event.*;
 import main.SimpleRPG;
 
 import java.io.File;
@@ -15,6 +12,7 @@ import java.util.ArrayList;
 public class WorldOutside extends World {
 
     public static boolean ally1Recruited = false;
+    public static boolean ally2Recruited = false;
     public static boolean enemy1Defeated = false;
     public static boolean enemy2Defeated = false;
     public static boolean enemy3Defeated = false;
@@ -29,7 +27,9 @@ public class WorldOutside extends World {
         // ***Events***
         // Entrance event to Home
         this.getEventList().add(new OutsideToHomeEvent(this, 620, 800));
-
+        for (int i = 314; i <= 494; i += Tile.TILE_SIZE) {
+            this.getEventList().add(new OutsideToOutside2Event(this, i, 1426));
+        }
         //Initialize NPC if cant load save file
         initiateNPCList();
     }
@@ -54,11 +54,23 @@ public class WorldOutside extends World {
             if (!ally1Recruited) {
                 Ally ally1 = new Ally(this, this.getMaster(), 353, 406, 353 + (int) this.getX(), 406 + (int) this.getY(), "Ally 1",
                         (new File("./assets/test/ally1")).getAbsolutePath(),
-                        1, 5, 15, 0, 100, 100, 100, 100, NPC.MODE_IDLE);
+                        1, 5, 35, 15, 100, 100, 100, 100, NPC.MODE_IDLE);
                 Event allyEvent1 = new FirstAllyRecruitEvent(this, ally1);
                 ally1.setEvent(allyEvent1);
                 this.getNpcList().add(ally1);
                 this.getEventList().add(allyEvent1);
+            }
+            if (!ally2Recruited && enemy1Defeated && enemy2Defeated && enemy3Defeated && ally1Recruited) {
+                Ally ally2 = new Ally(this, this.getMaster(), (int)(this.getMaster().getPlayer().getX() + 50),
+                        (int)(this.getMaster().getPlayer().getY() - 50),
+                        (int)(this.getMaster().getPlayer().getX() + 50) + (int) this.getX(),
+                        (int)(this.getMaster().getPlayer().getY() - 50) + (int) this.getY(), "Ally 2",
+                        (new File("./assets/test/ally2")).getAbsolutePath(),
+                        1, 5, 40, 20, 100, 100, 100, 100, NPC.MODE_CHASE);
+                Event allyEvent2 = new SecondAllyRecruitEvent(this, ally2);
+                ally2.setEvent(allyEvent2);
+                this.getNpcList().add(ally2);
+                this.getEventList().add(allyEvent2);
             }
         }
         for (NPC npc: this.getNpcList()) {
