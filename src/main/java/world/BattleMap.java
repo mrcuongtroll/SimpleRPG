@@ -244,14 +244,15 @@ public class BattleMap extends Map {
                 }
             }
             if (!anyStatusEffect){
-                if (currentTurnChar.getHealthPoint() > 0) {
-                    System.out.println(currentTurnChar.getName() + " turn");
-                    if (currentTurnChar.getBattleSide().equals("left")) {
-                        view.cleanUpScene();
-                        view.showSubScene(SubSceneList.openBattleOption);
-                    } else if (currentTurnChar.getBattleSide().equals("right")) {
-                        view.cleanUpScene();
-                        ((Enemy) currentTurnChar).randomAttack(playerTeam,enemyTeam);
+                if (BattleMap.currentTurnChar.getHealthPoint() > 0) {
+                    if (!BattleMap.currentTurnChar.getName().equals("Enemy")) {
+                        if (BattleMap.currentTurnChar.getBattleSide().equals("left")) {
+                            view.cleanUpScene();
+                            view.showSubScene(SubSceneList.openBattleOption);
+                        } else if (BattleMap.currentTurnChar.getBattleSide().equals("right")) {
+                            view.cleanUpScene();
+                            ((Enemy) BattleMap.currentTurnChar).randomAttack(playerTeam,enemyTeam);
+                        }
                     }
                 }
             }
@@ -349,7 +350,6 @@ public class BattleMap extends Map {
     private static void removeNPC(Enemy enemy) {
         if (enemy.getName().equals("Enemy 1")) {
             WorldOutside.enemy1Defeated = true;
-            System.out.println("Enemy 1 dead? " + WorldOutside.enemy1Defeated);
         } else if (enemy.getName().equals("Enemy 2")) {
             WorldOutside.enemy2Defeated = true;
         } else if (enemy.getName().equals("Enemy 3")) {

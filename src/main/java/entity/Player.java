@@ -5,6 +5,7 @@ import entity.item.equiment.Armor;
 import entity.item.equiment.Weapon;
 import event.Event;
 import main.SimpleRPG;
+import world.BattleMap;
 import world.Tile;
 import world.World;
 
@@ -129,29 +130,31 @@ public class Player extends Character {
 //        int xPos = Player.X;
 //        int yPos = Player.Y;
         // Now check if the map scrolls or not
-        World world = ((World) this.getMaster().getWorld());
-        // Check x-axis:
-        if (this.getRelativeX() <= (double)SimpleRPG.SCREEN_WIDTH/2 - (double)SPRITE_WIDTH/2) {
+        if (!(this.getMaster().getWorld() instanceof BattleMap)) {
+            World world = ((World) this.getMaster().getWorld());
+            // Check x-axis:
+            if (this.getRelativeX() <= (double)SimpleRPG.SCREEN_WIDTH/2 - (double)SPRITE_WIDTH/2) {
 //            xPos = (int) this.getRelativeX();
-            this.setXDisplay(this.getRelativeX());
-        } else if (this.getRelativeX() >= world.getBg().getWidth() - (double)SimpleRPG.SCREEN_WIDTH/2 - (double)SPRITE_WIDTH/2) {
+                this.setXDisplay(this.getRelativeX());
+            } else if (this.getRelativeX() >= world.getBg().getWidth() - (double)SimpleRPG.SCREEN_WIDTH/2 - (double)SPRITE_WIDTH/2) {
 //            xPos = (int) this.getRelativeX() - (int) (world.getBg().getWidth() - SimpleRPG.SCREEN_WIDTH);
-            this.setXDisplay(this.getRelativeX() - world.getBg().getWidth() + SimpleRPG.SCREEN_WIDTH);
-        } else {
-            this.setXDisplay(Player.X);
-        }
-        // Check y-axis:
-        if (this.getRelativeY() <= (double)SimpleRPG.SCREEN_HEIGHT/2 - (double)SPRITE_HEIGHT/2) {
+                this.setXDisplay(this.getRelativeX() - world.getBg().getWidth() + SimpleRPG.SCREEN_WIDTH);
+            } else {
+                this.setXDisplay(Player.X);
+            }
+            // Check y-axis:
+            if (this.getRelativeY() <= (double)SimpleRPG.SCREEN_HEIGHT/2 - (double)SPRITE_HEIGHT/2) {
 //            yPos = (int) this.getRelativeY();
-            this.setYDisplay(this.getRelativeY());
-        } else if (this.getRelativeY() >= world.getBg().getHeight() - (double)SimpleRPG.SCREEN_HEIGHT/2 - (double)SPRITE_HEIGHT/2) {
+                this.setYDisplay(this.getRelativeY());
+            } else if (this.getRelativeY() >= world.getBg().getHeight() - (double)SimpleRPG.SCREEN_HEIGHT/2 - (double)SPRITE_HEIGHT/2) {
 //            yPos = (int) this.getRelativeY() - (int) (world.getBg().getHeight() - SimpleRPG.SCREEN_HEIGHT);
-            this.setYDisplay(this.getRelativeY() - world.getBg().getHeight() + SimpleRPG.SCREEN_HEIGHT);
-        } else {
-            this.setYDisplay(Player.Y);
-        }
+                this.setYDisplay(this.getRelativeY() - world.getBg().getHeight() + SimpleRPG.SCREEN_HEIGHT);
+            } else {
+                this.setYDisplay(Player.Y);
+            }
 //        this.getGraphicContext().drawImage(this.getImage(), xPos, yPos);
 //        System.out.println("X = " + this.getX() + "; Y = " + this.getY());
+        }
     }
 
     @Override
