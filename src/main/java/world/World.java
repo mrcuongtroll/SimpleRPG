@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class World extends Map {
+public abstract class World extends Map {
     public static final String DOWN = "DOWN";
     public static final String UP = "UP";
     public static final String LEFT = "LEFT";
@@ -235,6 +235,8 @@ public class World extends Map {
             npc.render();
         }
     }
+
+    public abstract void initiateNPCList();
 
 //    public void moveNPC(String direction) {
 //        switch (direction) {
