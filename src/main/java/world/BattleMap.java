@@ -354,6 +354,10 @@ public class BattleMap extends Map {
             WorldOutside.enemy2Defeated = true;
         } else if (enemy.getName().equals("Enemy 3")) {
             WorldOutside.enemy3Defeated = true;
+        } else if (enemy.getName().equals("Boss 1")) {
+            WorldOutside2.boss1Defeated = true;
+        } else if (enemy.getName().equals("Boss 2")) {
+            WorldOutside2.boss2Defeated = true;
         }
     }
 

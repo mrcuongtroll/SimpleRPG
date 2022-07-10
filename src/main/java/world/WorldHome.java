@@ -40,4 +40,9 @@ public class WorldHome extends World {
     public WorldHome(SimpleRPG master) {
         this(master, 240, 300);
     }
+
+    @Override
+    public void initiateNPCList() {
+
+    }
 }

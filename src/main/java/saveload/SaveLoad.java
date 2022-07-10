@@ -189,8 +189,8 @@ public class SaveLoad {
                             0, 0, 5,0,0,
                             "example_armor.png"));
             for (CharacterSave characterSave: loadedPlayer.getAllyList()) {
-                player.getAllyList().add(new Ally((World) master.getWorld(), master, (int) characterSave.getX(), (int) characterSave.getY(),
-                        (int) (characterSave.getX() + ((World) master.getWorld()).getX()), (int) (characterSave.getY() + ((World) master.getWorld()).getY()),
+                player.getAllyList().add(new Ally(master, (int) characterSave.getX(), (int) characterSave.getY(),
+                        (int) (characterSave.getX() + 0), (int) (characterSave.getY() + 0),
                         characterSave.getName(), characterSave.getImagePath(), characterSave.getLevel(), characterSave.getAttackSpeed(),
                         characterSave.getAttackPoint(), characterSave.getDefensePoint(), characterSave.getHealthPoint(),
                         characterSave.getManaPoint(), characterSave.getMaxHealthPoint(), characterSave.getMaxManaPoint()
@@ -199,18 +199,19 @@ public class SaveLoad {
 //            new GameView(master);
             return player;
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
+            return new Player(master, 570, 230, "Player",
+                    (new File("./assets/test/player")).getAbsolutePath(), 1, 6,
+                    25, 10, 80, 100, 100, 100,
+                    new Weapon("Wooden sword",
+                            0, 25,0,0,0,
+                            "example_armor.png"),
+                    new Armor("Wooden armor",
+                            0, 0, 5,0,0,
+                            "example_armor.png"));
         }
         //return default if cant find save file
-        return new Player(master, 570, 230, "Player",
-                (new File("./assets/test/player")).getAbsolutePath(), 1, 6,
-                25, 10, 80, 100, 100, 100,
-                new Weapon("Wooden sword",
-                        0, 25,0,0,0,
-                        "example_armor.png"),
-                new Armor("Wooden armor",
-                        0, 0, 5,0,0,
-                        "example_armor.png"));
+
     }
 
     public static World loadWorld(SimpleRPG master) {
