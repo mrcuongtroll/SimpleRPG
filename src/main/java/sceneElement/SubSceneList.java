@@ -215,6 +215,7 @@ public class SubSceneList {
         });
         btnLoad.setOnAction(event ->  {
             simpleRPG.setPlayer(SaveLoad.loadPlayer(simpleRPG));
+            simpleRPG.setWorld(SaveLoad.loadWorld(simpleRPG));
             System.out.println("Success load...");
         });
         openSetting.addButton(btnGoHome, 100, 100);

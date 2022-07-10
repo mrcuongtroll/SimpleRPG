@@ -28,16 +28,22 @@ public class WorldSave implements Serializable {
     private String overlayImagePath;
     private String shadingImagePath;
     private String maskPath;
-    private boolean tutorialViewed = true;
-    private boolean doorUnlocked = false;
-    private boolean keyObtained = false;
-
+    private boolean tutorialViewed;
+    private boolean doorUnlocked;
+    private boolean keyObtained;
     private boolean ally1Recruited;
     private boolean enemy1Defeated;
     private boolean enemy2Defeated;
     private boolean enemy3Defeated;
+    private boolean boss1Defeated;
+    private boolean boss2Defeated;
 
-    public WorldSave(double dy, double dx, double x, double y, String worldType, String bgImagePath, String overlayImagePath, String shadingImagePath, String maskPath, boolean tutorialViewed, boolean doorUnlocked, boolean keyObtained, boolean ally1Recruited, boolean enemy1Defeated, boolean enemy2Defeated, boolean enemy3Defeated) {
+
+    public WorldSave(double dy, double dx, double x, double y,
+                     String worldType, String bgImagePath, String overlayImagePath, String shadingImagePath, String maskPath,
+                     boolean tutorialViewed, boolean doorUnlocked, boolean keyObtained,
+                     boolean ally1Recruited, boolean enemy1Defeated, boolean enemy2Defeated, boolean enemy3Defeated,
+                     boolean boss1Defeated, boolean boss2Defeated) {
         this.dy = dy;
         this.dx = dx;
         this.x = x;
@@ -54,6 +60,8 @@ public class WorldSave implements Serializable {
         this.enemy1Defeated = enemy1Defeated;
         this.enemy2Defeated = enemy2Defeated;
         this.enemy3Defeated = enemy3Defeated;
+        this.boss1Defeated = boss1Defeated;
+        this.boss2Defeated = boss2Defeated;
     }
 
     public boolean isTutorialViewed() {
@@ -82,6 +90,14 @@ public class WorldSave implements Serializable {
 
     public boolean isEnemy3Defeated() {
         return enemy3Defeated;
+    }
+
+    public boolean isBoss1Defeated() {
+        return boss1Defeated;
+    }
+
+    public boolean isBoss2Defeated() {
+        return boss2Defeated;
     }
 
     public double getDy() {

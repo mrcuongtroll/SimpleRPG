@@ -44,7 +44,12 @@ public class StartScreenView extends View{
                     (new File("./assets/test/boss2")).getAbsolutePath(),
                     1, 5, 20, 0, 100, 100, 100, 100));
         });
-        createSubSceneButton("Load", openSetting,MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 200);
+
+        GameButton loadGameButton = createBlankButton("Load Game",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 200);
+        loadGameButton.setOnAction(event -> {
+            cleanUpScene();
+            new GameView(simpleRPG, false);
+        });
         createSubSceneButton("Credit", openCredit,MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 300);
         GameButton exitButton = createBlankButton("Exit",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 400);
         exitButton.setOnAction(event -> simpleRPG.mainStage.close());
