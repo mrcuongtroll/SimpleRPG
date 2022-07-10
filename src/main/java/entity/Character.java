@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.shape.Rectangle;
 import main.SimpleRPG;
+import world.BattleMap;
 import world.Tile;
 import world.World;
 
@@ -411,20 +412,11 @@ public abstract class Character {
     protected void tick() {
         boolean canMoveH = true;
         boolean canMoveV = true;
-        World world = (World) this.master.getWorld();
-        for (Tile tile: world.getTileList()) {
-            if (!(this.tile == tile)) {
-                if (this.tile.isSolid()) {
-                    if (tile.isSolid()) {
-                        if (tile.getRect().intersects(this.x + dx, y + this.image.getHeight() - Tile.TILE_SIZE, this.rect.getWidth(), this.rect.getHeight())) {
-                            canMoveH = false;
-                        }
-                        if (tile.getRect().intersects(this.x, y + this.image.getHeight() - Tile.TILE_SIZE + dy, this.rect.getWidth(), this.rect.getHeight())) {
-                            canMoveV = false;
-                        }
-                    }
-                } else {
-                    if (!(tile == this.getMaster().getPlayer().getTile())) {
+        if (!(this.master.getWorld() instanceof BattleMap)) {
+            World world = (World) this.master.getWorld();
+            for (Tile tile: world.getTileList()) {
+                if (!(this.tile == tile)) {
+                    if (this.tile.isSolid()) {
                         if (tile.isSolid()) {
                             if (tile.getRect().intersects(this.x + dx, y + this.image.getHeight() - Tile.TILE_SIZE, this.rect.getWidth(), this.rect.getHeight())) {
                                 canMoveH = false;
@@ -433,38 +425,49 @@ public abstract class Character {
                                 canMoveV = false;
                             }
                         }
+                    } else {
+                        if (!(tile == this.getMaster().getPlayer().getTile())) {
+                            if (tile.isSolid()) {
+                                if (tile.getRect().intersects(this.x + dx, y + this.image.getHeight() - Tile.TILE_SIZE, this.rect.getWidth(), this.rect.getHeight())) {
+                                    canMoveH = false;
+                                }
+                                if (tile.getRect().intersects(this.x, y + this.image.getHeight() - Tile.TILE_SIZE + dy, this.rect.getWidth(), this.rect.getHeight())) {
+                                    canMoveV = false;
+                                }
+                            }
+                        }
                     }
                 }
             }
-        }
-        if (canMoveH) {
-            this.x += this.dx;
-            this.xDisplay += this.dx;
-        }
-        if (canMoveV) {
-            this.y += this.dy;
-            this.yDisplay += dy;
-        }
-        this.rect.setBounds((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), (int)this.rect.getWidth(), (int)this.rect.getHeight());
+            if (canMoveH) {
+                this.x += this.dx;
+                this.xDisplay += this.dx;
+            }
+            if (canMoveV) {
+                this.y += this.dy;
+                this.yDisplay += dy;
+            }
+            this.rect.setBounds((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), (int)this.rect.getWidth(), (int)this.rect.getHeight());
 //        this.tile.setBounds((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), (int)this.rect.getWidth(), (int)this.rect.getHeight());
-        // Handle frame changing
-        if (this.getDy() == 0) {
-            if (this.getDx() > 0) {
-                this.changeFrame(Character.RIGHT);
-            } else if (this.getDx() < 0) {
-                this.changeFrame(Character.LEFT);
-            }
-        } else if (this.getDx() == 0) {
-            if (this.getDy() > 0) {
-                this.changeFrame(Character.DOWN);
-            } else if (this.getDy() < 0) {
-                this.changeFrame(Character.UP);
-            }
-        } else if (this.getDx() != 0 && this.getDy() != 0) {
-            if (this.getDx() > 0) {
-                this.changeFrame(Character.RIGHT);
-            } else if (this.getDx() < 0) {
-                this.changeFrame(Character.LEFT);
+            // Handle frame changing
+            if (this.getDy() == 0) {
+                if (this.getDx() > 0) {
+                    this.changeFrame(Character.RIGHT);
+                } else if (this.getDx() < 0) {
+                    this.changeFrame(Character.LEFT);
+                }
+            } else if (this.getDx() == 0) {
+                if (this.getDy() > 0) {
+                    this.changeFrame(Character.DOWN);
+                } else if (this.getDy() < 0) {
+                    this.changeFrame(Character.UP);
+                }
+            } else if (this.getDx() != 0 && this.getDy() != 0) {
+                if (this.getDx() > 0) {
+                    this.changeFrame(Character.RIGHT);
+                } else if (this.getDx() < 0) {
+                    this.changeFrame(Character.LEFT);
+                }
             }
         }
     }
