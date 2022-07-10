@@ -9,6 +9,7 @@ import views.GameView;
 import world.World;
 import world.WorldHome;
 import world.WorldOutside;
+import world.WorldOutside2;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -44,14 +45,24 @@ public class SaveLoad {
                     worldHome.getBgImagePath(), worldHome.getOverlayImagePath(),
                     worldHome.getShadingImagePath(), worldHome.getMaskPath(),
                     WorldHome.tutorialViewed, WorldHome.doorUnlocked, WorldHome.keyObtained,
-                    WorldOutside.ally1Recruited, WorldOutside.enemy1Defeated, WorldOutside.enemy2Defeated, WorldOutside.enemy3Defeated);
+                    WorldOutside.ally1Recruited, WorldOutside.enemy1Defeated, WorldOutside.enemy2Defeated, WorldOutside.enemy3Defeated,
+                    WorldOutside2.boss1Defeated, WorldOutside2.boss2Defeated);
         } else if (master.getWorld() instanceof WorldOutside worldOutside) {
             world = new WorldSave(worldOutside.getDy(), worldOutside.getDx(), worldOutside.getX(), worldOutside.getY(),
                     "outside",
                     worldOutside.getBgImagePath(), worldOutside.getOverlayImagePath(),
                     worldOutside.getShadingImagePath(), worldOutside.getMaskPath(),
                     WorldHome.tutorialViewed, WorldHome.doorUnlocked, WorldHome.keyObtained,
-                    WorldOutside.ally1Recruited, WorldOutside.enemy1Defeated, WorldOutside.enemy2Defeated, WorldOutside.enemy3Defeated);
+                    WorldOutside.ally1Recruited, WorldOutside.enemy1Defeated, WorldOutside.enemy2Defeated, WorldOutside.enemy3Defeated,
+                    WorldOutside2.boss1Defeated, WorldOutside2.boss2Defeated);
+        } else if (master.getWorld() instanceof WorldOutside2 worldOutside) {
+            world = new WorldSave(worldOutside.getDy(), worldOutside.getDx(), worldOutside.getX(), worldOutside.getY(),
+                    "outside2",
+                    worldOutside.getBgImagePath(), worldOutside.getOverlayImagePath(),
+                    worldOutside.getShadingImagePath(), worldOutside.getMaskPath(),
+                    WorldHome.tutorialViewed, WorldHome.doorUnlocked, WorldHome.keyObtained,
+                    WorldOutside.ally1Recruited, WorldOutside.enemy1Defeated, WorldOutside.enemy2Defeated, WorldOutside.enemy3Defeated,
+                    WorldOutside2.boss1Defeated, WorldOutside2.boss2Defeated);
         }
         try (FileOutputStream f = new FileOutputStream(new File(pathPlayer))) {
             ObjectOutputStream o = new ObjectOutputStream(f);
@@ -98,14 +109,24 @@ public class SaveLoad {
                     worldHome.getBgImagePath(), worldHome.getOverlayImagePath(),
                     worldHome.getShadingImagePath(), worldHome.getMaskPath(),
                     WorldHome.tutorialViewed, WorldHome.doorUnlocked, WorldHome.keyObtained,
-                    WorldOutside.ally1Recruited, WorldOutside.enemy1Defeated, WorldOutside.enemy2Defeated, WorldOutside.enemy3Defeated);
+                    WorldOutside.ally1Recruited, WorldOutside.enemy1Defeated, WorldOutside.enemy2Defeated, WorldOutside.enemy3Defeated,
+                    WorldOutside2.boss1Defeated, WorldOutside2.boss2Defeated);
         } else if (master.getWorld() instanceof WorldOutside worldOutside) {
             world = new WorldSave(worldOutside.getDy(), worldOutside.getDx(), worldOutside.getX(), worldOutside.getY(),
                     "outside",
                     worldOutside.getBgImagePath(), worldOutside.getOverlayImagePath(),
                     worldOutside.getShadingImagePath(), worldOutside.getMaskPath(),
                     WorldHome.tutorialViewed, WorldHome.doorUnlocked, WorldHome.keyObtained,
-                    WorldOutside.ally1Recruited, WorldOutside.enemy1Defeated, WorldOutside.enemy2Defeated, WorldOutside.enemy3Defeated);
+                    WorldOutside.ally1Recruited, WorldOutside.enemy1Defeated, WorldOutside.enemy2Defeated, WorldOutside.enemy3Defeated,
+                    WorldOutside2.boss1Defeated, WorldOutside2.boss2Defeated);
+        } else if (master.getWorld() instanceof WorldOutside2 worldOutside) {
+            world = new WorldSave(worldOutside.getDy(), worldOutside.getDx(), worldOutside.getX(), worldOutside.getY(),
+                    "outside2",
+                    worldOutside.getBgImagePath(), worldOutside.getOverlayImagePath(),
+                    worldOutside.getShadingImagePath(), worldOutside.getMaskPath(),
+                    WorldHome.tutorialViewed, WorldHome.doorUnlocked, WorldHome.keyObtained,
+                    WorldOutside.ally1Recruited, WorldOutside.enemy1Defeated, WorldOutside.enemy2Defeated, WorldOutside.enemy3Defeated,
+                    WorldOutside2.boss1Defeated, WorldOutside2.boss2Defeated);
         }
         try (FileOutputStream f = new FileOutputStream(new File(pathPlayer))) {
             ObjectOutputStream o = new ObjectOutputStream(f);
@@ -231,10 +252,14 @@ public class SaveLoad {
             WorldOutside.enemy1Defeated = loadedWorld.isEnemy1Defeated();
             WorldOutside.enemy2Defeated = loadedWorld.isEnemy2Defeated();
             WorldOutside.enemy3Defeated = loadedWorld.isEnemy3Defeated();
+            WorldOutside2.boss1Defeated = loadedWorld.isBoss1Defeated();
+            WorldOutside2.boss2Defeated = loadedWorld.isBoss2Defeated();
             if (loadedWorld.getWorldType().equals("home")) {
                 world = new WorldHome(master, master.getPlayer().getX(), master.getPlayer().getY());
             } else if (loadedWorld.getWorldType().equals("outside")){
                 world = new WorldOutside(master, master.getPlayer().getX(), master.getPlayer().getY());
+            } else if (loadedWorld.getWorldType().equals("outside2")){
+                world = new WorldOutside2(master, master.getPlayer().getX(), master.getPlayer().getY());
             }
 
             return world;
@@ -263,6 +288,8 @@ public class SaveLoad {
                 world = new WorldHome(master, master.getPlayer().getX(), master.getPlayer().getY());
             } else if (loadedWorld.getWorldType().equals("outside")){
                 world = new WorldOutside(master, master.getPlayer().getX(), master.getPlayer().getY());
+            } else if (loadedWorld.getWorldType().equals("outside2")){
+                world = new WorldOutside2(master, master.getPlayer().getX(), master.getPlayer().getY());
             }
 
             return world;
