@@ -16,14 +16,19 @@ import java.util.ArrayList;
 
 public class SaveLoad {
 
+    public static final String PATH_SAVE_FOLDER = System.getProperty("user.home") + System.getProperty("file.separator")
+            + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
+            + "SimpleRPG";
+    public static void createSaveFolder() {
+        File directory = new File(PATH_SAVE_FOLDER);
+        if (! directory.exists()){
+            directory.mkdir();
+        }
+    }
     public static void saveState(SimpleRPG master) {
-        String pathPlayer = System.getProperty("user.home") + System.getProperty("file.separator")
-                + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
-                + "player.txt";
-
-        String pathWorld = System.getProperty("user.home") + System.getProperty("file.separator")
-                + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
-                + "world.txt";
+        createSaveFolder();
+        String pathPlayer = PATH_SAVE_FOLDER + System.getProperty("file.separator") + "player.txt";
+        String pathWorld = PATH_SAVE_FOLDER + System.getProperty("file.separator") + "world.txt";
 
         ArrayList<CharacterSave> playerAllyList = new ArrayList<>();
         for (Character character: master.getPlayer().getAllyList()) {
@@ -81,13 +86,9 @@ public class SaveLoad {
     }
 
     public static void saveStateBeforeBattle(SimpleRPG master) {
-        String pathPlayer = System.getProperty("user.home") + System.getProperty("file.separator")
-                + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
-                + "playerBeforeBattle.txt";
-
-        String pathWorld = System.getProperty("user.home") + System.getProperty("file.separator")
-                + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
-                + "worldBeforeBattle.txt";
+        createSaveFolder();
+        String pathPlayer = PATH_SAVE_FOLDER + System.getProperty("file.separator") + "playerBeforeBattle.txt";
+        String pathWorld = PATH_SAVE_FOLDER + System.getProperty("file.separator") + "worldBeforeBattle.txt";
 
         ArrayList<CharacterSave> playerAllyList = new ArrayList<>();
         for (Character character: master.getPlayer().getAllyList()) {
@@ -158,9 +159,8 @@ public class SaveLoad {
     }
 
     public static Player loadPlayer(SimpleRPG master) {
-        String path = System.getProperty("user.home") + System.getProperty("file.separator")
-                + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
-                + "player.txt";
+        createSaveFolder();
+        String path = PATH_SAVE_FOLDER + System.getProperty("file.separator") + "player.txt";
 
         try(FileInputStream fi = new FileInputStream(path)) {
             ObjectInputStream oi = new ObjectInputStream(fi);
@@ -203,9 +203,8 @@ public class SaveLoad {
     }
 
     public static boolean isPlayerSaveFileExist() {
-        String path = System.getProperty("user.home") + System.getProperty("file.separator")
-                + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
-                + "player.txt";
+        createSaveFolder();
+        String path = PATH_SAVE_FOLDER + System.getProperty("file.separator") + "player.txt";
 
         try(FileInputStream fi = new FileInputStream(path)) {
             ObjectInputStream oi = new ObjectInputStream(fi);
@@ -216,9 +215,8 @@ public class SaveLoad {
     }
 
     public static boolean isWorldSaveFileExist() {
-        String path = System.getProperty("user.home") + System.getProperty("file.separator")
-                + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
-                + "world.txt";
+        createSaveFolder();
+        String path = PATH_SAVE_FOLDER + System.getProperty("file.separator") + "world.txt";
 
         try(FileInputStream fi = new FileInputStream(path)) {
             ObjectInputStream oi = new ObjectInputStream(fi);
@@ -229,9 +227,8 @@ public class SaveLoad {
     }
 
     public static Player loadPlayerAfterBattle(SimpleRPG master) {
-        String path = System.getProperty("user.home") + System.getProperty("file.separator")
-                + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
-                + "playerBeforeBattle.txt";
+        createSaveFolder();
+        String path = PATH_SAVE_FOLDER + System.getProperty("file.separator") + "playerBeforeBattle.txt";
 
         try(FileInputStream fi = new FileInputStream(path)) {
             ObjectInputStream oi = new ObjectInputStream(fi);
@@ -290,9 +287,8 @@ public class SaveLoad {
     }
 
     public static World loadWorld(SimpleRPG master) {
-        String path = System.getProperty("user.home") + System.getProperty("file.separator")
-                + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
-                + "world.txt";
+        createSaveFolder();
+        String path = PATH_SAVE_FOLDER + System.getProperty("file.separator") + "world.txt";
 
         try(FileInputStream fi = new FileInputStream(path)) {
             ObjectInputStream oi = new ObjectInputStream(fi);
@@ -326,9 +322,8 @@ public class SaveLoad {
     }
 
     public static World loadWorldAfterBattle(SimpleRPG master) {
-        String path = System.getProperty("user.home") + System.getProperty("file.separator")
-                + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
-                + "worldBeforeBattle.txt";
+        createSaveFolder();
+        String path = PATH_SAVE_FOLDER + System.getProperty("file.separator") + "worldBeforeBattle.txt";
 
         try(FileInputStream fi = new FileInputStream(path)) {
             ObjectInputStream oi = new ObjectInputStream(fi);
