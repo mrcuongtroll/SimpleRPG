@@ -144,6 +144,19 @@ public class SaveLoad {
         }
     }
 
+    public static Player loadNewPlayer(SimpleRPG master) {
+        //return default if cant find save file
+        return new Player(master, 570, 230, "Player",
+                (new File("./assets/test/player")).getAbsolutePath(), 1, 6,
+                25, 10, 80, 100, 100, 100,
+                new Weapon("Wooden sword",
+                        0, 25,0,0,0,
+                        "example_armor.png"),
+                new Armor("Wooden armor",
+                        0, 0, 5,0,0,
+                        "example_armor.png"));
+    }
+
     public static Player loadPlayer(SimpleRPG master) {
         String path = System.getProperty("user.home") + System.getProperty("file.separator")
                 + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
@@ -155,7 +168,7 @@ public class SaveLoad {
             CharacterSave loadedPlayer = (CharacterSave) oi.readObject();
             System.out.println(loadedPlayer.getName());
             Player player = new Player(master, (int) loadedPlayer.getX(), (int) loadedPlayer.getY(), loadedPlayer.getName(), loadedPlayer.getImagePath(),
-                    loadedPlayer.getLevel(), loadedPlayer.getAttackSpeed(), loadedPlayer.getAttackPoint(), loadedPlayer.getDefensePoint(),
+                    loadedPlayer.getLevel(), loadedPlayer.getExp(), loadedPlayer.getAttackSpeed(), loadedPlayer.getAttackPoint(), loadedPlayer.getDefensePoint(),
                     loadedPlayer.getHealthPoint(), loadedPlayer.getManaPoint(), loadedPlayer.getMaxHealthPoint(),
                     loadedPlayer.getMaxManaPoint(),
                     new Weapon("Wooden sword",
@@ -167,7 +180,7 @@ public class SaveLoad {
             for (CharacterSave characterSave: loadedPlayer.getAllyList()) {
                 player.getAllyList().add(new Ally((World) master.getWorld(), master, (int) characterSave.getX(), (int) characterSave.getY(),
                         (int) (characterSave.getX() + ((World) master.getWorld()).getX()), (int) (characterSave.getY() + ((World) master.getWorld()).getY()),
-                        characterSave.getName(), characterSave.getImagePath(), characterSave.getLevel(), characterSave.getAttackSpeed(),
+                        characterSave.getName(), characterSave.getImagePath(), characterSave.getLevel(), characterSave.getExp(), characterSave.getAttackSpeed(),
                         characterSave.getAttackPoint(), characterSave.getDefensePoint(), characterSave.getHealthPoint(),
                         characterSave.getManaPoint(), characterSave.getMaxHealthPoint(), characterSave.getMaxManaPoint()
                 ));
@@ -189,6 +202,32 @@ public class SaveLoad {
                         "example_armor.png"));
     }
 
+    public static boolean isPlayerSaveFileExist() {
+        String path = System.getProperty("user.home") + System.getProperty("file.separator")
+                + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
+                + "player.txt";
+
+        try(FileInputStream fi = new FileInputStream(path)) {
+            ObjectInputStream oi = new ObjectInputStream(fi);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean isWorldSaveFileExist() {
+        String path = System.getProperty("user.home") + System.getProperty("file.separator")
+                + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
+                + "world.txt";
+
+        try(FileInputStream fi = new FileInputStream(path)) {
+            ObjectInputStream oi = new ObjectInputStream(fi);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public static Player loadPlayerAfterBattle(SimpleRPG master) {
         String path = System.getProperty("user.home") + System.getProperty("file.separator")
                 + "AppData" + System.getProperty("file.separator") + "Local" + System.getProperty("file.separator")
@@ -200,7 +239,7 @@ public class SaveLoad {
             CharacterSave loadedPlayer = (CharacterSave) oi.readObject();
             System.out.println(loadedPlayer.getName());
             Player player = new Player(master, (int) loadedPlayer.getX(), (int) loadedPlayer.getY(), loadedPlayer.getName(), loadedPlayer.getImagePath(),
-                    loadedPlayer.getLevel(), loadedPlayer.getAttackSpeed(), loadedPlayer.getAttackPoint(), loadedPlayer.getDefensePoint(),
+                    loadedPlayer.getLevel(), loadedPlayer.getExp(), loadedPlayer.getAttackSpeed(), loadedPlayer.getAttackPoint(), loadedPlayer.getDefensePoint(),
                     loadedPlayer.getHealthPoint(), loadedPlayer.getManaPoint(), loadedPlayer.getMaxHealthPoint(),
                     loadedPlayer.getMaxManaPoint(),
                     new Weapon("Wooden sword",
@@ -212,7 +251,7 @@ public class SaveLoad {
             for (CharacterSave characterSave: loadedPlayer.getAllyList()) {
                 player.getAllyList().add(new Ally(master, (int) characterSave.getX(), (int) characterSave.getY(),
                         (int) (characterSave.getX() + 0), (int) (characterSave.getY() + 0),
-                        characterSave.getName(), characterSave.getImagePath(), characterSave.getLevel(), characterSave.getAttackSpeed(),
+                        characterSave.getName(), characterSave.getImagePath(), characterSave.getLevel(), characterSave.getExp(), characterSave.getAttackSpeed(),
                         characterSave.getAttackPoint(), characterSave.getDefensePoint(), characterSave.getHealthPoint(),
                         characterSave.getManaPoint(), characterSave.getMaxHealthPoint(), characterSave.getMaxManaPoint()
                 ));
@@ -233,6 +272,14 @@ public class SaveLoad {
         }
         //return default if cant find save file
 
+    }
+
+    public static World loadNewWorld(SimpleRPG master) {
+        //return default if cant find save file
+        WorldHome.keyObtained = false;
+        WorldHome.doorUnlocked = false;
+        WorldHome.tutorialViewed = false;
+        return new WorldHome(master, master.getPlayer().getX(), master.getPlayer().getY());
     }
 
     public static World loadWorld(SimpleRPG master) {
