@@ -23,7 +23,6 @@ import javafx.scene.layout.GridPane;
 import main.SimpleRPG;
 import saveload.SaveLoad;
 import views.BattleView;
-import views.GameView;
 import views.StartScreenView;
 import views.View;
 import world.BattleMap;
@@ -235,7 +234,7 @@ public class SubSceneList {
         GameButton btnItems = new GameButton("Inventory", 100, 50);
 
         btnSurrender.setOnAction(event -> {view.cleanUpScene();
-            new GameView(simpleRPG, false);
+            BattleMap.quitBattle();
         });
 
         btnFight.setOnAction(event -> {
