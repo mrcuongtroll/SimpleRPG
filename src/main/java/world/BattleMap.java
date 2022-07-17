@@ -408,4 +408,14 @@ public class BattleMap extends Map {
         this.tick();
         this.changeFrame();
     }
+    public static void quitBattle(){
+        removeNPC(enemy);
+        view.cleanUpScene();
+        player.getStatusEffects().clear();
+        SimpleRPG.canvasBattle.getGraphicsContext2D().clearRect(0, 0, SimpleRPG.canvasBattle.getWidth(), SimpleRPG.canvasBattle.getHeight());
+        GameView gv = new GameView(getMaster(), true);
+        ((World) getMaster().getWorld()).removeNPC(enemy);
+        // Focus control on the game
+        gv.getMainPane().requestFocus();
+    }
 }
