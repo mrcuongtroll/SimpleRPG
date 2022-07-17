@@ -2,8 +2,6 @@ package main;
 
 import dialogue.DialogueRender;
 import entity.Player;
-import entity.item.equiment.Armor;
-import entity.item.equiment.Weapon;
 import handler.KeyHandler;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -15,9 +13,7 @@ import saveload.SaveLoad;
 import sceneElement.SubSceneList;
 import views.StartScreenView;
 import world.Map;
-import world.WorldHome;
 
-import java.io.File;
 import java.io.IOException;
 
 import static sceneElement.SubSceneList.openView;
