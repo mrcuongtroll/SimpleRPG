@@ -9,17 +9,14 @@ import event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import main.SimpleRPG;
 import world.BattleMap;
 import world.Tile;
 import world.World;
 
-import java.awt.*;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public abstract class Character {
     public static final String DEFAULT_IMAGE_PATH = "/default/";
@@ -32,7 +29,7 @@ public abstract class Character {
     public static final String LEFT = "/move_left/";
     public static final String RIGHT = "/move_right/";
     public static final int MINIMUM_SPEED = 0;
-    public static final int[] EXP_THRESHOLD = {50, 100, 200, 350};
+    public static final int[] EXP_THRESHOLD = {30, 100, 200, 350};
 
     private ImageView battleFrame;
     private ImageView battleHitBox;
@@ -376,8 +373,8 @@ public abstract class Character {
         this.defensePoint = defensePoint;
         this.healthPoint = healthPoint;
         this.manaPoint = manaPoint;
-        this.maxHealthPoint = maxHealthPoint;
-        this.maxManaPoint = maxManaPoint;
+        this.maxHealthPoint = maxHealthPoint ;
+        this.maxManaPoint = maxManaPoint ;
 
         this.isSolid = isSolid;
         this.rect = new java.awt.Rectangle((int)this.x, (int)(y+this.image.getHeight()-Tile.TILE_SIZE), 2*Tile.TILE_SIZE, Tile.TILE_SIZE);
@@ -548,29 +545,43 @@ public abstract class Character {
         return level;
     }
 
-    public void updateLevel(){
+    public boolean updateLevel(){
 
-        for  (int i = EXP_THRESHOLD.length; true; i--){
-            if (exp > EXP_THRESHOLD[i]){
-                level = i+2;
+        int currentLevel = level;
+        System.out.println(currentLevel);
+
+        for (int i = EXP_THRESHOLD.length -1; i >= 0; i--){
+            if (exp > EXP_THRESHOLD[i]) {
+                level = i + 2;
+                this.setMaxHealthPoint(this.getMaxHealthPoint() + 20);
+                this.setHealthPoint(this.getHealthPoint() + 20);
+                this.setMaxManaPoint(this.getMaxManaPoint() + 20);
+                this.setManaPoint(this.getManaPoint() + 20);
+                this.setAttackPoint(this.getAttackPoint() + 5);
+                this.setDefensePoint(this.getDefensePoint() + 5);
+                this.setAttackSpeed(this.getAttackSpeed() + 5);
+
                 break;
-            } else {
-                level = 1;
             }
         }
+
+        System.out.println(currentLevel);
+        System.out.println(level);
+
+        return currentLevel != level;
     }
 
     public int getExp(){
         return exp;
     }
 
-    public void increaseExp(int amount){
+    public boolean increaseExp(int amount){
         if (exp + amount > 350){
             exp = 350;
         } else {
             exp += amount;
         }
-        updateLevel();
+        return updateLevel();
     }
 
     @Override

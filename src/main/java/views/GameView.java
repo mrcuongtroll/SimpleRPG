@@ -1,6 +1,5 @@
 package views;
 
-import dialogue.*;
 import handler.KeyHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -8,12 +7,8 @@ import javafx.scene.layout.AnchorPane;
 import loop.GameLoopManager;
 import main.HUD;
 import main.SimpleRPG;
-import popup.PopupChoice;
-import popup.PopupRender;
 import saveload.SaveLoad;
 import world.Map;
-
-import java.util.ArrayList;
 
 import static sceneElement.SubSceneList.openSetting;
 
