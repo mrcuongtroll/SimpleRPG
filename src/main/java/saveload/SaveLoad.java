@@ -179,7 +179,7 @@ public class SaveLoad {
         }
         //return default if cant find save file
         return new Player(master, 570, 230, "Player",
-                (new File("./assets/test/player")).getAbsolutePath(), 1, 6,
+                "/assets/test/player", 1, 6,
                 25, 10, 80, 100, 100, 100,
                 new Weapon("Wooden sword",
                         0, 25,0,0,0,

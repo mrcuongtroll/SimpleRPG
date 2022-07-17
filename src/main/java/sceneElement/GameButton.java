@@ -19,7 +19,8 @@ public class GameButton extends Button {
     private int height;
 
     private void setBackground(String background){
-        BackgroundImage image = new BackgroundImage(new Image(background, width, height, false, true),
+        BackgroundImage image = new BackgroundImage(new Image(String.valueOf(getClass().getResource(background)),
+                width, height, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
         setBackground(new Background(image));
     }
@@ -33,7 +34,7 @@ public class GameButton extends Button {
         setPrefWidth(width);
         setPrefHeight(height);
 //        setStyle("-fx-wrap-text: true; -fx-text-alignment: CENTER; -fx-alignment: CENTER;");
-        setBackground((new File("./assets/test/button/smallFree.png").getAbsolutePath()));
+        setBackground("/assets/test/button/smallFree.png");
         initializeButtonListeners();
 
         //Comment this to navigate buttons with arrow keys

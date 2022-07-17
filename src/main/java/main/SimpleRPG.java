@@ -103,10 +103,10 @@ public class SimpleRPG extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException{
+    public void start(Stage primaryStage) throws Exception{
         mainStage = primaryStage;
         mainStage.setTitle("Simple RPG");
-        theScene.getStylesheets().add("buttonStyle.css");
+        theScene.getStylesheets().add(String.valueOf(getClass().getResource("/buttonStyle.css")));
         mainStage.setScene(theScene);
         SubSceneList sceneList = new SubSceneList(this);
         openView(new StartScreenView(this));

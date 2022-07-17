@@ -22,7 +22,7 @@ public class StartScreenView extends View{
         super(simpleRPG);
         this.simpleRPG = simpleRPG;
         CreateScreenElements();
-        createBackground((new File("./assets/test/titleScreen.png")).getAbsolutePath(), false);
+        createBackground(String.valueOf(getClass().getResource("/assets/test/titleScreen.png")), false);
     }
 
     private void CreateScreenElements(){
@@ -41,7 +41,7 @@ public class StartScreenView extends View{
         startBattleButton.setOnAction(event -> {
             view.cleanUpScene();
             new BattleView(simpleRPG, new Enemy((World) simpleRPG.getWorld(), simpleRPG, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Boss 2",
-                    (new File("./assets/test/boss2")).getAbsolutePath(),
+                    "/assets/test/boss2",
                     1, 5, 20, 0, 100, 100, 100, 100));
         });
 

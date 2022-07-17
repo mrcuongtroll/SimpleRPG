@@ -29,6 +29,6 @@ public abstract class Map {
         master.getPlayer().setX(playerX);
         master.getPlayer().setY(playerY);
         this.gc = master.canvasBackground.getGraphicsContext2D();
-        this.bg = new Image(imagePath);
+        this.bg = new Image(String.valueOf(getClass().getResource(imagePath)));
     }
 }

@@ -26,9 +26,9 @@ public class DialogueRender {
     private boolean showing = false;
     private double height = 175.0;
 //    private Canvas canvasDialogue = new Canvas(1280, 720 - height);
-    private static final String DIALOG_NEXT_BUTTON = "file:./assets/test/dialogue/arrow.png";
-    private static final String DIALOGUE_BACKGROUND = "file:./assets/test/dialogue/dialogue_background.png";
-    private static final String DIALOG_FONT  = "file:./assets/test/font/ARCADE_N.ttf";
+    private static final String DIALOG_NEXT_BUTTON = "file:src/main/resources/assets/test/dialogue/arrow.png";
+    private static final String DIALOGUE_BACKGROUND = "file:src/main/resources/assets/test/dialogue/dialogue_background.png";
+    private static final String DIALOG_FONT  = "file:src/main/resources/assets/test/font/ARCADE_N.ttf";
 
     public boolean isShowing() {
         return this.showing;
@@ -98,7 +98,7 @@ public class DialogueRender {
             imageBox.setStyle("-fx-background-color: rgba(200, 200,200, 0.8); -fx-background-radius: 10;");
 
 
-            Font nameFont = Font.loadFont("file:./assets/font/dialog-font.ttf", 20.0);
+            Font nameFont = Font.loadFont("file:src/main/resources/assets/font/dialog-font.ttf", 20.0);
             Label characterName = new Label(this.dialogue.getName());
             characterName.setTranslateY(5);
             characterName.setFont(nameFont);
@@ -302,7 +302,7 @@ public class DialogueRender {
         }
     }
     private void renderDialogue() {
-        GameSubScene subScene = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
+        GameSubScene subScene = new GameSubScene(1100, 200, 100, 470, "Vertical", "/assets/test/menuBackground/long_square.png");
         if (this.dialogue.getCharacter() != null) {
             subScene.addText(this.dialogue.getCharacter().getName() + ": \"" + this.dialogue.getText() + "\"",
                     BROWN, 15, 900, 100, 100, 30);

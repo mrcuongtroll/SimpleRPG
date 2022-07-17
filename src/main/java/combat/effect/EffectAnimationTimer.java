@@ -46,8 +46,8 @@ public class EffectAnimationTimer extends AnimationTimer {
     @Override
     public void handle(long now) {
         if (now - lastUpdate >= 40_000_000) {
-            currentFramePath = Paths.get(effect.getEffectImagePath(), currentFrame + ".png").toString();
-            hitBox.setImage(new Image(currentFramePath));
+            currentFramePath = effect.getEffectImagePath() + currentFrame + ".png";
+            hitBox.setImage(new Image(String.valueOf(getClass().getResource(currentFramePath))));
             if (effect.getEffectType().equals(Effect.OPPONENT_APPLY_EFFECT)) {
                 FadeTransition fadeTransitionForward = new FadeTransition(Duration.seconds(0.1));
                 FadeTransition fadeTransitionBackward = new FadeTransition(Duration.seconds(0.1));
