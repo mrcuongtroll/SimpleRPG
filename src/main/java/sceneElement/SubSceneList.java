@@ -20,10 +20,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import saveload.SaveLoad;
 import main.SimpleRPG;
+import saveload.SaveLoad;
 import views.BattleView;
-import views.GameView;
 import views.StartScreenView;
 import views.View;
 import world.BattleMap;
@@ -235,7 +234,7 @@ public class SubSceneList {
         GameButton btnItems = new GameButton("Inventory", 100, 50);
 
         btnSurrender.setOnAction(event -> {view.cleanUpScene();
-            new GameView(simpleRPG, false);
+            BattleMap.quitBattle();
         });
 
         btnFight.setOnAction(event -> {
@@ -428,7 +427,8 @@ public class SubSceneList {
                         public void handle(ActionEvent event) {
                             view.cleanUpScene();
                             System.out.println("Enemy turn");
-                            BattleMap.enemy.randomAttack(BattleMap.playerTeam,BattleMap.enemyTeam);
+                            Enemy currentEnemy = (Enemy) BattleMap.currentTurnChar;
+                            currentEnemy.randomAttack(BattleMap.playerTeam,BattleMap.enemyTeam);
                         }
                     });
                 }

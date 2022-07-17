@@ -4,7 +4,7 @@ import combat.CombatManager;
 import combat.effect.Effect;
 import combat.effect.EffectAnimationTimer;
 import combat.status_effect.OvertimeStatusEffect;
-import entity.Ally;
+import dialogue.Dialogue;
 import entity.Character;
 import entity.Enemy;
 import entity.Player;
@@ -23,8 +23,6 @@ import views.GameView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class BattleMap extends Map {
 
@@ -37,6 +35,7 @@ public class BattleMap extends Map {
     private static final int FRAME_HEIGHT = 120;
     private static final int HIT_BOX_SIZE = 200;
     private static final int BAR_POINT_FONT_SIZE = 8;
+    private static int totalExp = 0;
 
     public static Player player;
     public static Enemy enemy;
@@ -197,6 +196,8 @@ public class BattleMap extends Map {
     public static void turnDecide() {
         for (int i = 0; i < enemyTeam.size(); i++) {
             if (enemyTeam.get(i).getHealthPoint() <= 0) {
+                System.out.println("Adding exp : " + ((Enemy)enemyTeam.get(i)).getAward());
+                totalExp += ((Enemy)enemyTeam.get(i)).getAward();
                 combatManager.removeEnemyMember(enemyTeam.get(i));
             }
         }
@@ -213,6 +214,47 @@ public class BattleMap extends Map {
             SimpleRPG.canvasBattle.getGraphicsContext2D().clearRect(0, 0, SimpleRPG.canvasBattle.getWidth(), SimpleRPG.canvasBattle.getHeight());
             GameView gv = new GameView(getMaster(), true);
             ((World) getMaster().getWorld()).removeNPC(enemy);
+
+            boolean checkLevelUp = player.increaseExp(totalExp);
+
+            Dialogue currentDialogue = null;
+            Dialogue d1 = new Dialogue("You gain: " + totalExp + " exp");
+            currentDialogue = d1;
+
+            if (checkLevelUp) {
+                Dialogue temp = new Dialogue("You reach level: " + player.getLevel() + "\n"
+                        + "HP += 20" + "         "
+                        + "ATK += 5" + "\n"
+                        + "MP += 20" + "         "
+                        + "SPD += 5" + "\n"
+                        + "DEF += 5");
+                currentDialogue.setNext(temp);
+                currentDialogue = temp;
+
+            }
+
+//            ArrayList<Dialogue> DialogueList = new ArrayList<Dialogue>();
+
+            for (int i = 1; i < playerTeam.size(); i++) {
+                Dialogue temp1 = new Dialogue(playerTeam.get(i).getName() + " gain: " + totalExp + " exp");
+                currentDialogue.setNext(temp1);
+                currentDialogue = temp1;
+                if(playerTeam.get(i).increaseExp(totalExp)){
+                    Dialogue temp2 = new Dialogue(playerTeam.get(i).getName() +  " reach level: " + playerTeam.get(i).getLevel() + "\n"
+                            + "HP += 20" + "         "
+                            + "ATK += 5" + "\n"
+                            + "MP += 20" + "         "
+                            + "SPD += 5" + "\n"
+                            + "DEF += 5");
+                    currentDialogue.setNext(temp2);
+                    currentDialogue = temp2;
+                }
+            }
+
+            getMaster().getDialogueRender().setDialogue(d1);
+
+
+
             // Focus control on the game
             gv.getMainPane().requestFocus();
             return;
@@ -365,5 +407,15 @@ public class BattleMap extends Map {
     public void render() {
         this.tick();
         this.changeFrame();
+    }
+    public static void quitBattle(){
+        removeNPC(enemy);
+        view.cleanUpScene();
+        player.getStatusEffects().clear();
+        SimpleRPG.canvasBattle.getGraphicsContext2D().clearRect(0, 0, SimpleRPG.canvasBattle.getWidth(), SimpleRPG.canvasBattle.getHeight());
+        GameView gv = new GameView(getMaster(), true);
+        ((World) getMaster().getWorld()).removeNPC(enemy);
+        // Focus control on the game
+        gv.getMainPane().requestFocus();
     }
 }
