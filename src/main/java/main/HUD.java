@@ -17,25 +17,20 @@ public class HUD {
     private Rectangle staminaBarContainer;
     private Rectangle expBar;
     private Rectangle expBarContainer;
-
-
     private Text healthPoint;
     private Text manaPoint;
     private Text expPoint;
-
     private Rectangle container;
     private Group groupContainer;
     private SimpleRPG master;
 
-    private Player player;
-    public HUD(SimpleRPG master, Player player) {
+    public HUD(SimpleRPG master) {
         this.master = master;
 
         this.healthBar = new Rectangle(50, 50, BAR_WIDTH, 30);
         this.manaBar = new Rectangle(50, 100, BAR_WIDTH, 30);
         this.staminaBar = new Rectangle(50, 150, BAR_WIDTH, 30);
         this.expBar = new Rectangle(50, 200, BAR_WIDTH, 30);
-
 
         this.healthBarContainer = new Rectangle(50, 50, BAR_WIDTH, 30);
         this.manaBarContainer = new Rectangle(50, 100, BAR_WIDTH, 30);
@@ -49,7 +44,6 @@ public class HUD {
         this.container = new Rectangle(25, 37.5, 350, 200);
         this.groupContainer = new Group();
 
-        this.player = player;
         this.start();
     }
 
@@ -78,12 +72,12 @@ public class HUD {
         this.container.setFill(Color.GRAY);
     }
     public void setHealthPoint(int healthPoint) {
-        this.healthBar.setWidth(BAR_WIDTH * healthPoint / 100);
-        this.healthPoint.setText("" + healthPoint + " / 100");
+        this.healthBar.setWidth(BAR_WIDTH * healthPoint / this.master.getPlayer().getMaxHealthPoint());
+        this.healthPoint.setText("" + healthPoint + " / " + this.master.getPlayer().getMaxHealthPoint());
     }
     public void setManaPoint(int manaPoint) {
-        this.manaBar.setWidth(BAR_WIDTH * manaPoint / 100);
-        this.manaPoint.setText("" + manaPoint + " / 100");
+        this.manaBar.setWidth(BAR_WIDTH * manaPoint / this.master.getPlayer().getMaxManaPoint());
+        this.manaPoint.setText("" + manaPoint + " / " + this.master.getPlayer().getMaxManaPoint());
     }
     public void setStaminaPoint(int staminaPoint) {
         this.staminaBar.setWidth(BAR_WIDTH * staminaPoint / Player.MAX_STAMINA);
@@ -94,11 +88,10 @@ public class HUD {
 
     }
     public void render() {
-        setHealthPoint(this.player.getHealthPoint());
-        setManaPoint(this.player.getManaPoint());
-        setStaminaPoint(this.player.getStamina());
-        setExpPoint(this.player.getExp());
-
+        setHealthPoint(this.master.getPlayer().getHealthPoint());
+        setManaPoint(this.master.getPlayer().getManaPoint());
+        setStaminaPoint(this.master.getPlayer().getStamina());
+        setExpPoint(this.master.getPlayer().getExp());
 
         this.healthBar.setFill(Color.CRIMSON);
         this.manaBar.setFill(Color.CORNFLOWERBLUE);

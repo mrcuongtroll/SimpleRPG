@@ -89,6 +89,17 @@ public class Player extends Character {
         this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark()});
     }
 
+    public Player(SimpleRPG master, int x, int y, String name, String imagePath, int level, int exp,
+                  int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, Weapon weapon, Armor armor) {
+        super(master, x, y, name, imagePath, 32, 80, level, exp, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, weapon, armor,"left");
+        this.weapon = weapon;
+        this.armor = armor;
+        this.stamina = MAX_STAMINA;
+        this.setMovementSpeed(Player.MOVEMENT_SPEED);
+        this.defaultFrame(Character.DOWN);
+        this.setActionList(new Action[] {new Cyclone(), new Heal(), new DoubleSlash(), new Spark()});
+    }
+
     public void equip(Weapon weapon) {
         super.setAttackSpeed(super.getAttackSpeed() - this.weapon.getAttackSpeed());
         super.setAttackPoint(super.getAttackPoint() - this.weapon.getAttackPoint());

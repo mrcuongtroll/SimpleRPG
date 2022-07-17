@@ -2,6 +2,7 @@ package views;
 
 import entity.Enemy;
 import main.SimpleRPG;
+import saveload.SaveLoad;
 import sceneElement.GameButton;
 import world.World;
 
@@ -32,10 +33,10 @@ public class StartScreenView extends View{
 
         addSubSceneToPane(openCredit, openSetting);
 
-        GameButton startGameButton = createBlankButton("Start Game",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y);
+        GameButton startGameButton = createBlankButton("New Game",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y);
         startGameButton.setOnAction(event -> {
             cleanUpScene();
-            new GameView(simpleRPG, false);
+            new GameView(simpleRPG, false, true);
         });
         GameButton startBattleButton = createBlankButton("Start Battle",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 100);
         startBattleButton.setOnAction(event -> {
@@ -48,8 +49,11 @@ public class StartScreenView extends View{
         GameButton loadGameButton = createBlankButton("Load Game",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 200);
         loadGameButton.setOnAction(event -> {
             cleanUpScene();
-            new GameView(simpleRPG, false);
+            new GameView(simpleRPG, false, false);
         });
+        if (!(SaveLoad.isWorldSaveFileExist() && SaveLoad.isPlayerSaveFileExist())) {
+            loadGameButton.disableButton();
+        }
         createSubSceneButton("Credit", openCredit,MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 300);
         GameButton exitButton = createBlankButton("Exit",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 400);
         exitButton.setOnAction(event -> simpleRPG.mainStage.close());

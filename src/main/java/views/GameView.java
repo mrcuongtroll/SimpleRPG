@@ -32,7 +32,7 @@ public class GameView extends View{
         return this.mainPane;
     }
 
-    public GameView(SimpleRPG simpleRPG, boolean loadAfterBattle){
+    public GameView(SimpleRPG simpleRPG, boolean loadAfterBattle, boolean newGame){
         super(simpleRPG);
         clearPane();
 
@@ -70,8 +70,13 @@ public class GameView extends View{
             simpleRPG.setPlayer(SaveLoad.loadPlayerAfterBattle(simpleRPG));
             simpleRPG.setWorld(SaveLoad.loadWorldAfterBattle(simpleRPG));
         } else {
-            simpleRPG.setPlayer(SaveLoad.loadPlayer(simpleRPG));
-            simpleRPG.setWorld(SaveLoad.loadWorld(simpleRPG));
+            if (newGame) {
+                simpleRPG.setPlayer(SaveLoad.loadNewPlayer(simpleRPG));
+                simpleRPG.setWorld(SaveLoad.loadNewWorld(simpleRPG));
+            } else {
+                simpleRPG.setPlayer(SaveLoad.loadPlayer(simpleRPG));
+                simpleRPG.setWorld(SaveLoad.loadWorld(simpleRPG));
+            }
         }
         simpleRPG.getPlayer().stopMoving(simpleRPG.getPlayer().getLastDirection());
         simpleRPG.setGameLoopManager(new GameLoopManager(simpleRPG));

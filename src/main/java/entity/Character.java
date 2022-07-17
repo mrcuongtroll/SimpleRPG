@@ -395,6 +395,17 @@ public abstract class Character {
         this.maxManaPoint += weapon.getMaxManaPoint() + armor.getMaxManaPoint();
     }
 
+    public Character(SimpleRPG master, int x, int y, String name, String imagePath, int width, int height, int level, int exp,
+                     int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, Weapon weapon, Armor armor, String battleSide) {
+        this(master, x, y, name, imagePath, width, height, level, attackSpeed,  attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true, battleSide);
+        this.attackSpeed += weapon.getAttackSpeed() + armor.getAttackSpeed();
+        this.attackPoint += weapon.getAttackPoint() + armor.getAttackPoint();
+        this.defensePoint += weapon.getDefensePoint() + armor.getDefensePoint();
+        this.maxHealthPoint += weapon.getMaxHealthPoint() + armor.getMaxHealthPoint();
+        this.maxManaPoint += weapon.getMaxManaPoint() + armor.getMaxManaPoint();
+        this.setExp(exp);
+    }
+
     public Character(SimpleRPG master, int x, int y, int xDisplay, int yDisplay, String name, String imagePath,
                      int width, int height, int level, int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid, String battleSide) {
         this(master, x, y, name, imagePath, width, height, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, true, battleSide);
@@ -542,17 +553,17 @@ public abstract class Character {
     }
 
     public int getLevel() {
-        return level;
+        return this.level;
     }
 
     public boolean updateLevel(){
 
-        int currentLevel = level;
+        int currentLevel = this.level;
         System.out.println(currentLevel);
 
         for (int i = EXP_THRESHOLD.length -1; i >= 0; i--){
             if (exp > EXP_THRESHOLD[i]) {
-                level = i + 2;
+                this.level = i + 2;
                 this.setMaxHealthPoint(this.getMaxHealthPoint() + 20);
                 this.setHealthPoint(this.getHealthPoint() + 20);
                 this.setMaxManaPoint(this.getMaxManaPoint() + 20);
@@ -565,21 +576,23 @@ public abstract class Character {
             }
         }
 
-        System.out.println(currentLevel);
-        System.out.println(level);
+        System.out.println(this.getName() + " " + currentLevel);
+        System.out.println(this.getName() + " " + this.level);
 
-        return currentLevel != level;
+        return currentLevel != this.level;
     }
 
     public int getExp(){
-        return exp;
+        return this.exp;
     }
-
+    public void setExp(int exp) {
+        this.exp = exp;
+    }
     public boolean increaseExp(int amount){
-        if (exp + amount > 350){
-            exp = 350;
+        if (this.exp + amount > 350){
+            this.exp = 350;
         } else {
-            exp += amount;
+            this.exp += amount;
         }
         return updateLevel();
     }
