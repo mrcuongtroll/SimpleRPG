@@ -13,10 +13,10 @@ public class WorldHome extends World {
 
     public WorldHome(SimpleRPG master, double playerX, double playerY) {
         super(master, playerX, playerY,
-                (new File("./assets/Map/Home/home_bottom.png")).getAbsolutePath(),
-                (new File("./assets/Map/Home/home_overlay.png")).getAbsolutePath(),
-                (new File("./assets/Map/Home/home_shading.png")).getAbsolutePath(),
-                (new File("./assets/Map/Home/home_mask.png")).getAbsolutePath());
+                "/assets/Map/Home/home_bottom.png",
+                "/assets/Map/Home/home_overlay.png",
+                "/assets/Map/Home/home_shading.png",
+                "/assets/Map/Home/home_mask.png");
 
         // ***Events***
         // Add event to get outta the house

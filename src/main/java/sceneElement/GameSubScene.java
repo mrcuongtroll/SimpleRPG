@@ -37,7 +37,8 @@ public class GameSubScene extends AnchorPane {
         prefWidth(width);
         prefHeight(height);
 
-        BackgroundImage image = new BackgroundImage(new Image(background, width, height, false, true),
+        BackgroundImage image = new BackgroundImage(new Image(String.valueOf(getClass().getResource(background)),
+                width, height, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
         setVisible(false);

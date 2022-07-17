@@ -12,7 +12,7 @@ public class ManaPotion extends Consumable{
     public static final String NAME = "Health Potion";
     public static final String DESC = "+15 HP";
     public static final int VALUE = 100;
-    public static final String ICONPATH = new File("./assets/test/item/glass04purple.png").getAbsolutePath();
+    public static final String ICONPATH = "/assets/test/item/glass04purple.png";
     static Effect effect = new combat.effect.Heal();
     public ManaPotion(int quantity){
         this.setQuantity(quantity);
@@ -39,7 +39,7 @@ public class ManaPotion extends Consumable{
 
     @Override
     public String getIconPath() {
-        return ICONPATH;
+        return String.valueOf(getClass().getResource(ICONPATH));
     }
 
     public void activate(Player player){

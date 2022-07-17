@@ -129,12 +129,12 @@ public abstract class World extends Map {
         // Grab canvases for rendering
         this.gcOverlay = this.getMaster().canvasOverlay.getGraphicsContext2D();
         this.gcShading = this.getMaster().canvasShading.getGraphicsContext2D();
-        this.overlayImage = new Image(overlayImagePath);
-        this.shadingImage = new Image(shadingImagePath);
+        this.overlayImage = new Image(String.valueOf(getClass().getResource(overlayImagePath)));
+        this.shadingImage = new Image(String.valueOf(getClass().getResource(shadingImagePath)));
 
         // Load collision mask
         try {
-            this.mask = ImageIO.read(new File(maskPath));
+            this.mask = ImageIO.read(getClass().getResource(maskPath));
         } catch (IOException e) {
             e.printStackTrace();
         }

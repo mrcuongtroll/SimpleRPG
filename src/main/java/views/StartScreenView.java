@@ -23,7 +23,7 @@ public class StartScreenView extends View{
         super(simpleRPG);
         this.simpleRPG = simpleRPG;
         CreateScreenElements();
-        createBackground((new File("./assets/test/titleScreen.png")).getAbsolutePath(), false);
+        createBackground(String.valueOf(getClass().getResource("/assets/test/titleScreen.png")), false);
     }
 
     private void CreateScreenElements(){
@@ -38,15 +38,15 @@ public class StartScreenView extends View{
             cleanUpScene();
             new GameView(simpleRPG, false, true);
         });
-//        GameButton startBattleButton = createBlankButton("Start Battle",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 100);
-//        startBattleButton.setOnAction(event -> {
-//            view.cleanUpScene();
-//            new BattleView(simpleRPG, new Enemy((World) simpleRPG.getWorld(), simpleRPG, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Boss 2",
-//                    (new File("./assets/test/boss2")).getAbsolutePath(),
-//                    1, 5, 20, 0, 100, 100, 100, 100));
-//        });
+        GameButton startBattleButton = createBlankButton("Start Battle",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 100);
+        startBattleButton.setOnAction(event -> {
+            view.cleanUpScene();
+            new BattleView(simpleRPG, new Enemy((World) simpleRPG.getWorld(), simpleRPG, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Boss 2",
+                    "/assets/test/boss2",
+                    1, 5, 20, 0, 100, 100, 100, 100));
+        });
 
-        GameButton loadGameButton = createBlankButton("Load Game",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 100);
+        GameButton loadGameButton = createBlankButton("Load Game",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 200);
         loadGameButton.setOnAction(event -> {
             cleanUpScene();
             new GameView(simpleRPG, false, false);

@@ -117,7 +117,7 @@ public class BattleMap extends Map {
             playerTeam.get(i).getBattleName().setFont(new Font("Arcade Normal", BAR_POINT_FONT_SIZE));
             playerTeam.get(i).getBattleName().setFill(Color.WHITE);
 
-            playerTeam.get(i).setBattleFrame(new ImageView(playerTeam.get(i).getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png"));
+            playerTeam.get(i).setBattleFrame(new ImageView(String.valueOf(getClass().getResource(playerTeam.get(i).getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png"))));
             playerTeam.get(i).getBattleFrame().setX(xPlayerTeam[i]);
             playerTeam.get(i).getBattleFrame().setY(yFrame[i]);
             playerTeam.get(i).getBattleFrame().setFitWidth(FRAME_WIDTH);
@@ -143,7 +143,7 @@ public class BattleMap extends Map {
             enemyTeam.get(i).getBattleName().setFont(new Font("Arcade Normal", BAR_POINT_FONT_SIZE));
             enemyTeam.get(i).getBattleName().setFill(Color.WHITE);
 
-            enemyTeam.get(i).setBattleFrame(new ImageView(enemyTeam.get(i).getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png"));
+            enemyTeam.get(i).setBattleFrame(new ImageView(String.valueOf(getClass().getResource(enemyTeam.get(i).getImagePath() + Character.BATTLE_IMAGE_PATH + "2.png"))));
             enemyTeam.get(i).getBattleFrame().setX(xEnemyTeam[i]);
             enemyTeam.get(i).getBattleFrame().setY(yFrame[i]);
             enemyTeam.get(i).getBattleFrame().setFitWidth(FRAME_WIDTH);
@@ -357,7 +357,7 @@ public class BattleMap extends Map {
             enemyTeam.get(i).getBattleHealthBarContainer().setFill(Color.DIMGRAY);
             enemyTeam.get(i).getBattleManaBarContainer().setFill(Color.DIMGRAY);
         }
-        currentTurnChar.getBattleHitBox().setImage(new Image((new File("./assets/test/effect/turn/current_turn.png")).getAbsolutePath()));
+        currentTurnChar.getBattleHitBox().setImage(new Image(String.valueOf(getClass().getResource("/assets/test/effect/turn/current_turn.png"))));
     }
 
     public void changeFrame() {
@@ -371,16 +371,16 @@ public class BattleMap extends Map {
             }
             for (Character character : playerTeam) {
                 if (character.getHealthPoint() > 0) {
-                    character.getBattleFrame().setImage(new Image(character.getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"));
+                    character.getBattleFrame().setImage(new Image(String.valueOf(getClass().getResource(character.getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"))));
                 } else {
-                    character.getBattleFrame().setImage(new Image(character.getImagePath() + Character.DEAD_IMAGE_PATH + this.currentFrame + ".png"));
+                    character.getBattleFrame().setImage(new Image(String.valueOf(getClass().getResource(character.getImagePath() + Character.DEAD_IMAGE_PATH + this.currentFrame + ".png"))));
                 }
             }
             for (Character character : enemyTeam) {
                 if (character.getHealthPoint() > 0) {
-                    character.getBattleFrame().setImage(new Image(character.getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"));
+                    character.getBattleFrame().setImage(new Image(String.valueOf(getClass().getResource(character.getImagePath() + Character.BATTLE_IMAGE_PATH + this.currentFrame + ".png"))));
                 } else {
-                    character.getBattleFrame().setImage(new Image(character.getImagePath() + Character.DEAD_IMAGE_PATH + this.currentFrame + ".png"));
+                    character.getBattleFrame().setImage(new Image(String.valueOf(getClass().getResource(character.getImagePath() + Character.DEAD_IMAGE_PATH + this.currentFrame + ".png"))));
                 }
             }
         }

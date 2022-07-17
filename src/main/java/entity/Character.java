@@ -365,7 +365,7 @@ public abstract class Character {
         this.imagePath = imagePath;
         this.currentFrame = 1;
         this.lastDirection = DEFAULT_IMAGE_PATH;
-        this.image = new Image(imagePath + DEFAULT_IMAGE_PATH + "1.png");
+        this.image = new Image(String.valueOf(getClass().getResource(imagePath + DEFAULT_IMAGE_PATH + "1.png")));
         this.gc = this.master.canvasMiddle.getGraphicsContext2D();
         this.level = level;
         this.attackSpeed = attackSpeed;
@@ -495,13 +495,13 @@ public abstract class Character {
                 this.setLastDirection(direction);
                 this.setCurrentFrame(1);
             }
-            this.image = new Image(this.imagePath + direction + this.currentFrame + ".png");
+            this.image = new Image(String.valueOf(getClass().getResource((this.imagePath + direction + this.currentFrame + ".png"))));
         }
     }
 
     public void defaultFrame(String direction) {
         this.currentFrame = NUM_IMAGE_FRAME;
-        this.image = new Image(this.imagePath + direction + currentFrame + ".png");
+        this.image = new Image(String.valueOf(getClass().getResource(this.imagePath + direction + currentFrame + ".png")));
         this.lastMove = (int) (15 * this.getMovementSpeed()) + 1;
     }
 

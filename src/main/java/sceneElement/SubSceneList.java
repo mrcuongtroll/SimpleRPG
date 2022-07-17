@@ -124,12 +124,12 @@ public class SubSceneList {
 
 
     private GameSubScene createCreditScene() {
-        openCredit = new GameSubScene(600, 300, 340, 210, "Horizontal", (new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath());
+        openCredit = new GameSubScene(600, 300, 340, 210, "Horizontal", "/assets/test/menuBackground/rectangle.png");
         return openCredit;
     }
 
     private GameSubScene createGameOverScene() {
-        openGameOver = new GameSubScene(600, 300, 340, 210, "Horizontal", (new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath());
+        openGameOver = new GameSubScene(600, 300, 340, 210, "Horizontal", "/assets/test/menuBackground/rectangle.png");
         openGameOver.addText("You died", BROWN, 40, 400, 100, 100, 30);
         GameButton btnGoHome = new GameButton("Back to menu", 100, 50);
         GameButton btnRetry = new GameButton("Try again", 100, 50);
@@ -138,7 +138,7 @@ public class SubSceneList {
         btnRetry.setOnAction(event -> {
             view.cleanUpScene();
             simpleRPG.mainPane.getChildren().clear(); openView(new BattleView(simpleRPG, new Enemy((World) simpleRPG.getWorld(), simpleRPG, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Enemy",
-                (new File("./assets/test/enemy")).getAbsolutePath(),
+                "/assets/test/enemy",
                 1, 5, 15, 0, 100, 100, 100, 100)));
         });
         openGameOver.addButton(btnGoHome, 150, 150);
@@ -147,7 +147,7 @@ public class SubSceneList {
     }
 
     private GameSubScene createInventoryScene() {
-        GameSubScene openInventory = new GameSubScene(400, 400, 440, 160, "Horizontal", (new File("./assets/test/menuBackground/square.png")).getAbsolutePath());
+        GameSubScene openInventory = new GameSubScene(400, 400, 440, 160, "Horizontal", "/assets/test/menuBackground/square.png");
         openInventory.addText("Inventory", BROWN, 15, 200, 50, 100, 30);
 
         GridPane itemGrid = new GridPane();
@@ -201,7 +201,7 @@ public class SubSceneList {
 
     private GameSubScene createSettingScene(){
 
-        GameSubScene openSetting = new GameSubScene(600, 300, 340, 210, "Horizontal", (new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath());
+        GameSubScene openSetting = new GameSubScene(600, 300, 340, 210, "Horizontal", "/assets/test/menuBackground/rectangle.png");
 
         openSetting.addText("Paused", BROWN, 15, 200, 50, 200, 30);
         GameButton btnGoHome = new GameButton("Back to menu", 100, 50);
@@ -225,7 +225,7 @@ public class SubSceneList {
     }
 
     private GameSubScene createBattleOptionScene(){
-        GameSubScene openBattleOption = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
+        GameSubScene openBattleOption = new GameSubScene(1100, 200, 100, 470, "Vertical", "/assets/test/menuBackground/long_square.png");
 
 //        openBattleOption.addText("Choose your action", 200, 50);
         GameButton btnFight= new GameButton("Fight", 100, 50);
@@ -264,7 +264,7 @@ public class SubSceneList {
 //        }
         Action[] actionList = player.getActionList();
 
-        GameSubScene openSkill = new GameSubScene(400, 200, (SCREEN_WIDTH - 400)/2, 470, "Vertical", (new File("./assets/test/menuBackground/rectangle.png")).getAbsolutePath());
+        GameSubScene openSkill = new GameSubScene(400, 200, (SCREEN_WIDTH - 400)/2, 470, "Vertical", "/assets/test/menuBackground/rectangle.png");
 
         for (int i = 0;i<actionList.length ;i++){
             Action action = actionList[i];
@@ -332,7 +332,7 @@ public class SubSceneList {
         ArrayList<GameButton> dialogButtons = new ArrayList<GameButton>();
 
         for (int i = 0; i<texts.length; i++) {
-            dialogScenes.add(new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath()));
+            dialogScenes.add(new GameSubScene(1100, 200, 100, 470, "Vertical", "/assets/test/menuBackground/long_square.png"));
             dialogButtons.add(new GameButton("Continue", 100, 50));
             dialogScenes.get(i).addButton(dialogButtons.get(i), 900, 100);
             dialogScenes.get(i).addText(texts[i], BROWN, 20, 1100, 200, 0, 0);
@@ -355,7 +355,7 @@ public class SubSceneList {
     }
 
     public static GameSubScene createChooseEnemyScene(Action action){
-        GameSubScene dialogScene = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
+        GameSubScene dialogScene = new GameSubScene(1100, 200, 100, 470, "Vertical", "/assets/test/menuBackground/long_square.png");
         ArrayList<GameButton> dialogButtons = new ArrayList<>();
         for (int i = 0; i < BattleMap.enemyTeam.size() ;i++){
             dialogButtons.add(new GameButton(BattleMap.enemyTeam.get(i).getName(), 100, 50));
@@ -385,7 +385,7 @@ public class SubSceneList {
         return dialogScene;
     }
     public GameSubScene createChoosePlayerScene(Consumable consumable){
-        GameSubScene dialogScene = new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath());
+        GameSubScene dialogScene = new GameSubScene(1100, 200, 100, 470, "Vertical", "/assets/test/menuBackground/long_square.png");
         ArrayList<GameButton> dialogButtons = new ArrayList<>();
         for (int i = 0; i < BattleMap.playerTeam.size() ;i++){
             dialogButtons.add(new GameButton(BattleMap.playerTeam.get(i).getName(), 100, 50));
@@ -405,7 +405,7 @@ public class SubSceneList {
         ArrayList<OvertimeStatusEffect> effectsList = effects;
         effectsList.removeIf(x -> x == null);
         for (int i = 0; i<effectsList.size(); i++) {
-            dialogScenes.add(new GameSubScene(1100, 200, 100, 470, "Vertical", (new File("./assets/test/menuBackground/long_square.png")).getAbsolutePath()));
+            dialogScenes.add(new GameSubScene(1100, 200, 100, 470, "Vertical", "/assets/test/menuBackground/long_square.png"));
             dialogButtons.add(new GameButton("Continue", 100, 50));
             dialogScenes.get(i).addButton(dialogButtons.get(i), 900, 100);
             dialogScenes.get(i).addText(effectsList.get(i).getText(effectsList.get(i).getCharacter()), BROWN, 20, 1100, 200, 0, 0);

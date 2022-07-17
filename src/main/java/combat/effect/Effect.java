@@ -16,7 +16,7 @@ public abstract class Effect {
           this.effectType = effectType;
      }
      public String getEffectImagePath(){
-          return (new File(effectImagePath)).getAbsolutePath();
+          return effectImagePath;
      }
      public int getNumEffectFrame() {
           return this.numEffectFrame;

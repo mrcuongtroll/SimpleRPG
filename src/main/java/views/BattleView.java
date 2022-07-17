@@ -49,7 +49,7 @@ public class BattleView extends View{
         mainPane.getChildren().add(mainHUD.getHUD());
 //        mainPane.getChildren().add(simpleRPG.popupPane);
 
-        BattleMap battleMap = new BattleMap(simpleRPG, this, (new File("./assets/Map/Outside/outside_battle.png")).getAbsolutePath(), enemy);
+        BattleMap battleMap = new BattleMap(simpleRPG, this, "/assets/Map/Outside/outside_battle.png", enemy);
 
         simpleRPG.getGameLoopManager().stop();
         simpleRPG.setBattleMap(battleMap);
