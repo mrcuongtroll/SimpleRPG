@@ -53,7 +53,7 @@ public class GameButton extends Button {
     }
 
     private void setButtonFont(int size) {
-        setFont(Font.loadFont("file:src/main/resources/arcade.ttf", size));
+        setFont(Font.loadFont(getClass().getResourceAsStream("/arcade.ttf"), size));
         setTextFill(Color.BROWN);
     }
 
