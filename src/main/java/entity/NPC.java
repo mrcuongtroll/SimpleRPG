@@ -49,6 +49,14 @@ public abstract class NPC extends Character {
         this.setYDisplay(yDisplay);
     }
 
+    public NPC(World worldMaster, SimpleRPG master, int x, int y, int xDisplay, int yDisplay, String name, String imagePath,
+               int level, int exp, int attackSpeed, int attackPoint, int defensePoint, int healthPoint, int manaPoint, int maxHealthPoint, int maxManaPoint, boolean isSolid, String mode, String battleSide) {
+        this(worldMaster, master, x, y, name, imagePath, level, attackSpeed, attackPoint, defensePoint, healthPoint, manaPoint, maxHealthPoint, maxManaPoint, isSolid, mode, battleSide);
+        this.setXDisplay(xDisplay);
+        this.setYDisplay(yDisplay);
+        this.setExp(exp);
+    }
+
     @Override
     protected void tick() {
         if (this.mode.equals(NPC.MODE_WANDER)) {

@@ -72,12 +72,12 @@ public class HUD {
         this.container.setFill(Color.GRAY);
     }
     public void setHealthPoint(int healthPoint) {
-        this.healthBar.setWidth(BAR_WIDTH * healthPoint / 100);
-        this.healthPoint.setText("" + healthPoint + " / 100");
+        this.healthBar.setWidth(BAR_WIDTH * healthPoint / this.master.getPlayer().getMaxHealthPoint());
+        this.healthPoint.setText("" + healthPoint + " / " + this.master.getPlayer().getMaxHealthPoint());
     }
     public void setManaPoint(int manaPoint) {
-        this.manaBar.setWidth(BAR_WIDTH * manaPoint / 100);
-        this.manaPoint.setText("" + manaPoint + " / 100");
+        this.manaBar.setWidth(BAR_WIDTH * manaPoint / this.master.getPlayer().getMaxManaPoint());
+        this.manaPoint.setText("" + manaPoint + " / " + this.master.getPlayer().getMaxManaPoint());
     }
     public void setStaminaPoint(int staminaPoint) {
         this.staminaBar.setWidth(BAR_WIDTH * staminaPoint / Player.MAX_STAMINA);

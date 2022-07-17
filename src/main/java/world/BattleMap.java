@@ -212,17 +212,17 @@ public class BattleMap extends Map {
             view.cleanUpScene();
             player.getStatusEffects().clear();
             SimpleRPG.canvasBattle.getGraphicsContext2D().clearRect(0, 0, SimpleRPG.canvasBattle.getWidth(), SimpleRPG.canvasBattle.getHeight());
-            GameView gv = new GameView(getMaster(), true);
+            GameView gv = new GameView(getMaster(), true, false);
             ((World) getMaster().getWorld()).removeNPC(enemy);
 
-            boolean checkLevelUp = player.increaseExp(totalExp);
+            boolean checkLevelUp = getMaster().getPlayer().increaseExp(totalExp);
 
             Dialogue currentDialogue = null;
             Dialogue d1 = new Dialogue("You gain: " + totalExp + " exp");
             currentDialogue = d1;
 
             if (checkLevelUp) {
-                Dialogue temp = new Dialogue("You reach level: " + player.getLevel() + "\n"
+                Dialogue temp = new Dialogue("You reach level: " + getMaster().getPlayer().getLevel() + "\n"
                         + "HP += 20" + "         "
                         + "ATK += 5" + "\n"
                         + "MP += 20" + "         "
@@ -234,13 +234,12 @@ public class BattleMap extends Map {
             }
 
 //            ArrayList<Dialogue> DialogueList = new ArrayList<Dialogue>();
-
-            for (int i = 1; i < playerTeam.size(); i++) {
-                Dialogue temp1 = new Dialogue(playerTeam.get(i).getName() + " gain: " + totalExp + " exp");
+            for (int i = 0; i < getMaster().getPlayer().getAllyList().size(); i++) {
+                Dialogue temp1 = new Dialogue(getMaster().getPlayer().getAllyList().get(i).getName() + " gains: " + totalExp + " exp");
                 currentDialogue.setNext(temp1);
                 currentDialogue = temp1;
-                if(playerTeam.get(i).increaseExp(totalExp)){
-                    Dialogue temp2 = new Dialogue(playerTeam.get(i).getName() +  " reach level: " + playerTeam.get(i).getLevel() + "\n"
+                if(getMaster().getPlayer().getAllyList().get(i).increaseExp(totalExp)){
+                    Dialogue temp2 = new Dialogue(getMaster().getPlayer().getAllyList().get(i).getName() +  " reaches level: " + getMaster().getPlayer().getAllyList().get(i).getLevel() + "\n"
                             + "HP += 20" + "         "
                             + "ATK += 5" + "\n"
                             + "MP += 20" + "         "
@@ -252,8 +251,6 @@ public class BattleMap extends Map {
             }
 
             getMaster().getDialogueRender().setDialogue(d1);
-
-
 
             // Focus control on the game
             gv.getMainPane().requestFocus();
@@ -341,20 +338,20 @@ public class BattleMap extends Map {
     @Override
     public void tick() {
         for (int i = 0; i < playerTeam.size(); i++) {
-            playerTeam.get(i).getBattleHealthBar().setWidth(BAR_WIDTH * playerTeam.get(i).getHealthPoint() / 100);
-            playerTeam.get(i).getBattleManaBar().setWidth(BAR_WIDTH * playerTeam.get(i).getManaPoint() / 100);
-            playerTeam.get(i).getBattleHealthPoint().setText("" + playerTeam.get(i).getHealthPoint() + " / 100");
-            playerTeam.get(i).getBattleManaPoint().setText("" + playerTeam.get(i).getManaPoint() + " / 100");
+            playerTeam.get(i).getBattleHealthBar().setWidth(BAR_WIDTH * playerTeam.get(i).getHealthPoint() / playerTeam.get(i).getMaxHealthPoint());
+            playerTeam.get(i).getBattleManaBar().setWidth(BAR_WIDTH * playerTeam.get(i).getManaPoint() / playerTeam.get(i).getMaxManaPoint());
+            playerTeam.get(i).getBattleHealthPoint().setText("" + playerTeam.get(i).getHealthPoint() + " / " + playerTeam.get(i).getMaxHealthPoint());
+            playerTeam.get(i).getBattleManaPoint().setText("" + playerTeam.get(i).getManaPoint() + " / " + playerTeam.get(i).getMaxManaPoint());
             playerTeam.get(i).getBattleHealthBar().setFill(Color.CRIMSON);
             playerTeam.get(i).getBattleManaBar().setFill(Color.CORNFLOWERBLUE);
             playerTeam.get(i).getBattleHealthBarContainer().setFill(Color.DIMGRAY);
             playerTeam.get(i).getBattleManaBarContainer().setFill(Color.DIMGRAY);
         }
         for (int i = 0; i < enemyTeam.size(); i++) {
-            enemyTeam.get(i).getBattleHealthBar().setWidth(BAR_WIDTH * enemyTeam.get(i).getHealthPoint() / 100);
-            enemyTeam.get(i).getBattleManaBar().setWidth(BAR_WIDTH * enemyTeam.get(i).getManaPoint() / 100);
-            enemyTeam.get(i).getBattleHealthPoint().setText("" + enemyTeam.get(i).getHealthPoint() + " / 100");
-            enemyTeam.get(i).getBattleManaPoint().setText("" + enemyTeam.get(i).getManaPoint() + " / 100");
+            enemyTeam.get(i).getBattleHealthBar().setWidth(BAR_WIDTH * enemyTeam.get(i).getHealthPoint() / enemyTeam.get(i).getMaxHealthPoint());
+            enemyTeam.get(i).getBattleManaBar().setWidth(BAR_WIDTH * enemyTeam.get(i).getManaPoint() / enemyTeam.get(i).getMaxManaPoint());
+            enemyTeam.get(i).getBattleHealthPoint().setText("" + enemyTeam.get(i).getHealthPoint() + " / " + enemyTeam.get(i).getMaxHealthPoint());
+            enemyTeam.get(i).getBattleManaPoint().setText("" + enemyTeam.get(i).getManaPoint() + " / " + enemyTeam.get(i).getMaxManaPoint());
             enemyTeam.get(i).getBattleHealthBar().setFill(Color.CRIMSON);
             enemyTeam.get(i).getBattleManaBar().setFill(Color.CORNFLOWERBLUE);
             enemyTeam.get(i).getBattleHealthBarContainer().setFill(Color.DIMGRAY);
@@ -413,7 +410,7 @@ public class BattleMap extends Map {
         view.cleanUpScene();
         player.getStatusEffects().clear();
         SimpleRPG.canvasBattle.getGraphicsContext2D().clearRect(0, 0, SimpleRPG.canvasBattle.getWidth(), SimpleRPG.canvasBattle.getHeight());
-        GameView gv = new GameView(getMaster(), true);
+        GameView gv = new GameView(getMaster(), true, false);
         ((World) getMaster().getWorld()).removeNPC(enemy);
         // Focus control on the game
         gv.getMainPane().requestFocus();
