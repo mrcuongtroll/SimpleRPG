@@ -18,7 +18,6 @@ public class HUD {
     private Rectangle expBar;
     private Rectangle expBarContainer;
 
-
     private Text healthPoint;
     private Text manaPoint;
     private Text expPoint;
@@ -27,8 +26,7 @@ public class HUD {
     private Group groupContainer;
     private SimpleRPG master;
 
-    private Player player;
-    public HUD(SimpleRPG master, Player player) {
+    public HUD(SimpleRPG master) {
         this.master = master;
 
         this.healthBar = new Rectangle(50, 50, BAR_WIDTH, 30);
@@ -49,7 +47,6 @@ public class HUD {
         this.container = new Rectangle(25, 37.5, 350, 200);
         this.groupContainer = new Group();
 
-        this.player = player;
         this.start();
     }
 
@@ -94,10 +91,10 @@ public class HUD {
 
     }
     public void render() {
-        setHealthPoint(this.player.getHealthPoint());
-        setManaPoint(this.player.getManaPoint());
-        setStaminaPoint(this.player.getStamina());
-        setExpPoint(this.player.getExp());
+        setHealthPoint(this.master.getPlayer().getHealthPoint());
+        setManaPoint(this.master.getPlayer().getManaPoint());
+        setStaminaPoint(this.master.getPlayer().getStamina());
+        setExpPoint(this.master.getPlayer().getExp());
 
 
         this.healthBar.setFill(Color.CRIMSON);
