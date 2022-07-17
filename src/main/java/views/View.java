@@ -54,7 +54,7 @@ public abstract class View {
 
     protected void createText(String text, Color color, int size, int width, int height, int x, int y){
         Label label = new Label(text);
-        label.setFont(Font.loadFont("file:src/main/resources/arcade.ttf", size));
+        label.setFont(Font.loadFont(getClass().getResourceAsStream("/arcade.ttf"), size));
         label.setPrefHeight(height);
         label.setPrefWidth(width);
         label.setTextFill(color);

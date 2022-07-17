@@ -16,7 +16,7 @@ public class PopupRender {
     private SimpleRPG master;
     private PopupChoice popup;
     private AnchorPane root;
-    private static final String DIALOG_FONT  = "file:src/main/resources/arcade.ttf";
+    private static final String DIALOG_FONT  = "/arcade.ttf";
 
     public PopupRender(SimpleRPG master, PopupChoice popup) {
         this.master = master;
@@ -34,7 +34,7 @@ public class PopupRender {
 
 //        popup.setTranslateX(1280);
 
-        Font dialogFont = Font.loadFont(DIALOG_FONT, 15.0);
+        Font dialogFont = Font.loadFont(getClass().getResourceAsStream(DIALOG_FONT), 15.0);
         if (this.popup.getMessage() != null) {
             String message = this.popup.getMessage();
             Label messageContent = new Label(message);

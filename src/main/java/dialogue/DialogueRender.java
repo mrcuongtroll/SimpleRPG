@@ -26,9 +26,9 @@ public class DialogueRender {
     private boolean showing = false;
     private double height = 175.0;
 //    private Canvas canvasDialogue = new Canvas(1280, 720 - height);
-    private static final String DIALOG_NEXT_BUTTON = "file:src/main/resources/assets/test/dialogue/arrow.png";
-    private static final String DIALOGUE_BACKGROUND = "file:src/main/resources/assets/test/dialogue/dialogue_background.png";
-    private static final String DIALOG_FONT  = "file:src/main/resources/assets/test/font/ARCADE_N.ttf";
+    private static final String DIALOG_NEXT_BUTTON = "/assets/test/dialogue/arrow.png";
+    private static final String DIALOGUE_BACKGROUND = "/assets/test/dialogue/dialogue_background.png";
+    private static final String DIALOG_FONT  = "/assets/test/font/ARCADE_N.ttf";
 
     public boolean isShowing() {
         return this.showing;
@@ -75,7 +75,7 @@ public class DialogueRender {
         // when button is pressed
 //        nextButton.setOnAction(event);
 
-        Font dialogFont = Font.loadFont(DIALOG_FONT, 15.0);
+        Font dialogFont = Font.loadFont(getClass().getResourceAsStream(DIALOG_FONT), 15.0);
         String dialogueString = this.dialogue.getText();
         Label dialogueContent = new Label(dialogueString);
         dialogueContent.setFont(dialogFont);
@@ -98,7 +98,7 @@ public class DialogueRender {
             imageBox.setStyle("-fx-background-color: rgba(200, 200,200, 0.8); -fx-background-radius: 10;");
 
 
-            Font nameFont = Font.loadFont("file:src/main/resources/assets/font/dialog-font.ttf", 20.0);
+            Font nameFont = Font.loadFont(getClass().getResourceAsStream("/assets/font/dialog-font.ttf"), 20.0);
             Label characterName = new Label(this.dialogue.getName());
             characterName.setTranslateY(5);
             characterName.setFont(nameFont);
@@ -226,7 +226,7 @@ public class DialogueRender {
 //        // when button is pressed
 //        nextButton.setOnAction(event);
 
-        Font dialogFont = Font.loadFont(DIALOG_FONT, 15.0);
+        Font dialogFont = Font.loadFont(getClass().getResourceAsStream(DIALOG_FONT), 15.0);
         String dialogueString = this.dialogue.getText();
         Label dialogueContent = new Label(dialogueString);
         dialogueContent.setFont(dialogFont);
@@ -253,7 +253,7 @@ public class DialogueRender {
         dialogArea.getChildren().addAll(contentPane);
         System.out.println(contentPane.getWidth());
         System.out.println( contentPane.getHeight());
-        Image backgroundImg = new Image(DIALOGUE_BACKGROUND, 1280 - 10, height * 1.5, false, false);
+        Image backgroundImg = new Image(String.valueOf(getClass().getResource(DIALOGUE_BACKGROUND)), 1280 - 10, height * 1.5, false, false);
 
         BackgroundImage background = new BackgroundImage(backgroundImg, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
