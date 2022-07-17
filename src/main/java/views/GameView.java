@@ -88,7 +88,7 @@ public class GameView extends View{
 
     private void CreateScreenElements(){
         addSubSceneToPane(openSetting);
-        createSubSceneButton("Pause", openSetting,150, 60, 1100, 20);
+        createSubSceneButton("Options", openSetting,150, 60, 1100, 20);
     }
 
 }

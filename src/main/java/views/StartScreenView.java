@@ -38,15 +38,15 @@ public class StartScreenView extends View{
             cleanUpScene();
             new GameView(simpleRPG, false, true);
         });
-        GameButton startBattleButton = createBlankButton("Start Battle",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 100);
-        startBattleButton.setOnAction(event -> {
-            view.cleanUpScene();
-            new BattleView(simpleRPG, new Enemy((World) simpleRPG.getWorld(), simpleRPG, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Boss 2",
-                    "/assets/test/boss2",
-                    1, 5, 20, 0, 100, 100, 100, 100));
-        });
+//        GameButton startBattleButton = createBlankButton("Start Battle",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 100);
+//        startBattleButton.setOnAction(event -> {
+//            view.cleanUpScene();
+//            new BattleView(simpleRPG, new Enemy((World) simpleRPG.getWorld(), simpleRPG, SimpleRPG.SCREEN_WIDTH/5-16, SimpleRPG.SCREEN_HEIGHT/2-40, "Boss 2",
+//                    "/assets/test/boss2",
+//                    1, 5, 20, 0, 100, 100, 100, 100));
+//        });
 
-        GameButton loadGameButton = createBlankButton("Load Game",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 200);
+        GameButton loadGameButton = createBlankButton("Load Game",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 100);
         loadGameButton.setOnAction(event -> {
             cleanUpScene();
             new GameView(simpleRPG, false, false);
@@ -54,8 +54,8 @@ public class StartScreenView extends View{
         if (!(SaveLoad.isWorldSaveFileExist() && SaveLoad.isPlayerSaveFileExist())) {
             loadGameButton.disableButton();
         }
-        createSubSceneButton("Credit", openCredit,MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 300);
-        GameButton exitButton = createBlankButton("Exit",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 400);
+        createSubSceneButton("Credit", openCredit,MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 200);
+        GameButton exitButton = createBlankButton("Exit",MENU_BUTTON_START_WIDTH, MENU_BUTTON_START_HEIGHT, MENU_BUTTON_START_X, MENU_BUTTON_START_Y + 300);
         exitButton.setOnAction(event -> simpleRPG.mainStage.close());
     }
 }

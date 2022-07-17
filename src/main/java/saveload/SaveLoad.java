@@ -279,6 +279,13 @@ public class SaveLoad {
         WorldHome.keyObtained = false;
         WorldHome.doorUnlocked = false;
         WorldHome.tutorialViewed = false;
+        WorldOutside.enemy3Defeated = false;
+        WorldOutside.enemy2Defeated = false;
+        WorldOutside.enemy1Defeated = false;
+        WorldOutside.ally1Recruited = false;
+        WorldOutside.ally2Recruited = false;
+        WorldOutside2.boss2Defeated = false;
+        WorldOutside2.boss1Defeated = false;
         return new WorldHome(master, master.getPlayer().getX(), master.getPlayer().getY());
     }
 
