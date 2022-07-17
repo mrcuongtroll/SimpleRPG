@@ -36,12 +36,12 @@ public class WorldOutside2 extends World {
             if (!boss1Defeated) {
                 this.getNpcList().add(new Enemy(this, this.getMaster(), 285, 1005, 285 + (int) this.getX(), 1005 + (int) this.getY(), "Boss 1",
                         "/assets/test/boss1",
-                        7, 5, 50, 20, 1000, 200, 100, 100));
+                        7, 5, 50, 20, 1000, 200, 1000, 200));
             }
             if (!boss2Defeated) {
                 this.getNpcList().add(new Enemy(this, this.getMaster(), 1420, 130, 1420 + (int) this.getX(), 130 + (int) this.getY(), "Boss 2",
                         "/assets/test/boss2",
-                        7, 5, 50, 20, 1000, 200, 100, 100));
+                        7, 5, 50, 20, 1000, 200, 1000, 200));
             }
         }
         for (NPC npc: this.getNpcList()) {

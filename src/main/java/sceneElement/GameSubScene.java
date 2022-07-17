@@ -82,7 +82,7 @@ public class GameSubScene extends AnchorPane {
         Label label = new Label(text);
         label.setWrapText(true);
         label.setTextAlignment(TextAlignment.JUSTIFY);
-        label.setFont(Font.loadFont("file:src/main/resources/arcade.ttf", size));
+        label.setFont(Font.loadFont(getClass().getResourceAsStream("/arcade.ttf"), size));
         label.setPrefHeight(height);
         label.setPrefWidth(width);
         label.setTextFill(color);
