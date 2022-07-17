@@ -203,7 +203,7 @@ public class SubSceneList {
 
         GameSubScene openSetting = new GameSubScene(600, 300, 340, 210, "Horizontal", "/assets/test/menuBackground/rectangle.png");
 
-        openSetting.addText("Paused", BROWN, 15, 200, 50, 200, 30);
+        openSetting.addText("Options", BROWN, 15, 200, 50, 200, 30);
         GameButton btnGoHome = new GameButton("Back to menu", 100, 50);
         GameButton btnSave = new GameButton("Save", 100, 50);
         GameButton btnLoad = new GameButton("Load", 100, 50);
