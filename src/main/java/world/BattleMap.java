@@ -4,7 +4,6 @@ import combat.CombatManager;
 import combat.effect.Effect;
 import combat.effect.EffectAnimationTimer;
 import combat.status_effect.OvertimeStatusEffect;
-import entity.Ally;
 import entity.Character;
 import entity.Enemy;
 import entity.Player;
@@ -23,8 +22,6 @@ import views.GameView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class BattleMap extends Map {
 
@@ -365,5 +362,15 @@ public class BattleMap extends Map {
     public void render() {
         this.tick();
         this.changeFrame();
+    }
+    public static void quitBattle(){
+        removeNPC(enemy);
+        view.cleanUpScene();
+        player.getStatusEffects().clear();
+        SimpleRPG.canvasBattle.getGraphicsContext2D().clearRect(0, 0, SimpleRPG.canvasBattle.getWidth(), SimpleRPG.canvasBattle.getHeight());
+        GameView gv = new GameView(getMaster(), true);
+        ((World) getMaster().getWorld()).removeNPC(enemy);
+        // Focus control on the game
+        gv.getMainPane().requestFocus();
     }
 }
