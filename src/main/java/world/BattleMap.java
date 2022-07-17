@@ -114,7 +114,7 @@ public class BattleMap extends Map {
             playerTeam.get(i).setBattleManaPoint(new Text(Double.valueOf(xPlayerTeam[i]), Double.valueOf(yManaPoint[i]), ""));
             playerTeam.get(i).getBattleHealthPoint().setFont(new Font("Arcade Normal", BAR_POINT_FONT_SIZE));
             playerTeam.get(i).getBattleManaPoint().setFont(new Font("Arcade Normal", BAR_POINT_FONT_SIZE));
-            playerTeam.get(i).setBattleName(new Text(Double.valueOf(xPlayerTeam[i]), Double.valueOf(yName[i]), playerTeam.get(i).getName()));
+            playerTeam.get(i).setBattleName(new Text(Double.valueOf(xPlayerTeam[i]), Double.valueOf(yName[i]), playerTeam.get(i).getName() + " - Level " + playerTeam.get(i).getLevel()));
             playerTeam.get(i).getBattleName().setFont(new Font("Arcade Normal", BAR_POINT_FONT_SIZE));
             playerTeam.get(i).getBattleName().setFill(Color.WHITE);
 
@@ -140,7 +140,7 @@ public class BattleMap extends Map {
             enemyTeam.get(i).setBattleManaPoint(new Text(Double.valueOf(xEnemyTeam[i]), Double.valueOf(yManaPoint[i]), ""));
             enemyTeam.get(i).getBattleHealthPoint().setFont(new Font("Arcade Normal", BAR_POINT_FONT_SIZE));
             enemyTeam.get(i).getBattleManaPoint().setFont(new Font("Arcade Normal", BAR_POINT_FONT_SIZE));
-            enemyTeam.get(i).setBattleName(new Text(Double.valueOf(xEnemyTeam[i]), Double.valueOf(yName[i]), enemyTeam.get(i).getName()));
+            enemyTeam.get(i).setBattleName(new Text(Double.valueOf(xEnemyTeam[i]), Double.valueOf(yName[i]), enemyTeam.get(i).getName() + " - Level " + enemyTeam.get(i).getLevel()));
             enemyTeam.get(i).getBattleName().setFont(new Font("Arcade Normal", BAR_POINT_FONT_SIZE));
             enemyTeam.get(i).getBattleName().setFill(Color.WHITE);
 
